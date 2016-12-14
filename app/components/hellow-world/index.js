@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-// import './index.scss'
+
+import { Input } from 'antd'
+
 import './index.less'
 
 class HelloWorld extends Component {
@@ -20,7 +22,7 @@ class HelloWorld extends Component {
     return (
       <div>
         <p>{this.state.value}</p>
-        <input onChange={this.handleChange.bind(this)} value={this.state.value} />
+        <Input onChange={this.handleChange.bind(this)} value={this.state.value} />
       </div>
     )
   }
