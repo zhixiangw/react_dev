@@ -75,8 +75,7 @@ module.exports = {
       'react-router-redux': path.resolve(__dirname, './node_modules/react-router-redux'),
       classnames: path.resolve(__dirname, './node_modules/classnames'),
       immutable: path.resolve(__dirname, './node_modules/immutable'),
-      antd: path.resolve(__dirname, './node_modules/antd'),
-      antdcss: path.resolve(__dirname, './node_modules/antd/dist/antd.min.css')
+      antd: path.resolve(__dirname, './node_modules/antd')
     }
   }
 }
