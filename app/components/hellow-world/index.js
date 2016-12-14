@@ -16,13 +16,7 @@ class HelloWorld extends Component {
     })
   }
 
-  componentDidMount() {
-    this.setState({ a: 1 })
-    console.info(this.state.a)
-  }
-
   render() {
-    console.info(this.state.a)
     return (
       <div>
         <p>{this.state.value}</p>

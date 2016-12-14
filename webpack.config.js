@@ -29,13 +29,13 @@ module.exports = {
       }
     }, {
       test: /\.css$/,
-      loader: ExtractTextPlugin.extract('style', 'css!autoprefixer!less')
+      loader: ExtractTextPlugin.extract('style', 'css!autoprefixer')
     }, {
       test: /\.scss$/,
       loader: ExtractTextPlugin.extract('style', 'css!autoprefixer!sass')
     }, {
       test: /\.less$/,
-      loader: ExtractTextPlugin.extract('style', 'css!autoprefixer'),
+      loader: ExtractTextPlugin.extract('style', 'css!autoprefixer!less'),
       exclude: /node_modules/
     }, {
       test: /\.(jpg|png|gif)$/,
