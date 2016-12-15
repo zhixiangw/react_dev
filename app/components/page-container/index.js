@@ -1,12 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Col, Row } from 'antd'
+import { Col, Row, message } from 'antd'
 
+import { system as systemAction } from '../../projects/actions'
 import NavMenu from '../nav-menu'
 
 class PageContainer extends Component {
 
-  // 这边可以加一些全局提示的逻辑
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.systemMsg && nextProps.systemMsg.get('msg')) {
+      message.error(nextProps.systemMsg.get('msg'))
+      this.props.cleanMsg()
+    }
+  }
+
 
   render () {
     return (
@@ -24,8 +31,13 @@ class PageContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  location: state.routing.locationBeforeTransitions
+  location: state.routing.locationBeforeTransitions,
+  systemMsg: state.system.systemMsg
 })
 
-export default connect(mapStateToProps)(PageContainer) // mapDispatchToProps
+const mapDispatchToProps = dispatch => ({
+  cleanMsg: () => dispatch(systemAction.clean())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(PageContainer)
 

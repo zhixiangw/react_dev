@@ -38,15 +38,11 @@ export default class Nav extends Component {
         defaultOpenKeys={defaultOpenKeys}
         selectedKeys={selectedKeys}
         mode="inline">
-        <SubMenu
-          key="sub1"
-          title="水果管理" >
-          <MenuItem
-            key="5s" >
+        <SubMenu key="sub1" title="水果管理" >
+          <MenuItem key="5s" >
             <Link to="/">苹果5S</Link>
           </MenuItem>
-          <MenuItem
-            key="7p" >
+          <MenuItem key="7p" >
             <Link to="/something">苹果7P</Link>
           </MenuItem>
         </SubMenu>
