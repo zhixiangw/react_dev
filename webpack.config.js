@@ -54,17 +54,16 @@ module.exports = {
     }),
     new ExtractTextPlugin('css/[name].css'), // 抽离css到单独的文件
     new webpack.NoErrorsPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './temp/index.html'),
       favicon: path.resolve(__dirname, './favicon.ico'),
       filename: path.resolve(__dirname, './build/index.html')
     }),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DllReferencePlugin({
+      context: __dirname,
+      manifest: require('./manifest.json')
+    })
   ],
   resolve: {
     extensions: ['', '.js', '.jsx'],
