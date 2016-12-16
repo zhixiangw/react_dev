@@ -8,8 +8,22 @@ import NavMenu from '../nav-menu'
 class PageContainer extends Component {
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.systemMsg && nextProps.systemMsg.get('msg')) {
-      message.error(nextProps.systemMsg.get('msg'))
+    if (nextProps.systemMsg && nextProps.systemMsg.get('msg') && nextProps.systemMsg.get('type')) {
+      switch (nextProps.systemMsg.get('type')) {
+        case systemAction.SHOW_ERROR:
+          message.error(nextProps.systemMsg.get('msg'))
+          break;
+        case systemAction.SHOW_WARNING:
+          message.warning(nextProps.systemMsg.get('msg'))
+          break;
+        case systemAction.SHOW_SUCCESS:
+          message.success(nextProps.systemMsg.get('msg'))
+          break;
+        default:
+          message.success(nextProps.systemMsg.get('msg'))
+          break;
+      }
+
       this.props.cleanMsg()
     }
   }
