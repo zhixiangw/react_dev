@@ -21,7 +21,7 @@ const testFetch = (
       if (constname === testAction.TEST_FETCH) {
         return Immutable.fromJS({
           doing: false,
-          data: response
+          data: response && response.data
         })
       }
       return state
