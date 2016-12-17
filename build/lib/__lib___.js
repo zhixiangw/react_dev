@@ -56408,16 +56408,16 @@ var __lib___ =
 	  },
 	  render: function render() {
 	    var props = this.props;
-	    var locale = props.locale;
-	    var prefixCls = props.prefixCls;
-	    var fullscreen = props.fullscreen;
-	    var showHeader = props.showHeader;
-	    var headerComponent = props.headerComponent;
-	    var headerRender = props.headerRender;
-	    var disabledDate = props.disabledDate;
-	    var _state = this.state;
-	    var value = _state.value;
-	    var type = _state.type;
+	    var locale = props.locale,
+	        prefixCls = props.prefixCls,
+	        fullscreen = props.fullscreen,
+	        showHeader = props.showHeader,
+	        headerComponent = props.headerComponent,
+	        headerRender = props.headerRender,
+	        disabledDate = props.disabledDate;
+	    var _state = this.state,
+	        value = _state.value,
+	        type = _state.type;
 
 
 	    var header = null;
@@ -56728,14 +56728,14 @@ var __lib___ =
 	  },
 	  render: function render() {
 	    var props = this.props;
-	    var contentRender = props.contentRender;
-	    var prefixCls = props.prefixCls;
-	    var selectedValue = props.selectedValue;
-	    var value = props.value;
-	    var showWeekNumber = props.showWeekNumber;
-	    var dateRender = props.dateRender;
-	    var disabledDate = props.disabledDate;
-	    var hoverValue = props.hoverValue;
+	    var contentRender = props.contentRender,
+	        prefixCls = props.prefixCls,
+	        selectedValue = props.selectedValue,
+	        value = props.value,
+	        showWeekNumber = props.showWeekNumber,
+	        dateRender = props.dateRender,
+	        disabledDate = props.disabledDate,
+	        hoverValue = props.hoverValue;
 
 	    var iIndex = void 0;
 	    var jIndex = void 0;
@@ -56747,6 +56747,7 @@ var __lib___ =
 	    var dateClass = prefixCls + '-date';
 	    var todayClass = prefixCls + '-today';
 	    var selectedClass = prefixCls + '-selected-day';
+	    var selectedDateClass = prefixCls + '-selected-date'; // do not move with mouse operation
 	    var inRangeClass = prefixCls + '-in-range-cell';
 	    var lastMonthDayClass = prefixCls + '-last-month-cell';
 	    var nextMonthDayClass = prefixCls + '-next-month-btn-day';
@@ -56774,6 +56775,7 @@ var __lib___ =
 	    }
 	    var tableHtml = [];
 	    passed = 0;
+
 	    for (iIndex = 0; iIndex < _DateConstants2["default"].DATE_ROW_COUNT; iIndex++) {
 	      var weekNumberCell = void 0;
 	      var dateCells = [];
@@ -56831,6 +56833,11 @@ var __lib___ =
 	          // keyboard change value, highlight works
 	          selected = true;
 	        }
+
+	        if (isSameDay(current, selectedValue)) {
+	          cls += ' ' + selectedDateClass;
+	        }
+
 	        if (isBeforeCurrentMonthYear) {
 	          cls += ' ' + lastMonthDayClass;
 	        }
@@ -57129,10 +57136,10 @@ var __lib___ =
 	    var today = (0, _index.getTodayTime)(value);
 	    var months = this.months();
 	    var currentMonth = value.month();
-	    var prefixCls = props.prefixCls;
-	    var locale = props.locale;
-	    var contentRender = props.contentRender;
-	    var cellRender = props.cellRender;
+	    var prefixCls = props.prefixCls,
+	        locale = props.locale,
+	        contentRender = props.contentRender,
+	        cellRender = props.cellRender;
 
 	    var monthsEls = months.map(function (month, index) {
 	      var tds = month.map(function (monthData) {
@@ -57404,9 +57411,9 @@ var __lib___ =
 	  },
 	  getFormat: function getFormat() {
 	    var format = this.props.format;
-	    var _props = this.props;
-	    var locale = _props.locale;
-	    var timePicker = _props.timePicker;
+	    var _props = this.props,
+	        locale = _props.locale,
+	        timePicker = _props.timePicker;
 
 	    if (!format) {
 	      if (timePicker) {
@@ -57515,11 +57522,11 @@ var __lib___ =
 	  };
 
 	  CalendarHeader.prototype.yearSelectElement = function yearSelectElement(year) {
-	    var _props = this.props;
-	    var yearSelectOffset = _props.yearSelectOffset;
-	    var yearSelectTotal = _props.yearSelectTotal;
-	    var prefixCls = _props.prefixCls;
-	    var Select = _props.Select;
+	    var _props = this.props,
+	        yearSelectOffset = _props.yearSelectOffset,
+	        yearSelectTotal = _props.yearSelectTotal,
+	        prefixCls = _props.prefixCls,
+	        Select = _props.Select;
 
 	    var start = year - yearSelectOffset;
 	    var end = start + yearSelectTotal;
@@ -57589,13 +57596,13 @@ var __lib___ =
 	  };
 
 	  CalendarHeader.prototype.render = function render() {
-	    var _props2 = this.props;
-	    var value = _props2.value;
-	    var locale = _props2.locale;
-	    var prefixCls = _props2.prefixCls;
-	    var type = _props2.type;
-	    var showTypeSwitch = _props2.showTypeSwitch;
-	    var headerComponents = _props2.headerComponents;
+	    var _props2 = this.props,
+	        value = _props2.value,
+	        locale = _props2.locale,
+	        prefixCls = _props2.prefixCls,
+	        type = _props2.type,
+	        showTypeSwitch = _props2.showTypeSwitch,
+	        headerComponents = _props2.headerComponents;
 
 	    var year = value.year();
 	    var month = value.month();
@@ -63873,17 +63880,17 @@ var __lib___ =
 	  },
 	  render: function render() {
 	    var props = this.props;
-	    var locale = props.locale;
-	    var prefixCls = props.prefixCls;
-	    var disabledDate = props.disabledDate;
-	    var dateInputPlaceholder = props.dateInputPlaceholder;
-	    var timePicker = props.timePicker;
-	    var disabledTime = props.disabledTime;
+	    var locale = props.locale,
+	        prefixCls = props.prefixCls,
+	        disabledDate = props.disabledDate,
+	        dateInputPlaceholder = props.dateInputPlaceholder,
+	        timePicker = props.timePicker,
+	        disabledTime = props.disabledTime;
 
 	    var state = this.state;
-	    var value = state.value;
-	    var selectedValue = state.selectedValue;
-	    var showTimePicker = state.showTimePicker;
+	    var value = state.value,
+	        selectedValue = state.selectedValue,
+	        showTimePicker = state.showTimePicker;
 
 	    var disabledTimeConfig = showTimePicker && disabledTime && timePicker ? (0, _index.getTimeConfig)(selectedValue, disabledTime) : null;
 
@@ -64121,12 +64128,12 @@ var __lib___ =
 	  },
 	  render: function render() {
 	    var props = this.props;
-	    var enableNext = props.enableNext;
-	    var enablePrev = props.enablePrev;
-	    var prefixCls = props.prefixCls;
-	    var locale = props.locale;
-	    var value = props.value;
-	    var showTimePicker = props.showTimePicker;
+	    var enableNext = props.enableNext,
+	        enablePrev = props.enablePrev,
+	        prefixCls = props.prefixCls,
+	        locale = props.locale,
+	        value = props.value,
+	        showTimePicker = props.showTimePicker;
 
 	    var state = this.state;
 	    var PanelClass = null;
@@ -64905,11 +64912,11 @@ var __lib___ =
 	  },
 	  render: function render() {
 	    var props = this.props;
-	    var value = props.value;
-	    var prefixCls = props.prefixCls;
-	    var showOk = props.showOk;
-	    var timePicker = props.timePicker;
-	    var renderFooter = props.renderFooter;
+	    var value = props.value,
+	        prefixCls = props.prefixCls,
+	        showOk = props.showOk,
+	        timePicker = props.timePicker,
+	        renderFooter = props.renderFooter;
 
 	    var footerEl = null;
 	    var extraFooter = renderFooter();
@@ -64972,14 +64979,14 @@ var __lib___ =
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 	function TodayButton(_ref) {
-	  var prefixCls = _ref.prefixCls;
-	  var locale = _ref.locale;
-	  var value = _ref.value;
-	  var timePicker = _ref.timePicker;
-	  var disabled = _ref.disabled;
-	  var disabledDate = _ref.disabledDate;
-	  var onToday = _ref.onToday;
-	  var text = _ref.text;
+	  var prefixCls = _ref.prefixCls,
+	      locale = _ref.locale,
+	      value = _ref.value,
+	      timePicker = _ref.timePicker,
+	      disabled = _ref.disabled,
+	      disabledDate = _ref.disabledDate,
+	      onToday = _ref.onToday,
+	      text = _ref.text;
 
 	  var localeNow = (!text && timePicker ? locale.now : text) || locale.today;
 	  var disabledToday = disabledDate && !(0, _util.isAllowedDate)((0, _util.getTodayTime)(value), disabledDate);
@@ -65016,10 +65023,10 @@ var __lib___ =
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 	function OkButton(_ref) {
-	  var prefixCls = _ref.prefixCls;
-	  var locale = _ref.locale;
-	  var okDisabled = _ref.okDisabled;
-	  var onOk = _ref.onOk;
+	  var prefixCls = _ref.prefixCls,
+	      locale = _ref.locale,
+	      okDisabled = _ref.okDisabled,
+	      onOk = _ref.onOk;
 
 	  var className = prefixCls + "-ok-btn";
 	  if (okDisabled) {
@@ -65066,12 +65073,12 @@ var __lib___ =
 	function TimePickerButton(_ref) {
 	  var _classnames;
 
-	  var prefixCls = _ref.prefixCls;
-	  var locale = _ref.locale;
-	  var showTimePicker = _ref.showTimePicker;
-	  var onOpenTimePicker = _ref.onOpenTimePicker;
-	  var onCloseTimePicker = _ref.onCloseTimePicker;
-	  var timePickerDisabled = _ref.timePickerDisabled;
+	  var prefixCls = _ref.prefixCls,
+	      locale = _ref.locale,
+	      showTimePicker = _ref.showTimePicker,
+	      onOpenTimePicker = _ref.onOpenTimePicker,
+	      onCloseTimePicker = _ref.onCloseTimePicker,
+	      timePickerDisabled = _ref.timePickerDisabled;
 
 	  var className = (0, _classnames3["default"])((_classnames = {}, (0, _defineProperty3["default"])(_classnames, prefixCls + '-time-picker-btn', true), (0, _defineProperty3["default"])(_classnames, prefixCls + '-time-picker-btn-disabled', timePickerDisabled), _classnames));
 	  var onClick = null;
@@ -65153,10 +65160,10 @@ var __lib___ =
 	      str: str
 	    });
 	    var value = void 0;
-	    var _props = this.props;
-	    var disabledDate = _props.disabledDate;
-	    var format = _props.format;
-	    var onChange = _props.onChange;
+	    var _props = this.props,
+	        disabledDate = _props.disabledDate,
+	        format = _props.format,
+	        onChange = _props.onChange;
 
 	    if (str) {
 	      var parsed = (0, _moment2["default"])(str, format, true);
@@ -65205,12 +65212,12 @@ var __lib___ =
 	  },
 	  render: function render() {
 	    var props = this.props;
-	    var _state = this.state;
-	    var invalid = _state.invalid;
-	    var str = _state.str;
-	    var locale = props.locale;
-	    var prefixCls = props.prefixCls;
-	    var placeholder = props.placeholder;
+	    var _state = this.state,
+	        invalid = _state.invalid,
+	        str = _state.str;
+	    var locale = props.locale,
+	        prefixCls = props.prefixCls,
+	        placeholder = props.placeholder;
 
 	    var invalidClass = invalid ? prefixCls + '-input-invalid' : '';
 	    return _react2["default"].createElement(
@@ -65617,8 +65624,8 @@ var __lib___ =
 	    };
 	  },
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-	    var value = nextProps.value;
-	    var open = nextProps.open;
+	    var value = nextProps.value,
+	        open = nextProps.open;
 
 	    if ('value' in nextProps) {
 	      this.setState({
@@ -65721,15 +65728,15 @@ var __lib___ =
 	  },
 	  render: function render() {
 	    var props = this.props;
-	    var prefixCls = props.prefixCls;
-	    var placement = props.placement;
-	    var style = props.style;
-	    var getCalendarContainer = props.getCalendarContainer;
-	    var align = props.align;
-	    var animation = props.animation;
-	    var disabled = props.disabled;
-	    var transitionName = props.transitionName;
-	    var children = props.children;
+	    var prefixCls = props.prefixCls,
+	        placement = props.placement,
+	        style = props.style,
+	        getCalendarContainer = props.getCalendarContainer,
+	        align = props.align,
+	        animation = props.animation,
+	        disabled = props.disabled,
+	        transitionName = props.transitionName,
+	        children = props.children;
 
 	    var state = this.state;
 	    return _react2["default"].createElement(
@@ -67034,9 +67041,9 @@ var __lib___ =
 	    }
 	  },
 	  onSelect: function onSelect(value) {
-	    var _state = this.state;
-	    var hoverValue = _state.hoverValue;
-	    var selectedValue = _state.selectedValue;
+	    var _state = this.state,
+	        hoverValue = _state.hoverValue,
+	        selectedValue = _state.selectedValue;
 
 	    var nextSelectedValue = void 0;
 	    var type = this.props.type;
@@ -67182,9 +67189,9 @@ var __lib___ =
 
 	  // get disabled hours for second picker
 	  getEndDisableTime: function getEndDisableTime() {
-	    var _state2 = this.state;
-	    var selectedValue = _state2.selectedValue;
-	    var value = _state2.value;
+	    var _state2 = this.state,
+	        selectedValue = _state2.selectedValue,
+	        value = _state2.value;
 
 	    var startValue = selectedValue && selectedValue[0] || value.clone();
 	    // if startTime and endTime is same day..
@@ -67289,16 +67296,16 @@ var __lib___ =
 	    var props = this.props;
 	    var state = this.state;
 	    var showTimePicker = state.showTimePicker;
-	    var prefixCls = props.prefixCls;
-	    var dateInputPlaceholder = props.dateInputPlaceholder;
-	    var timePicker = props.timePicker;
-	    var showOk = props.showOk;
-	    var locale = props.locale;
-	    var showClear = props.showClear;
-	    var showToday = props.showToday;
-	    var type = props.type;
-	    var hoverValue = state.hoverValue;
-	    var selectedValue = state.selectedValue;
+	    var prefixCls = props.prefixCls,
+	        dateInputPlaceholder = props.dateInputPlaceholder,
+	        timePicker = props.timePicker,
+	        showOk = props.showOk,
+	        locale = props.locale,
+	        showClear = props.showClear,
+	        showToday = props.showToday,
+	        type = props.type;
+	    var hoverValue = state.hoverValue,
+	        selectedValue = state.selectedValue;
 
 	    var className = (_className = {}, (0, _defineProperty3["default"])(_className, props.className, !!props.className), (0, _defineProperty3["default"])(_className, prefixCls, 1), (0, _defineProperty3["default"])(_className, prefixCls + '-hidden', !props.visible), (0, _defineProperty3["default"])(_className, prefixCls + '-range', 1), (0, _defineProperty3["default"])(_className, prefixCls + '-show-time-picker', showTimePicker), (0, _defineProperty3["default"])(_className, prefixCls + '-week-number', props.showWeekNumber), _className);
 	    var classes = (0, _classnames3["default"])(className);
@@ -67477,20 +67484,20 @@ var __lib___ =
 	  },
 	  render: function render() {
 	    var props = this.props;
-	    var value = props.value;
-	    var direction = props.direction;
-	    var prefixCls = props.prefixCls;
-	    var locale = props.locale;
-	    var selectedValue = props.selectedValue;
-	    var format = props.format;
-	    var placeholder = props.placeholder;
-	    var disabledDate = props.disabledDate;
-	    var timePicker = props.timePicker;
-	    var disabledTime = props.disabledTime;
-	    var timePickerDisabledTime = props.timePickerDisabledTime;
-	    var showTimePicker = props.showTimePicker;
-	    var hoverValue = props.hoverValue;
-	    var onInputSelect = props.onInputSelect;
+	    var value = props.value,
+	        direction = props.direction,
+	        prefixCls = props.prefixCls,
+	        locale = props.locale,
+	        selectedValue = props.selectedValue,
+	        format = props.format,
+	        placeholder = props.placeholder,
+	        disabledDate = props.disabledDate,
+	        timePicker = props.timePicker,
+	        disabledTime = props.disabledTime,
+	        timePickerDisabledTime = props.timePickerDisabledTime,
+	        showTimePicker = props.showTimePicker,
+	        hoverValue = props.hoverValue,
+	        onInputSelect = props.onInputSelect;
 
 	    var disabledTimeConfig = showTimePicker && disabledTime && timePicker ? (0, _index.getTimeConfig)(selectedValue, disabledTime) : null;
 	    var rangeClassName = prefixCls + '-range';
@@ -71582,19 +71589,21 @@ var __lib___ =
 	    (_props = this.props).onFocus.apply(_props, arguments);
 	  },
 	  onBlur: function onBlur(e) {
-	    var _props2;
-
-	    this.setState({
-	      focused: false
-	    });
-	    var value = this.getCurrentValidValue(this.getValueFromEvent(e).trim());
-	    this.setValue(value);
+	    var _this = this;
 
 	    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
 	      args[_key - 1] = arguments[_key];
 	    }
 
-	    (_props2 = this.props).onBlur.apply(_props2, [e].concat(args));
+	    this.setState({
+	      focused: false
+	    });
+	    var value = this.getCurrentValidValue(this.getValueFromEvent(e).trim());
+	    this.setValue(value, function () {
+	      var _props2;
+
+	      (_props2 = _this.props).onBlur.apply(_props2, [e].concat(args));
+	    });
 	  },
 	  getCurrentValidValue: function getCurrentValidValue(value) {
 	    var val = value;
@@ -71614,21 +71623,22 @@ var __lib___ =
 	    }
 	    return this.toNumber(val);
 	  },
-	  setValue: function setValue(v) {
+	  setValue: function setValue(v, callback) {
+	    // trigger onChange
+	    var newValue = isNaN(v) || v === '' ? undefined : v;
+	    var changed = newValue !== this.state.value;
 	    if (!('value' in this.props)) {
 	      this.setState({
 	        value: v,
 	        inputValue: this.toPrecisionAsStep(v)
-	      });
+	      }, callback);
 	    } else {
 	      // always set input value same as value
 	      this.setState({
 	        inputValue: this.toPrecisionAsStep(this.state.value)
-	      });
+	      }, callback);
 	    }
-	    // trigger onChange
-	    var newValue = isNaN(v) || v === '' ? undefined : v;
-	    if (newValue !== this.state.value) {
+	    if (changed) {
 	      this.props.onChange(newValue);
 	    }
 	  },
@@ -71704,7 +71714,6 @@ var __lib___ =
 	      return;
 	    }
 	    var value = this.getCurrentValidValue(this.state.inputValue);
-	    this.setState({ value: value });
 	    if (isNaN(value)) {
 	      return;
 	    }
@@ -71723,7 +71732,7 @@ var __lib___ =
 	    }
 	  },
 	  down: function down(e, recursive) {
-	    var _this = this;
+	    var _this2 = this;
 
 	    if (e.persist) {
 	      e.persist();
@@ -71731,11 +71740,11 @@ var __lib___ =
 	    this.stop();
 	    this.step('down', e);
 	    this.autoStepTimer = setTimeout(function () {
-	      _this.down(e, true);
+	      _this2.down(e, true);
 	    }, recursive ? SPEED : DELAY);
 	  },
 	  up: function up(e, recursive) {
-	    var _this2 = this;
+	    var _this3 = this;
 
 	    if (e.persist) {
 	      e.persist();
@@ -71743,7 +71752,7 @@ var __lib___ =
 	    this.stop();
 	    this.step('up', e);
 	    this.autoStepTimer = setTimeout(function () {
-	      _this2.up(e, true);
+	      _this3.up(e, true);
 	    }, recursive ? SPEED : DELAY);
 	  }
 	};
@@ -117324,6 +117333,9 @@ var __lib___ =
 	// ancestor components re-render before descendants
 
 	var CLEARED = null;
+	var nullListeners = {
+	  notify: function notify() {}
+	};
 
 	function createListenerCollection() {
 	  // the current/next pattern is copied from redux's createStore code.
@@ -117362,10 +117374,10 @@ var __lib___ =
 	  function Subscription(store, parentSub) {
 	    _classCallCheck(this, Subscription);
 
-	    this.subscribe = parentSub ? parentSub.addNestedSub.bind(parentSub) : store.subscribe.bind(store);
-
+	    this.store = store;
+	    this.parentSub = parentSub;
 	    this.unsubscribe = null;
-	    this.listeners = createListenerCollection();
+	    this.listeners = nullListeners;
 	  }
 
 	  Subscription.prototype.addNestedSub = function addNestedSub(listener) {
@@ -117383,20 +117395,20 @@ var __lib___ =
 
 	  Subscription.prototype.trySubscribe = function trySubscribe() {
 	    if (!this.unsubscribe) {
-	      this.unsubscribe = this.subscribe(this.onStateChange);
+	      // this.onStateChange is set by connectAdvanced.initSubscription()
+	      this.unsubscribe = this.parentSub ? this.parentSub.addNestedSub(this.onStateChange) : this.store.subscribe(this.onStateChange);
+
+	      this.listeners = createListenerCollection();
 	    }
 	  };
 
 	  Subscription.prototype.tryUnsubscribe = function tryUnsubscribe() {
 	    if (this.unsubscribe) {
 	      this.unsubscribe();
+	      this.unsubscribe = null;
 	      this.listeners.clear();
+	      this.listeners = nullListeners;
 	    }
-	    this.unsubscribe = null;
-	    this.subscribe = null;
-	    this.listeners = {
-	      notify: function notify() {}
-	    };
 	  };
 
 	  return Subscription;

@@ -23,7 +23,16 @@ export default class Nav extends Component {
     const { pathname } = location
 
     const defaultOpenKeys = ['sub1']
-    const selectedKeys = pathname && pathname === '/' ? ['5s'] : ['7p']
+    let selectedKeys
+    const menuArr = [
+      '/overView',
+      '/contractList',
+      '/userManager',
+      '/systemSetting'
+    ]
+    if (menuArr.indexOf(pathname) !== -1) {
+      selectedKeys = [pathname.replace('/', '')]
+    }
     return {
       defaultOpenKeys,
       selectedKeys
@@ -38,12 +47,18 @@ export default class Nav extends Component {
         defaultOpenKeys={defaultOpenKeys}
         selectedKeys={selectedKeys}
         mode="inline">
-        <SubMenu key="sub1" title="水果管理" >
-          <MenuItem key="5s" >
-            <Link to="/">苹果5S</Link>
+        <SubMenu key="sub1" title="UI Kits" >
+          <MenuItem key="overView" >
+            <Link to="/overView">首页概览</Link>
           </MenuItem>
-          <MenuItem key="7p" >
-            <Link to="/something">苹果7P</Link>
+          <MenuItem key="contractList" >
+            <Link to="/contractList">合同列表</Link>
+          </MenuItem>
+          <MenuItem key="userManager" >
+            <Link to="/userManager">用户管理</Link>
+          </MenuItem>
+          <MenuItem key="systemSetting" >
+            <Link to="/systemSetting">系统设置</Link>
           </MenuItem>
         </SubMenu>
       </Menu>
