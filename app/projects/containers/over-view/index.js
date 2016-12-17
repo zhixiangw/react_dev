@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Table, Row, Col } from 'antd'
+import moment from 'moment'
+import 'moment/locale/zh-cn'
+moment.locale('zh-cn')
+import { Button, Table, Row, Col, DatePicker  } from 'antd'
+const RangePicker = DatePicker.RangePicker
 
-import { system as systemAction, test as testAction } from '../../actions';
+import { system as systemAction, test as testAction } from '../../actions'
+import Chart from './chart'
 import './index.less'
 
 class OverView extends Component {
@@ -13,40 +18,75 @@ class OverView extends Component {
       pageIndex: 1,
       activeId: 1
     }
-    this.login = this.login.bind(this)
     this.toggleActive = this.toggleActive.bind(this)
+    this.disabledDate = this.disabledDate.bind(this)
+    this.handleRangePickerChange = this.handleRangePickerChange.bind(this)
+    this.search = this.search.bind(this)
+    this.getChartDate = this.getChartDate.bind(this)
+  }
+
+  componentWillMount() {
+    const condition = {
+      startDate: moment().format('YYYY-MM-DD'),
+      endDate: moment().subtract(7, 'days').format('YYYY-MM-DD'),
+      type: this.state.activeId
+    }
+    this.search(condition)
   }
 
   toggleActive (activeId) {
-    this.setState({ activeId })
+    const { startDate, endDate } = this.state
+    if (this.state.activeId === activeId) return
+    this.setState({ activeId }, () => {
+      const condition = {
+        startDate,
+        endDate,
+        type: activeId
+      }
+      this.search(condition)
+    })
   }
 
-  login () {
+  search (condition) {
     const { sendAsyncAction } = this.props
-    sendAsyncAction({
-      username: 'alsotang'
+    console.info(condition)
+    sendAsyncAction(condition)
+  }
+
+  disabledDate(current) {
+    return current && current.valueOf() >= Date.now()
+  }
+
+  handleRangePickerChange (dates, dateStrings) {
+    this.setState({
+      startDate: dateStrings[0],
+      endDate: dateStrings[1]
+     }, () => {
+      const condition = {
+        startDate: dateStrings[0],
+        endDate: dateStrings[1],
+        type: this.state.activeId
+      }
+      this.search(condition)
     })
   }
 
   getColumns () {
     return [{
-      title: '序号',
+      title: '日期',
       dataIndex: 'index'
     }, {
-      title: '主题',
+      title: '新增合同',
       dataIndex: 'title'
     }, {
-      title: '作者',
+      title: '放款合同数',
       dataIndex: 'author'
     }, {
-      title: '最后回复时间',
+      title: '放款金额',
       dataIndex: 'lastReplyTime'
     }, {
-      title: '操作',
-      dataIndex: 'handle',
-      render: (id) => {
-        return <span onClick={ () => console.info(id) }>查看</span>
-      }
+      title: '欠缴合同数',
+      dataIndex: 'handle'
     }]
   }
 
@@ -60,26 +100,20 @@ class OverView extends Component {
     }))
   }
 
-  getPagination () {
+  getChartDate () {
     const { list } = this.props
-    const total = list.getIn(['data', 'recent_replies']) && list.getIn(['data', 'recent_replies']).size || 0
     return {
-      total,
-      showTotal: () => `共 ${total} 条`,
-      pageSize: 3,
-      current: this.state.pageIndex,
-      onChange: (current) => {
-        this.setState({ pageIndex: current })
-      }
+      xData: ['2016/11/01', '2016/11/02', '2016/11/03', '2016/11/04', '2016/11/05'],
+      yData: [Math.random() * 100, Math.random() * 600, Math.random() * 450, Math.random() * 650, Math.random() * 120]
     }
   }
 
   render() {
     const { list } = this.props
     const { activeId } = this.state
-
+    const tablinkArr = ['新增合同数', '已放款合同数', '欠款合同数']
     return (
-      <div>
+      <section>
         <Row gutter={32} className="index-over-view">
           <Col span="6">
             <div className="index-over-view-box">
@@ -111,25 +145,56 @@ class OverView extends Component {
             <Col span="3" className="title">
               <p>趋势图</p>
             </Col>
-            <Col span="9" className="tablink">
-              <a className={activeId === 1 && 'active' || null}
-                 onClick={this.toggleActive.bind(this, 1)}>新增合同数</a>
-              <a className={activeId === 2 && 'active' || null}
-                 onClick={this.toggleActive.bind(this, 2)}>已放款合同数</a>
-              <a className={activeId === 3 && 'active' || null}
-                 onClick={this.toggleActive.bind(this, 3)}>欠款合同数</a>
+            <Col span="8" className="tablink" offset="2">
+              <Row>
+                {
+                  tablinkArr.map((item, index) => {
+                    return (
+                      <Col span="8" key={index + 1}>
+                        <a className={activeId === (index + 1) && 'active' || null}
+                        onClick={this.toggleActive.bind(this, (index + 1))}>{item}</a>
+                      </Col>
+                    )
+                  })
+                }
+              </Row>
+            </Col>
+            <Col span="8" offset="3" className="range-picker">
+              <RangePicker
+                size="large"
+                ranges={
+                  { '今天': [moment(), moment()],
+                    '昨天': [moment(), moment().subtract(1, 'days')],
+                    '7天': [moment(), moment().subtract(7, 'days')],
+                    '14天': [moment(), moment().subtract(14, 'days')],
+                    '30天': [moment(), moment().subtract(30, 'days')]
+                  }}
+                disabledDate={this.disabledDate}
+                defaultValue={[moment(), moment().subtract(7, 'days')]}
+                format="YYYY-MM-DD"
+                onChange={this.handleRangePickerChange} />
             </Col>
           </Row>
-
+          <Row>
+            <Chart
+              title={tablinkArr[activeId - 1]}
+              xData={this.getChartDate().xData}
+              yData={this.getChartDate().yData} />
+          </Row>
         </section>
-        <div>
-          <Table
-            columns={this.getColumns()}
-            loading={list.get('doing')}
-            dataSource={this.parseData(list.getIn(['data', 'recent_replies']) && list.getIn(['data', 'recent_replies']).toJS() || [])}
-            pagination={this.getPagination()} />
-        </div>
-      </div>
+        <section className="tabel">
+          <Row className="title">
+            <p>详细信息</p>
+          </Row>
+          <div className="tabel-box">
+            <Table
+              columns={this.getColumns()}
+              loading={list.get('doing')}
+              dataSource={this.parseData(list.getIn(['data', 'recent_replies']) && list.getIn(['data', 'recent_replies']).toJS() || [])}
+              pagination={false} />
+          </div>
+        </section>
+      </section>
     )
   }
 }
@@ -138,8 +203,7 @@ const mapStateToProps = (state) => ({
   list: state.test.testFetch
 })
 const mapDispatchToProps = (dispatch) => ({
-  sendSysMsg: (msg, type) => dispatch(systemAction[type](msg)),
-  sendAsyncAction: (condition) => dispatch(testAction.testFetch(condition))
+  sendAsyncAction: () => dispatch(testAction.testFetch())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(OverView)

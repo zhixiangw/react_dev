@@ -15,23 +15,24 @@
         }
     }
 }
-.chart{
-    margin: 20px 0;
+.chart, .tabel{
+    margin: 45px 0 0 0;
     .title{
         p{
-            line-height: 35px;
+            line-height: 32px;
             text-indent: 15px;
-            font-size: 20px;
-            border-left: 5px solid #108ee9;
+            font-size: 25px;
+            border-left: 5px solid #333;
             color: #333;
         }
     }
     .tablink{
         a{
             display: inline-block;
-            line-height: 25px;
+            line-height: 32px;
             font-size: 16px;
-            padding: 5px 15px;
+            width: 100%;
+            text-align: center;
             border: 1px solid #333;
             color: #333;
             background-color: #fff;
@@ -39,7 +40,24 @@
                 color: #fff;
                 background-color: #108ee9;
             }
+        }
+        .ant-col-8{
             margin-left: -1px;
         }
+    }
+    .range-picker{
+        .ant-calendar-picker{
+            float: right;
+        }
+    }
+}
+.tabel{
+    margin: 0;
+    p{
+        margin-bottom: 20px;
+    }
+    .tabel-box{
+        background-color: #fff;
+        padding: 20px;
     }
 }
