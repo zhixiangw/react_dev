@@ -14,14 +14,6 @@ export default function (getFieldProps) {
         whitespace: true,
         message: '请输入密码'
       }]
-    }),
-
-    fruit: () => getFieldProps('fruit', {
-      initialValue: '1',
-      rules: [{
-        required: true,
-        message: '请选择水果'
-      }]
     })
   }
 }
