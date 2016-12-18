@@ -9,7 +9,6 @@ import UserInfo from '../user-info'
 
 import './index.less'
 
-//ggg
 class PageContainer extends Component {
   constructor (props) {
     super(props)
