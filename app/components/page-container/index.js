@@ -5,7 +5,6 @@ import { Col, Row, message } from 'antd'
 import { system as systemAction } from '../../projects/actions'
 import NavMenu from '../nav-menu'
 
-//ggg
 class PageContainer extends Component {
 
   componentWillReceiveProps(nextProps) {
