@@ -21,7 +21,7 @@ class PageContainer extends Component {
     this.clickLogout = this.clickLogout.bind(this)
     this.toggleShow = this.toggleShow.bind(this)
     this.modifyPassword = this.modifyPassword.bind(this)
-    this.showPop = this.showPop.bind(this)
+    this.handleVisibleChange = this.handleVisibleChange.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -58,10 +58,6 @@ class PageContainer extends Component {
     this.setState({ isShow: !this.state.isShow, isPopShow: false })
   }
 
-  showPop () {
-    this.setState({ isPopShow: !this.state.isPopShow })
-  }
-
   modifyPassword (params) {
     console.info(params)
     this.toggleShow()
@@ -74,6 +70,9 @@ class PageContainer extends Component {
     </div>
   }
 
+  handleVisibleChange (visible) {
+    this.setState({ isPopShow: visible })
+  }
 
   render () {
     const { isShow, isPopShow } = this.state
@@ -91,8 +90,9 @@ class PageContainer extends Component {
               visible={isPopShow}
               placement="bottomRight"
               content={this.getContent()}
-              trigger="click" >
-              <Icon type="user" onClick={this.showPop}/>
+              trigger="click"
+              onVisibleChange={this.handleVisibleChange} >
+              <Icon type="user" />
             </Popover>
           </Col>
         </Row>
