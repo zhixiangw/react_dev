@@ -5,6 +5,7 @@ import PageContainer from '../components/page-container'
 import Login from './containers/login'
 import OverView from './containers/over-view'
 import ContractList from './containers/contract-list'
+import CustomerManage from './containers/customer-manage'
 import SomeThing from './containers/something'
 
 export default function (history) {
@@ -17,8 +18,8 @@ export default function (history) {
       <Route path="/contractList" component={PageContainer}>
           <IndexRoute component={ContractList} />
       </Route>
-      <Route path="/userManager" component={PageContainer}>
-          <IndexRoute component={SomeThing} />
+      <Route path="/customerManage" component={PageContainer}>
+          <IndexRoute component={CustomerManage} />
       </Route>
       <Route path="/systemSetting" component={PageContainer}>
           <IndexRoute component={SomeThing} />

@@ -27,7 +27,7 @@ export default class Nav extends Component {
     const menuArr = [
       '/overView',
       '/contractList',
-      '/userManager',
+      '/customerManage',
       '/systemSetting'
     ]
     if (menuArr.indexOf(pathname) !== -1) {
@@ -54,8 +54,8 @@ export default class Nav extends Component {
           <MenuItem key="contractList" >
             <Link to="/contractList">合同列表</Link>
           </MenuItem>
-          <MenuItem key="userManager" >
-            <Link to="/userManager">用户管理</Link>
+          <MenuItem key="customerManage" >
+            <Link to="/customerManage">用户管理</Link>
           </MenuItem>
           <MenuItem key="systemSetting" >
             <Link to="/systemSetting">系统设置</Link>

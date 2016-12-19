@@ -63,10 +63,10 @@ class PageContainer extends Component {
   }
 
   getContent () {
-    return <div className="user-pop">
+    return (<div className="user-pop">
       <p onClick={this.toggleShow}>个人信息</p>
       <p onClick={this.clickLogout}>退出</p>
-    </div>
+    </div>)
   }
 
   handleVisibleChange (visible) {

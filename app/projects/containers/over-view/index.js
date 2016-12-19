@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
 moment.locale('zh-cn')
-import { Button, Table, Row, Col, DatePicker  } from 'antd'
+import { Table, Row, Col, DatePicker } from 'antd'
 const RangePicker = DatePicker.RangePicker
 
-import { system as systemAction, test as testAction } from '../../actions'
+import { test as testAction } from '../../actions'
 import Chart from './chart'
 import './index.less'
 
@@ -61,7 +61,7 @@ class OverView extends Component {
     this.setState({
       startDate: dateStrings[0],
       endDate: dateStrings[1]
-     }, () => {
+    }, () => {
       const condition = {
         startDate: dateStrings[0],
         endDate: dateStrings[1],
@@ -101,7 +101,6 @@ class OverView extends Component {
   }
 
   getChartDate () {
-    const { list } = this.props
     return {
       xData: ['2016/11/01', '2016/11/02', '2016/11/03', '2016/11/04', '2016/11/05'],
       yData: [Math.random() * 100, Math.random() * 600, Math.random() * 450, Math.random() * 650, Math.random() * 120]
@@ -152,7 +151,7 @@ class OverView extends Component {
                     return (
                       <Col span="8" key={index + 1}>
                         <a className={activeId === (index + 1) && 'active' || null}
-                        onClick={this.toggleActive.bind(this, (index + 1))}>{item}</a>
+                          onClick={this.toggleActive.bind(this, (index + 1))}>{item}</a>
                       </Col>
                     )
                   })
@@ -163,8 +162,8 @@ class OverView extends Component {
               <RangePicker
                 size="large"
                 ranges={
-                  { '今天': [moment(), moment()],
-                    '昨天': [moment(), moment().subtract(1, 'days')],
+                  { 今天: [moment(), moment()],
+                    昨天: [moment(), moment().subtract(1, 'days')],
                     '7天': [moment(), moment().subtract(7, 'days')],
                     '14天': [moment(), moment().subtract(14, 'days')],
                     '30天': [moment(), moment().subtract(30, 'days')]

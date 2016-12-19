@@ -2,11 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { replace } from 'react-router-redux'
 
-import { Input, Form, Select, Button } from 'antd'
+import { Input, Form, Button } from 'antd'
 const FormItem = Form.Item
-const Option = Select.Option
 
-import validata from './validata'
+import validata from './validate'
 import './index.less'
 import logoImg from './logo.png'
 

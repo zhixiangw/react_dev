@@ -6,6 +6,8 @@ const TabPane = Tabs.TabPane
 const Search = Input.Search
 const Option = Select.Option
 
+import { test as testAction } from '../../actions'
+
 import Attachment from './attachment'
 import ConfirmModal from './confirm-modal'
 import './index.less'
@@ -14,7 +16,7 @@ class ContractList extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      activeTabKey: "1",
+      activeTabKey: '1',
       isShow: false,
       isPopShow: false,
       isModalShow: false,
@@ -60,7 +62,7 @@ class ContractList extends Component {
       dataIndex: 'handle',
       render: (id, cord) => {
         const option = {
-          pathname: '/userManager',
+          pathname: '/customerManage',
           query: {
             id,
             type: 'edit'
@@ -109,7 +111,7 @@ class ContractList extends Component {
         无需发送${name}` : `第三方客户已经向${customer}客户扣款成功，无需发送${name}`
       })
     } else {
-      this.setState({ isModalShow: true,  type, customerId, currentName: customer})
+      this.setState({ isModalShow: true, type, customerId, currentName: customer })
     }
     this.setState({ [`isPopShow${listIndex}`]: false })
   }
@@ -224,7 +226,7 @@ class ContractList extends Component {
             <p>
               { type < 3 ? `是否通知${currentName}客户进行${type === 1 && '放款' || '还款'}`
                 : type === 3 && `是否通知第三方向${currentName}客户进行扣款`
-                || `是否删除合同`
+                || '是否删除合同'
               }
             </p>
         </ConfirmModal>
