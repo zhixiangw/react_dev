@@ -2,7 +2,13 @@ import { combineReducers } from 'redux'
 import Immutable, { Map } from 'immutable'
 import { test as testAction } from '../actions'
 import { API_REQUEST, API_SUCCESS } from '../middlewares/fetch'
-
+/*
+  接收旧的state和action
+  state = Map({
+    data: {},
+    doing: false
+  })
+ */
 const testFetch = (
   state = Map({
     data: {},
@@ -35,3 +41,4 @@ const rootReducer = combineReducers({
 })
 
 export default rootReducer
+
