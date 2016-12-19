@@ -23,7 +23,12 @@ class PageContainer extends Component {
     this.handleVisibleChange = this.handleVisibleChange.bind(this)
   }
 
+  //在任意时刻，组件的props都可以通过父类组件来更改。出现这种情况时componentWillReceiveProps方法被调用。组件接收到新的props时调用，并将其作为参数nextProps使用，此时可以更改组件props及state。
+  
   componentWillReceiveProps(nextProps) {
+    
+    // nextProps是Map结构，初始化成实例后，Map结构还提供了一些实例的属性和方法供我们实现对实例的操作。get()获取指定键名的键值，返回键值
+
     if (nextProps.systemMsg && nextProps.systemMsg.get('msg') && nextProps.systemMsg.get('type')) {
       switch (nextProps.systemMsg.get('type')) {
         case systemAction.SHOW_ERROR:
@@ -43,6 +48,7 @@ class PageContainer extends Component {
           break;
       }
 
+      //提示完之后清掉
       this.props.cleanMsg()
     }
   }
