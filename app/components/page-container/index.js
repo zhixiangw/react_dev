@@ -27,7 +27,7 @@ class PageContainer extends Component {
   
   componentWillReceiveProps(nextProps) {
     
-    // nextProps是Map结构，初始化成实例后，Map结构还提供了一些实例的属性和方法供我们实现对实例的操作。get()获取指定键名的键值，返回键值
+    {// nextProps是Map结构，初始化成实例后，Map结构还提供了一些实例的属性和方法供我们实现对实例的操作。get()获取指定键名的键值，返回键值}
 
     if (nextProps.systemMsg && nextProps.systemMsg.get('msg') && nextProps.systemMsg.get('type')) {
       switch (nextProps.systemMsg.get('type')) {
