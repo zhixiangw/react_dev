@@ -6,7 +6,7 @@ const TabPane = Tabs.TabPane
 const Search = Input.Search
 const Option = Select.Option
 
-import { test as testAction } from '../../actions'
+import { test as testAction } from '../../../actions'
 
 import Attachment from './attachment'
 import ConfirmModal from './confirm-modal'
@@ -62,7 +62,7 @@ class ContractList extends Component {
       dataIndex: 'handle',
       render: (id, cord) => {
         const option = {
-          pathname: '/customerManage',
+          pathname: '/contractManage/detail',
           query: {
             id,
             type: 'edit'

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Input, Form, Select, Button, Upload, Icon, DatePicker } from 'antd'
+import { Input, Form, Select, Button, Upload, Icon, DatePicker, Alert, Row, Col } from 'antd'
 const FormItem = Form.Item
 const Option = Select.Option
 
@@ -31,7 +31,7 @@ class BasicInfo extends Component {
   }
 
   disabledDate (current) {
-    return current && current.valueOf() < Date.now()
+    return current && current.valueOf() >= Date.now()
   }
 
   getChargeTimeOptions () {
@@ -44,7 +44,11 @@ class BasicInfo extends Component {
     const { form: { getFieldDecorator } } = this.props
     const formItemLayout = {
       labelCol: { span: 6 },
-      wrapperCol: { span: 14 },
+      wrapperCol: { span: 10 },
+    }
+    const afterFormItemLayout = {
+      labelCol: { span: 9 },
+      wrapperCol: { span: 15 },
     }
     const fieldValidata = validata(getFieldDecorator)
     return (
@@ -76,17 +80,29 @@ class BasicInfo extends Component {
 
           <FormItem
             {...formItemLayout}
+            label="借款时间"
+            hasFeedback >
+            {fieldValidata.loanDate()(<DatePicker disabledDate={this.disabledDate} />)}
+          </FormItem>
+
+          <FormItem
+            {...formItemLayout}
             label="客户姓名"
             hasFeedback >
             {fieldValidata.customerName()(<Input />)}
           </FormItem>
 
-          <FormItem
-            {...formItemLayout}
-            label="客户联系方式"
-            hasFeedback >
-            {fieldValidata.customerMobile()(<Input />)}
-          </FormItem>
+          <Row>
+            <Col span="16">
+              <FormItem
+                {...afterFormItemLayout}
+                label="客户联系方式"
+                hasFeedback >
+                {fieldValidata.customerMobile()(<Input />)}
+              </FormItem>
+            </Col>
+            <Col span="6" offset="1"><Alert message="扣款前两天，将短信通知客户还款" type="info" /></Col>
+          </Row>
 
           <FormItem
             {...formItemLayout}
@@ -118,40 +134,42 @@ class BasicInfo extends Component {
 
           <FormItem
             {...formItemLayout}
-            label="手续费状态"
-            hasFeedback >
-            {fieldValidata.feeStatus()(
-              <Select placeholder="请选择">
-                <Option value={'1'}>未缴费</Option>
-                <Option value={'2'}>已缴费</Option>
-              </Select>
-            )}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
             label="借款金额"
             hasFeedback >
             {fieldValidata.loanAmount()(<Input />)}
           </FormItem>
 
-          <FormItem
-            {...formItemLayout}
-            label="借款期限"
-            hasFeedback >
-            {fieldValidata.loanTerm()(<DatePicker disabledDate={this.disabledDate} />)}
-          </FormItem>
+          <Row>
+            <Col span="16">
+            <FormItem
+              {...afterFormItemLayout}
+              label="借款期限"
+              hasFeedback >
+              {fieldValidata.loanTerm()(
+                <Select placeholder="请选择">
+                  <Option value={'11'}>11期</Option>
+                </Select>
+              )}
+            </FormItem>
+            </Col>
+            <Col span="6" offset="1"><Alert message="每期还款1200.00" type="info" /></Col>
+          </Row>
 
-          <FormItem
-            {...formItemLayout}
-            label="每期扣款时间"
-            hasFeedback >
-            {fieldValidata.eachChargeTime()(
-              <Select>
-                {this.getChargeTimeOptions()}
-              </Select>
-            )}
-          </FormItem>
+          <Row>
+            <Col span="16">
+            <FormItem
+              {...afterFormItemLayout}
+              label="每期扣款时间"
+              hasFeedback >
+              {fieldValidata.eachChargeTime()(
+                <Select>
+                  {this.getChargeTimeOptions()}
+                </Select>
+              )}
+            </FormItem>
+            </Col>
+            <Col span="6" offset="1"><Alert message="扣款时间将通知第三方机构扣款，以及提前两天将通知客户还款" type="info" /></Col>
+          </Row>
 
           <FormItem
             {...formItemLayout}

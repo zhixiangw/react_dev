@@ -26,12 +26,13 @@ export default class Nav extends Component {
     let selectedKeys
     const menuArr = [
       '/overView',
-      '/contractList',
+      '/contractManage',
       '/customerManage',
       '/systemSetting'
     ]
-    if (menuArr.indexOf(pathname) !== -1) {
-      selectedKeys = [pathname.replace('/', '')]
+    const getModulePath = pathname.replace('/detail', '')
+    if (menuArr.indexOf(getModulePath) !== -1) {
+      selectedKeys = [getModulePath.replace('/', '')]
     }
     return {
       defaultOpenKeys,
@@ -51,8 +52,8 @@ export default class Nav extends Component {
           <MenuItem key="overView" >
             <Link to="/overView">首页概览</Link>
           </MenuItem>
-          <MenuItem key="contractList" >
-            <Link to="/contractList">合同列表</Link>
+          <MenuItem key="contractManage" >
+            <Link to="/contractManage">合同列表</Link>
           </MenuItem>
           <MenuItem key="customerManage" >
             <Link to="/customerManage">用户管理</Link>

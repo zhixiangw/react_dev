@@ -23,6 +23,15 @@ export default function (getFieldDecorator) {
       }
     }),
 
+    loanDate: () => getFieldDecorator('loanDate', {
+      rules: [{
+        required: true,
+        whitespace: true,
+        type: 'date',
+        message: '请选择借款时间'
+      }]
+    }),
+
     customerName: () => getFieldDecorator('customerName', {
       rules: [{
         required: true,
@@ -55,14 +64,6 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    feeStatus: () => getFieldDecorator('feeStatus', {
-      rules: [{
-        required: true,
-        whitespace: true,
-        message: '请选择手续费状态'
-      }]
-    }),
-
     loanAmount: () => getFieldDecorator('loanAmount', {
       rules: [{
         required: true,
@@ -80,7 +81,6 @@ export default function (getFieldDecorator) {
     }),
 
     eachChargeTime: () => getFieldDecorator('eachChargeTime', {
-      initialValue: '1',
       rules: [{
         required: true,
         whitespace: true,

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Tabs } from 'antd'
 const TabPane = Tabs.TabPane
 
-import { test as testAction } from '../../actions'
+import { test as testAction } from '../../../actions'
 
 import './index.less'
 import BasicInfo from './basic-info'

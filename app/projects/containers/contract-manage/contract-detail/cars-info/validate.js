@@ -80,7 +80,6 @@ export default function (getFieldDecorator) {
     }),
 
     eachChargeTime: () => getFieldDecorator('eachChargeTime', {
-      initialValue: '1',
       rules: [{
         required: true,
         whitespace: true,
