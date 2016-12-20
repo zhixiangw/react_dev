@@ -47,22 +47,16 @@ class CustomerManage extends Component {
           defaultActiveKey={ activeTabKey }
           onChange={this.tabChange} >
           <TabPane tab="基础信息" key="1">
-            <div className="form-box">
-              <BasicInfo
-                onSubmit={this.saveBasicInfo} />
-            </div>
+            <BasicInfo
+              onSubmit={this.saveBasicInfo} />
           </TabPane>
           <TabPane tab="车辆信息" key="2">
-            <div className="form-box">
-              <CarsInfo
-                onSubmit={this.saveCarsInfo} />
-            </div>
+            <CarsInfo
+              onSubmit={this.saveCarsInfo} />
           </TabPane>
           <TabPane tab="执行情况" key="3">
-            <div className="form-box">
-              <ExecutiveInfo
-                onSubmit={this.saveExecutiveInfo} />
-            </div>
+            <ExecutiveInfo
+              onSubmit={this.saveExecutiveInfo} />
           </TabPane>
         </Tabs>
       </div>
