@@ -56,7 +56,6 @@ export default function (getFieldDecorator) {
     }),
 
     feeStatus: () => getFieldDecorator('feeStatus', {
-      initialValue: 'null',
       rules: [{
         required: true,
         whitespace: true,

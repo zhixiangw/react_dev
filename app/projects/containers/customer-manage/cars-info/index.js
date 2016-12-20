@@ -35,8 +35,8 @@ class BasicInfo extends Component {
   }
 
   getChargeTimeOptions () {
-    return [1].map((item, index) => {
-      return <Option key={index + 1} value={'1'}>{`每月${index + 1}号`}</Option>
+    return Array.from({ length: 31 }, (item, index) => index).map((item, index) => {
+      return <Option key={index + 1} value={`${index + 1}`}>{`每月${index + 1}号`}</Option>
     })
   }
 
@@ -121,8 +121,7 @@ class BasicInfo extends Component {
             label="手续费状态"
             hasFeedback >
             {fieldValidata.feeStatus()(
-              <Select>
-                <Option value={'null'}>请选择</Option>
+              <Select placeholder="请选择">
                 <Option value={'1'}>未缴费</Option>
                 <Option value={'2'}>已缴费</Option>
               </Select>
@@ -165,21 +164,21 @@ class BasicInfo extends Component {
             {...formItemLayout}
             label="所属诺亚信业务员联系方式"
             hasFeedback >
-            {fieldValidata.businessLicense()(<Input />)}
+            {fieldValidata.noainClerkMobile()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="所属保险业务员"
             hasFeedback >
-            {fieldValidata.businessLicense()(<Input />)}
+            {fieldValidata.salesClerk()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="所属保险业务员联系方式"
             hasFeedback >
-            {fieldValidata.businessLicense()(<Input />)}
+            {fieldValidata.salesClerkMobile()(<Input />)}
           </FormItem>
 
           <FormItem>
