@@ -1,18 +1,18 @@
 export default function (getFieldDecorator) {
   return {
-    contractCode: () => getFieldDecorator('contractCode', {
+    policyNumber: () => getFieldDecorator('policyNumber', {
       rules: [{
         required: true,
         whitespace: true,
-        message: '请输入合同编号'
+        message: '请输入保单号'
       }]
     }),
 
-    contractAttachment: () => getFieldDecorator('contractAttachment', {
+    policyAttachment: () => getFieldDecorator('policyAttachment', {
       rules: [{
         required: true,
         whitespace: true,
-        message: '请上传合同附件'
+        message: '请上传保单附件'
       }],
       valuePropName: 'fileList',
       normalize: e => {
@@ -23,101 +23,82 @@ export default function (getFieldDecorator) {
       }
     }),
 
-    customerName: () => getFieldDecorator('customerName', {
+    commercialInsurancePremium: () => getFieldDecorator('commercialInsurancePremium', {
       rules: [{
         required: true,
         whitespace: true,
-        message: '请输入客户姓名'
+        message: '请输入商业保险费'
       }]
     }),
 
-    customerMobile: () => getFieldDecorator('customerMobile', {
+     otherAttachment: () => getFieldDecorator('otherAttachment', {
       rules: [{
         required: true,
         whitespace: true,
-        message: '请输入客户联系方式'
+        message: '请上传其他文档'
+      }],
+      valuePropName: 'fileList',
+      normalize: e => {
+        if (Array.isArray(e)) {
+          return e
+        }
+        return e && e.fileList
+      }
+    }),
+
+    carNumber: () => getFieldDecorator('carNumber', {
+      rules: [{
+        required: true,
+        whitespace: true,
+        message: '请输入车牌号码'
       }]
     }),
 
-    businessLicense: () => getFieldDecorator('businessLicense', {
+    carBrand: () => getFieldDecorator('carBrand', {
       rules: [{
         required: true,
         whitespace: true,
-        message: '请输入营业执照注册号'
+        message: '请输入车辆品牌'
       }]
     }),
 
-    businessLicensePic: () => getFieldDecorator('businessLicensePic', {
+    carModel: () => getFieldDecorator('carModel', {
       rules: [{
         required: true,
         whitespace: true,
-        message: '请选择营业执照副本扫描件'
+        message: '请输入车辆型号'
       }]
     }),
 
-    feeStatus: () => getFieldDecorator('feeStatus', {
+    carIdNumber: () => getFieldDecorator('carIdNumber', {
       rules: [{
         required: true,
         whitespace: true,
-        message: '请选择手续费状态'
+        message: '请输入车辆识别号'
       }]
     }),
 
-    loanAmount: () => getFieldDecorator('loanAmount', {
+    drivingLicense: () => getFieldDecorator('drivingLicense', {
       rules: [{
         required: true,
         whitespace: true,
-        message: '请输入借款金额'
+        message: '请输入驾驶证号'
       }]
     }),
 
-    loanTerm: () => getFieldDecorator('loanTerm', {
+    drivingLicenseAttachment: () => getFieldDecorator('drivingLicenseAttachment', {
       rules: [{
         required: true,
         whitespace: true,
-        message: '请选择借款期限'
-      }]
-    }),
-
-    eachChargeTime: () => getFieldDecorator('eachChargeTime', {
-      initialValue: '1',
-      rules: [{
-        required: true,
-        whitespace: true,
-        message: '请选择每期扣款时间'
-      }]
-    }),
-
-    noainClerk: () => getFieldDecorator('noainClerk', {
-      rules: [{
-        required: true,
-        whitespace: true,
-        message: '请输入所属诺亚信业务员'
-      }]
-    }),
-
-    noainClerkMobile: () => getFieldDecorator('noainClerkMobile', {
-      rules: [{
-        required: true,
-        whitespace: true,
-        message: '请输入所属诺亚信业务员联系方式'
-      }]
-    }),
-
-    salesClerk: () => getFieldDecorator('salesClerk', {
-      rules: [{
-        required: true,
-        whitespace: true,
-        message: '请输入所属保险业务员'
-      }]
-    }),
-
-    salesClerkMobile: () => getFieldDecorator('salesClerkMobile', {
-      rules: [{
-        required: true,
-        whitespace: true,
-        message: '请输入所属保险业务员联系方式'
-      }]
+        message: '请上传驾驶证副本扫描件'
+      }],
+      valuePropName: 'fileList',
+      normalize: e => {
+        if (Array.isArray(e)) {
+          return e
+        }
+        return e && e.fileList
+      }
     })
   }
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Input, Form, Select, Button, Upload, Icon, DatePicker } from 'antd'
+import { Input, Form, Select, Button, Row, Col, Timeline, Progress } from 'antd'
 const FormItem = Form.Item
 const Option = Select.Option
 
@@ -13,8 +13,6 @@ class BasicInfo extends Component {
     super(props)
 
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleUpload = this.handleUpload.bind(this)
-    this.disabledDate = this.disabledDate.bind(this)
   }
 
   handleSubmit () {
@@ -30,163 +28,95 @@ class BasicInfo extends Component {
     console.info(e)
   }
 
-  disabledDate (current) {
-    return current && current.valueOf() < Date.now()
-  }
-
-  getChargeTimeOptions () {
-    return Array.from({ length: 31 }, (item, index) => index).map((item, index) => {
-      return <Option key={index + 1} value={`${index + 1}`}>{`每月${index + 1}号`}</Option>
-    })
-  }
-
   render() {
-    const { form: { getFieldDecorator } } = this.props
+    const { form: { getFieldDecorator, getFieldValue } } = this.props
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
     }
     const fieldValidata = validata(getFieldDecorator)
     return (
-      <div className="customer-form-box">
-        <Form horizontal>
-          <FormItem
-            {...formItemLayout}
-            label="合同编号"
-            hasFeedback >
-            {fieldValidata.contractCode()(<Input />)}
-          </FormItem>
+      <div className="executive-info-form-box">
+        <Row type="flex">
+          <Col span="10">
+            <section className="logic-status">
+              <Form horizontal>
+                <FormItem
+                  {...formItemLayout}
+                  label="手续费状态"
+                  hasFeedback >
+                  {fieldValidata.feeStatus()(
+                    <Select placeholder="请选择">
+                      <Option value={'1'}>未缴费</Option>
+                      <Option value={'2'}>已缴费</Option>
+                    </Select>
+                  )}
+                </FormItem>
 
-          <FormItem
-            {...formItemLayout}
-            label="合同附件上传"
-            hasFeedback >
-            {fieldValidata.contractAttachment()(
-              <Upload
-                action="/upload.do"
-                name="contractAttachment"
-                accept=".pdf"
-                onChange={this.handleUpload} >
-              <Button type="ghost">
-                <Icon type="upload" /> 点击上传合同附件
-              </Button>
-              </Upload>
-            )}
-          </FormItem>
+                <FormItem
+                  {...formItemLayout}
+                  label="首期保费"
+                  hasFeedback >
+                  {fieldValidata.initialPremium()(
+                    <Select placeholder="请选择">
+                      <Option value={'1'}>未缴费</Option>
+                      <Option value={'2'}>已缴费</Option>
+                    </Select>
+                  )}
+                </FormItem>
 
-          <FormItem
-            {...formItemLayout}
-            label="客户姓名"
-            hasFeedback >
-            {fieldValidata.customerName()(<Input />)}
-          </FormItem>
+                <FormItem
+                  {...formItemLayout}
+                  label="是否放款"
+                  hasFeedback >
+                  <p>{'未放款'}</p>
+                </FormItem>
 
-          <FormItem
-            {...formItemLayout}
-            label="客户联系方式"
-            hasFeedback >
-            {fieldValidata.customerMobile()(<Input />)}
-          </FormItem>
+                <FormItem
+                  {...formItemLayout}
+                  label="合同状态"
+                  hasFeedback >
+                  {fieldValidata.contractStatus()(
+                    <Select placeholder="请选择">
+                      <Option value={'1'}>签约中</Option>
+                      <Option value={'2'}>还款中</Option>
+                      <Option value={'3'}>已结束</Option>
+                    </Select>
+                  )}
+                </FormItem>
 
-          <FormItem
-            {...formItemLayout}
-            label="营业执照注册号"
-            hasFeedback >
-            {fieldValidata.businessLicense()(<Input />)}
-          </FormItem>
+                { +getFieldValue('contractStatus') === 3 ?
+                  <FormItem
+                    {...formItemLayout}
+                    label="合同结束原因"
+                    hasFeedback >
+                    {fieldValidata.contractEndReason()(
+                      <Select placeholder="请选择">
+                        <Option value={'1'}>正常还款完成</Option>
+                        <Option value={'2'}>提前还款已结束</Option>
+                        <Option value={'3'}>已退保</Option>
+                        <Option value={'4'}>车辆全损已结清</Option>
+                        <Option value={'5'}>合同报废</Option>
+                      </Select>
+                    )}
+                  </FormItem> : null
+                }
+              </Form>
+            </section>
+            <section>
+              <Progress type="circle" percent={65} />
+            </section>
+          </Col>
 
-          <FormItem
-            {...formItemLayout}
-            label="营业执照副本扫描件"
-            extra={`点击上传营业执照副本扫描件点击上传营业执照副本扫描件
-              点击上传营业执照副本扫描件点击上传营业执照副本扫描件点击上传营业执照副本扫描件
-              点击上传营业执照副本扫描件点击上传营业执照副本扫描件点击上传营业执照副本扫描件
-              点击上传营业执照副本扫描件点击上传营业执照副本扫描件`}
-            hasFeedback >
-            {fieldValidata.businessLicensePic()(
-              <Upload
-                action="/upload.do"
-                name="businessLicensePic"
-                accept=".jpg,.png,.jpeg,.bmp,.gif"
-                onChange={this.handleUpload} >
-              <Button type="ghost">
-                <Icon type="upload" /> 点击上传营业执照副本扫描件
-              </Button>
-              </Upload>
-            )}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="手续费状态"
-            hasFeedback >
-            {fieldValidata.feeStatus()(
-              <Select placeholder="请选择">
-                <Option value={'1'}>未缴费</Option>
-                <Option value={'2'}>已缴费</Option>
-              </Select>
-            )}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="借款金额"
-            hasFeedback >
-            {fieldValidata.loanAmount()(<Input />)}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="借款期限"
-            hasFeedback >
-            {fieldValidata.loanTerm()(<DatePicker disabledDate={this.disabledDate} />)}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="每期扣款时间"
-            hasFeedback >
-            {fieldValidata.eachChargeTime()(
-              <Select>
-                {this.getChargeTimeOptions()}
-              </Select>
-            )}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="所属诺亚信业务员"
-            hasFeedback >
-            {fieldValidata.noainClerk()(<Input />)}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="所属诺亚信业务员联系方式"
-            hasFeedback >
-            {fieldValidata.noainClerkMobile()(<Input />)}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="所属保险业务员"
-            hasFeedback >
-            {fieldValidata.salesClerk()(<Input />)}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="所属保险业务员联系方式"
-            hasFeedback >
-            {fieldValidata.salesClerkMobile()(<Input />)}
-          </FormItem>
-
-          <FormItem>
-            <p style={{ textAlign: 'center' }}>
-              <Button type="primary" onClick={this.handleSubmit}>保存</Button>
-            </p>
-          </FormItem>
-        </Form>
+          <Col span="14">
+            <Timeline>
+              <Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
+              <Timeline.Item>Solve initial network problems 2015-09-01</Timeline.Item>
+              <Timeline.Item>Technical testing 2015-09-01</Timeline.Item>
+              <Timeline.Item>Network problems being solved 2015-09-01</Timeline.Item>
+            </Timeline>
+          </Col>
+        </Row>
       </div>
     )
   }
