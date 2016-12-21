@@ -117,12 +117,37 @@ class BasicInfo extends Component {
             <section className="logic-status">
               <p className="logic-status-title" style={{ margin: 0 }}>执行记录</p>
               <p className="logic-status-content">每月10号发送扣款指令，并提前两天短信通知客户</p>
-              <Timeline>
-                <Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
-                <Timeline.Item>Solve initial network problems 2015-09-01</Timeline.Item>
-                <Timeline.Item>Technical testing 2015-09-01</Timeline.Item>
-                <Timeline.Item>Network problems being solved 2015-09-01</Timeline.Item>
-              </Timeline>
+              <Row>
+                <Col span="20" offset="4">
+                  <Timeline>
+                    <Timeline.Item>
+                      <p className="time-line-title">Create a services site 2015-09-01</p>
+                      <p>Create a services site 2015-09-01</p>
+                      <p>Create a services site 2015-09-01</p>
+                      <p>Create a services site 2015-09-01</p>
+                    </Timeline.Item>
+                    <Timeline.Item>
+                      <p className="time-line-title">Solve initial network problems 2015-09-01</p>
+                      <p>Solve initial network problems 2015-09-01</p>
+                      <p>Solve initial network problems 2015-09-01</p>
+                      <p>Solve initial network problems 2015-09-01</p>
+                    </Timeline.Item>
+                    <Timeline.Item>
+                      <p className="time-line-title">Technical testing 2015-09-01</p>
+                      <p>Technical testing 2015-09-01</p>
+                      <p>Technical testing 2015-09-01</p>
+                      <p>Technical testing 2015-09-01</p>
+                    </Timeline.Item>
+                    <Timeline.Item>
+                      <p className="time-line-title">Network problems being solved 2015-09-01</p>
+                      <p>Network problems being solved 2015-09-01</p>
+                      <p>Network problems being solved 2015-09-01</p>
+                      <p>Network problems being solved 2015-09-01</p>
+                    </Timeline.Item>
+                  </Timeline>
+                </Col>
+              </Row>
+
             </section>
           </Col>
         </Row>
