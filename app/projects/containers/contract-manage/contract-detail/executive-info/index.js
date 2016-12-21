@@ -32,7 +32,7 @@ class BasicInfo extends Component {
     const { form: { getFieldDecorator, getFieldValue } } = this.props
     const formItemLayout = {
       labelCol: { span: 6 },
-      wrapperCol: { span: 14 },
+      wrapperCol: { span: 16 },
     }
     const fieldValidata = validata(getFieldDecorator)
     return (
@@ -40,6 +40,7 @@ class BasicInfo extends Component {
         <Row type="flex">
           <Col span="10">
             <section className="logic-status">
+              <p className="logic-status-title">业务状态</p>
               <Form horizontal>
                 <FormItem
                   {...formItemLayout}
@@ -103,23 +104,31 @@ class BasicInfo extends Component {
                 }
               </Form>
             </section>
-            <section>
-              <Progress type="circle" percent={65} />
+            <section className="logic-status">
+              <p className="logic-status-title" style={{ margin: 0 }}>还款完成度</p>
+              <p className="logic-status-content">{`剩余${6000.00}未结清`}</p>
+              <div className="logic-progress">
+                <Progress type="circle" percent={65} />
+              </div>
             </section>
           </Col>
 
           <Col span="14">
-            <Timeline>
-              <Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
-              <Timeline.Item>Solve initial network problems 2015-09-01</Timeline.Item>
-              <Timeline.Item>Technical testing 2015-09-01</Timeline.Item>
-              <Timeline.Item>Network problems being solved 2015-09-01</Timeline.Item>
-            </Timeline>
+            <section className="logic-status">
+              <p className="logic-status-title" style={{ margin: 0 }}>执行记录</p>
+              <p className="logic-status-content">每月10号发送扣款指令，并提前两天短信通知客户</p>
+              <Timeline>
+                <Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
+                <Timeline.Item>Solve initial network problems 2015-09-01</Timeline.Item>
+                <Timeline.Item>Technical testing 2015-09-01</Timeline.Item>
+                <Timeline.Item>Network problems being solved 2015-09-01</Timeline.Item>
+              </Timeline>
+            </section>
           </Col>
         </Row>
 
         <Row style={{ textAlign: 'center' }}>
-          <Button onClick={this.handleSubmit}>保存</Button>
+          <Button type="primary" onClick={this.handleSubmit}>保存</Button>
         </Row>
       </div>
     )
