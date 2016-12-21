@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, Table } from 'antd'
 
-import { system as systemAction, test as testAction } from '../../actions';
+import { system as systemAction, test as testAction } from '../../actions'
 
 class SomeThing extends Component {
   constructor(props) {

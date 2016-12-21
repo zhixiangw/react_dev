@@ -8,7 +8,9 @@ const vendors = [
   'immutable',
   'classnames',
   'react-router-redux',
-  'react-redux'
+  'react-redux',
+  'moment',
+  'echarts-for-react'
 ]
 
 module.exports = {
