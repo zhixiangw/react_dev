@@ -52,30 +52,27 @@ class CarsInfo extends Component {
     }
     const fieldValidata = validata(getFieldDecorator)
     return (
-      <div className="cars-info-form-box">
-        <Row className="cars-info-title">
-          <Col span="6">保单信息</Col>
-        </Row>
+      <div className="basic-info-form-box">
         <Form horizontal>
           <FormItem
             {...formItemLayout}
-            label="保单号"
+            label="合同编号"
             hasFeedback >
-            {fieldValidata.policyNumber()(<Input />)}
+            {fieldValidata.contractCode()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
-            label="保单附件上传"
+            label="合同附件上传"
             hasFeedback >
-            {fieldValidata.policyAttachment()(
+            {fieldValidata.contractAttachment()(
               <Upload
                 action="/upload.do"
-                name="policyAttachment"
+                name="contractAttachment"
                 accept=".pdf"
                 onChange={this.handleUpload} >
               <Button type="ghost">
-                <Icon type="upload" /> 点击上传保单附件
+                <Icon type="upload" /> 点击上传合同附件
               </Button>
               </Upload>
             )}
@@ -109,29 +106,36 @@ class CarsInfo extends Component {
 
           <FormItem
             {...formItemLayout}
-            label="其他文档上传"
+            label="营业执照注册号"
             hasFeedback >
-            {fieldValidata.otherAttachment()(
+            {fieldValidata.businessLicense()(<Input />)}
+          </FormItem>
+
+          <FormItem
+            {...formItemLayout}
+            label="营业执照副本扫描件"
+            extra={`请上传驾驶证清晰彩色原件扫描件或者数码照，在有效期内全年检章齐全
+              （当年注册的可无年检章），由中国大陆工商局或者市场监督管理局颁发，
+              支持jpg、jpeg、bmp、png、gif格式照片，大小不超过2M`}
+            hasFeedback >
+            {fieldValidata.businessLicensePic()(
               <Upload
                 action="/upload.do"
-                name="contractAttachment"
-                accept=".pdf"
+                name="businessLicensePic"
+                accept=".jpg,.png,.jpeg,.bmp,.gif"
                 onChange={this.handleUpload} >
               <Button type="ghost">
-                <Icon type="upload" /> 点击上传其他文档
+                <Icon type="upload" /> 点击上传营业执照副本扫描件
               </Button>
               </Upload>
             )}
           </FormItem>
 
-          <Row className="cars-info-title">
-            <Col span="6">车辆信息</Col>
-          </Row>
           <FormItem
             {...formItemLayout}
             label="借款金额"
             hasFeedback >
-            {fieldValidata.carNumber()(<Input />)}
+            {fieldValidata.loanAmount()(<Input />)}
           </FormItem>
 
           <Row>
@@ -168,38 +172,30 @@ class CarsInfo extends Component {
 
           <FormItem
             {...formItemLayout}
-            label="车辆识别号"
+            label="所属诺亚信业务员"
             hasFeedback >
-            {fieldValidata.carIdNumber()(<Input />)}
-          </FormItem>
-
-          <Row className="cars-info-title">
-            <Col span="6">驾驶证信息</Col>
-          </Row>
-           <FormItem
-             {...formItemLayout}
-             label="驾驶证号"
-             hasFeedback >
-             {fieldValidata.drivingLicense()(<Input />)}
+            {fieldValidata.noainClerk()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
-            label="驾驶证副本扫描件"
-            extra={`请上传驾驶证清晰彩色原件扫描件或者数码照，支持jpg、jpeg、bmp、png、gif格式照片，
-              大小不超过2M`}
+            label="所属诺亚信业务员联系方式"
             hasFeedback >
-            {fieldValidata.drivingLicenseAttachment()(
-              <Upload
-                action="/upload.do"
-                name="businessLicensePic"
-                accept=".jpg,.png,.jpeg,.bmp,.gif"
-                onChange={this.handleUpload} >
-              <Button type="ghost">
-                <Icon type="upload" /> 点击上传驾驶证副本扫描件
-              </Button>
-              </Upload>
-            )}
+            {fieldValidata.noainClerkMobile()(<Input />)}
+          </FormItem>
+
+          <FormItem
+            {...formItemLayout}
+            label="所属保险业务员"
+            hasFeedback >
+            {fieldValidata.salesClerk()(<Input />)}
+          </FormItem>
+
+          <FormItem
+            {...formItemLayout}
+            label="所属保险业务员联系方式"
+            hasFeedback >
+            {fieldValidata.salesClerkMobile()(<Input />)}
           </FormItem>
 
           <FormItem>
