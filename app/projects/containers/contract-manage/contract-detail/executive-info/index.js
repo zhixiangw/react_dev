@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Input, Form, Select, Button, Row, Col, Timeline, Progress } from 'antd'
+import { Form, Select, Button, Row, Col, Timeline, Progress } from 'antd'
 const FormItem = Form.Item
 const Option = Select.Option
 
@@ -116,6 +116,10 @@ class BasicInfo extends Component {
               <Timeline.Item>Network problems being solved 2015-09-01</Timeline.Item>
             </Timeline>
           </Col>
+        </Row>
+
+        <Row style={{ textAlign: 'center' }}>
+          <Button onClick={this.handleSubmit}>保存</Button>
         </Row>
       </div>
     )

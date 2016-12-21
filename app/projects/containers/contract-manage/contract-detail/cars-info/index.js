@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Input, Form, Select, Button, Upload, Icon, DatePicker, Row, Col } from 'antd'
+import { Input, Form, Button, Upload, Icon, Row, Col } from 'antd'
 const FormItem = Form.Item
-const Option = Select.Option
 
 import validata from './validate'
 import './index.less'
