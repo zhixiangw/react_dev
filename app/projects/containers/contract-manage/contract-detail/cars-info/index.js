@@ -1,20 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Input, Form, Select, Button, Upload, Icon, DatePicker } from 'antd'
+import { Input, Form, Select, Button, Upload, Icon, DatePicker, Row, Col } from 'antd'
 const FormItem = Form.Item
 const Option = Select.Option
 
 import validata from './validate'
 import './index.less'
 
-class BasicInfo extends Component {
+class CarsInfo extends Component {
   constructor (props) {
     super(props)
 
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleUpload = this.handleUpload.bind(this)
-    this.disabledDate = this.disabledDate.bind(this)
   }
 
   handleSubmit () {
@@ -30,155 +29,125 @@ class BasicInfo extends Component {
     console.info(e)
   }
 
-  disabledDate (current) {
-    return current && current.valueOf() < Date.now()
-  }
-
-  getChargeTimeOptions () {
-    return Array.from({ length: 31 }, (item, index) => index).map((item, index) => {
-      return <Option key={index + 1} value={`${index + 1}`}>{`每月${index + 1}号`}</Option>
-    })
-  }
-
   render() {
     const { form: { getFieldDecorator } } = this.props
     const formItemLayout = {
       labelCol: { span: 6 },
-      wrapperCol: { span: 14 },
+      wrapperCol: { span: 10 },
     }
     const fieldValidata = validata(getFieldDecorator)
     return (
-      <div className="customer-form-box">
+      <div className="cars-info-form-box">
+        <Row className="cars-info-title">
+          <Col span="6">保单信息</Col>
+        </Row>
         <Form horizontal>
           <FormItem
             {...formItemLayout}
-            label="合同编号"
+            label="保单号"
             hasFeedback >
-            {fieldValidata.contractCode()(<Input />)}
+            {fieldValidata.policyNumber()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
-            label="合同附件上传"
+            label="保单附件上传"
             hasFeedback >
-            {fieldValidata.contractAttachment()(
+            {fieldValidata.policyAttachment()(
+              <Upload
+                action="/upload.do"
+                name="policyAttachment"
+                accept=".pdf"
+                onChange={this.handleUpload} >
+              <Button type="ghost">
+                <Icon type="upload" /> 点击上传保单附件
+              </Button>
+              </Upload>
+            )}
+          </FormItem>
+
+          <FormItem
+            {...formItemLayout}
+            label="商业保险费"
+            hasFeedback >
+            {fieldValidata.commercialInsurancePremium()(<Input />)}
+          </FormItem>
+
+          <FormItem
+            {...formItemLayout}
+            label="其他文档上传"
+            hasFeedback >
+            {fieldValidata.otherAttachment()(
               <Upload
                 action="/upload.do"
                 name="contractAttachment"
                 accept=".pdf"
                 onChange={this.handleUpload} >
               <Button type="ghost">
-                <Icon type="upload" /> 点击上传合同附件
+                <Icon type="upload" /> 点击上传其他文档
               </Button>
               </Upload>
             )}
           </FormItem>
 
+          <Row className="cars-info-title">
+            <Col span="6">车辆信息</Col>
+          </Row>
           <FormItem
             {...formItemLayout}
-            label="客户姓名"
+            label="车牌号码"
             hasFeedback >
-            {fieldValidata.customerName()(<Input />)}
+            {fieldValidata.carNumber()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
-            label="客户联系方式"
+            label="车辆品牌"
             hasFeedback >
-            {fieldValidata.customerMobile()(<Input />)}
+            {fieldValidata.carBrand()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
-            label="营业执照注册号"
+            label="车辆型号"
             hasFeedback >
-            {fieldValidata.businessLicense()(<Input />)}
+            {fieldValidata.carModel()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
-            label="营业执照副本扫描件"
-            extra={`点击上传营业执照副本扫描件点击上传营业执照副本扫描件
-              点击上传营业执照副本扫描件点击上传营业执照副本扫描件点击上传营业执照副本扫描件
-              点击上传营业执照副本扫描件点击上传营业执照副本扫描件点击上传营业执照副本扫描件
-              点击上传营业执照副本扫描件点击上传营业执照副本扫描件`}
+            label="车辆识别号"
             hasFeedback >
-            {fieldValidata.businessLicensePic()(
+            {fieldValidata.carIdNumber()(<Input />)}
+          </FormItem>
+
+          <Row className="cars-info-title">
+            <Col span="6">驾驶证信息</Col>
+          </Row>
+           <FormItem
+             {...formItemLayout}
+             label="驾驶证号"
+             hasFeedback >
+            {fieldValidata.drivingLicense()(<Input />)}
+          </FormItem>
+
+          <FormItem
+            {...formItemLayout}
+            label="驾驶证副本扫描件"
+            extra={`请上传驾驶证清晰彩色原件扫描件或者数码照，支持jpg、jpeg、bmp、png、gif格式照片，
+              大小不超过2M`}
+            hasFeedback >
+            {fieldValidata.drivingLicenseAttachment()(
               <Upload
                 action="/upload.do"
                 name="businessLicensePic"
                 accept=".jpg,.png,.jpeg,.bmp,.gif"
                 onChange={this.handleUpload} >
               <Button type="ghost">
-                <Icon type="upload" /> 点击上传营业执照副本扫描件
+                <Icon type="upload" /> 点击上传驾驶证副本扫描件
               </Button>
               </Upload>
             )}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="手续费状态"
-            hasFeedback >
-            {fieldValidata.feeStatus()(
-              <Select placeholder="请选择">
-                <Option value={'1'}>未缴费</Option>
-                <Option value={'2'}>已缴费</Option>
-              </Select>
-            )}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="借款金额"
-            hasFeedback >
-            {fieldValidata.loanAmount()(<Input />)}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="借款期限"
-            hasFeedback >
-            {fieldValidata.loanTerm()(<DatePicker disabledDate={this.disabledDate} />)}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="每期扣款时间"
-            hasFeedback >
-            {fieldValidata.eachChargeTime()(
-              <Select>
-                {this.getChargeTimeOptions()}
-              </Select>
-            )}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="所属诺亚信业务员"
-            hasFeedback >
-            {fieldValidata.noainClerk()(<Input />)}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="所属诺亚信业务员联系方式"
-            hasFeedback >
-            {fieldValidata.noainClerkMobile()(<Input />)}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="所属保险业务员"
-            hasFeedback >
-            {fieldValidata.salesClerk()(<Input />)}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="所属保险业务员联系方式"
-            hasFeedback >
-            {fieldValidata.salesClerkMobile()(<Input />)}
           </FormItem>
 
           <FormItem>
@@ -192,9 +161,9 @@ class BasicInfo extends Component {
   }
 }
 
-BasicInfo = Form.create()(BasicInfo)
+CarsInfo = Form.create()(CarsInfo)
 const mapStateToProps = (state) => ({
   list: state.test.testFetch
 })
 
-export default connect(mapStateToProps)(BasicInfo)
+export default connect(mapStateToProps)(CarsInfo)
