@@ -5,11 +5,11 @@ import { replace } from 'react-router-redux'
 import { Input, Form, Button } from 'antd'
 const FormItem = Form.Item
 
-import validata from './validate'
+import validate from './validate'
 import './index.less'
 import logoImg from './logo.png'
 
-class HelloWorld extends Component {
+class Login extends Component {
   constructor (props) {
     super(props)
 
@@ -32,7 +32,7 @@ class HelloWorld extends Component {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
     }
-    const fieldValidata = validata(getFieldDecorator)
+    const fieldValidate = validate(getFieldDecorator)
     return (
       <div className="form-box">
         <div className="logo">
@@ -43,14 +43,14 @@ class HelloWorld extends Component {
             {...formItemLayout}
             label="登录账号"
             hasFeedback >
-            {fieldValidata.account()(<Input />)}
+            {fieldValidate.account()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="登录密码"
             hasFeedback >
-            {fieldValidata.password()(<Input type="password" />)}
+            {fieldValidate.password()(<Input type="password" />)}
           </FormItem>
 
           <FormItem>
@@ -64,5 +64,5 @@ class HelloWorld extends Component {
   }
 }
 
-HelloWorld = Form.create()(HelloWorld)
-export default connect()(HelloWorld)
+Login = Form.create()(Login)
+export default connect()(Login)

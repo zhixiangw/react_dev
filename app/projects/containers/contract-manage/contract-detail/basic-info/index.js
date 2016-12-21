@@ -6,7 +6,7 @@ import { Input, Form, Select, Button, Upload, Icon, DatePicker, Alert, Row, Col 
 const FormItem = Form.Item
 const Option = Select.Option
 
-import validata from './validate'
+import validate from './validate'
 import './index.less'
 
 class CarsInfo extends Component {
@@ -18,11 +18,10 @@ class CarsInfo extends Component {
   }
 
   handleSubmit () {
-    const { form: { validateFields, getFieldsValue }, onSubmit } = this.props
-    validateFields((errors) => {
+    const { form: { validateFields }, onSubmit } = this.props
+    validateFields((errors, values) => {
       if (!!errors) return
-      const feildValues = getFieldsValue()
-      onSubmit(feildValues)
+      onSubmit(values)
     })
   }
 
@@ -50,7 +49,7 @@ class CarsInfo extends Component {
       labelCol: { span: 9 },
       wrapperCol: { span: 15 },
     }
-    const fieldValidata = validata(getFieldDecorator)
+    const fieldValidate = validate(getFieldDecorator)
     return (
       <div className="basic-info-form-box">
         <Form horizontal>
@@ -58,14 +57,14 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="合同编号"
             hasFeedback >
-            {fieldValidata.contractCode()(<Input />)}
+            {fieldValidate.contractCode()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="合同附件上传"
             hasFeedback >
-            {fieldValidata.contractAttachment()(
+            {fieldValidate.contractAttachment()(
               <Upload
                 action="/upload.do"
                 name="contractAttachment"
@@ -82,14 +81,14 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="借款时间"
             hasFeedback >
-            {fieldValidata.loanDate()(<DatePicker disabledDate={this.disabledDate} />)}
+            {fieldValidate.loanDate()(<DatePicker disabledDate={this.disabledDate} />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="客户姓名"
             hasFeedback >
-            {fieldValidata.customerName()(<Input />)}
+            {fieldValidate.customerName()(<Input />)}
           </FormItem>
 
           <Row>
@@ -98,7 +97,7 @@ class CarsInfo extends Component {
                 {...afterFormItemLayout}
                 label="客户联系方式"
                 hasFeedback >
-                {fieldValidata.customerMobile()(<Input />)}
+                {fieldValidate.customerMobile()(<Input />)}
               </FormItem>
             </Col>
             <Col span="6" offset="1"><Alert message="扣款前两天，将短信通知客户还款" type="info" /></Col>
@@ -108,7 +107,7 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="营业执照注册号"
             hasFeedback >
-            {fieldValidata.businessLicense()(<Input />)}
+            {fieldValidate.businessLicense()(<Input />)}
           </FormItem>
 
           <FormItem
@@ -118,7 +117,7 @@ class CarsInfo extends Component {
               （当年注册的可无年检章），由中国大陆工商局或者市场监督管理局颁发，
               支持jpg、jpeg、bmp、png、gif格式照片，大小不超过2M`}
             hasFeedback >
-            {fieldValidata.businessLicensePic()(
+            {fieldValidate.businessLicensePic()(
               <Upload
                 action="/upload.do"
                 name="businessLicensePic"
@@ -135,7 +134,7 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="借款金额"
             hasFeedback >
-            {fieldValidata.loanAmount()(<Input />)}
+            {fieldValidate.loanAmount()(<Input />)}
           </FormItem>
 
           <Row>
@@ -144,7 +143,7 @@ class CarsInfo extends Component {
               {...afterFormItemLayout}
               label="借款期限"
               hasFeedback >
-              {fieldValidata.loanTerm()(
+              {fieldValidate.loanTerm()(
                 <Select placeholder="请选择">
                   <Option value={'11'}>11期</Option>
                 </Select>
@@ -160,7 +159,7 @@ class CarsInfo extends Component {
               {...afterFormItemLayout}
               label="每期扣款时间"
               hasFeedback >
-              {fieldValidata.eachChargeTime()(
+              {fieldValidate.eachChargeTime()(
                 <Select>
                   {this.getChargeTimeOptions()}
                 </Select>
@@ -174,28 +173,28 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="所属诺亚信业务员"
             hasFeedback >
-            {fieldValidata.noainClerk()(<Input />)}
+            {fieldValidate.noainClerk()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="所属诺亚信业务员联系方式"
             hasFeedback >
-            {fieldValidata.noainClerkMobile()(<Input />)}
+            {fieldValidate.noainClerkMobile()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="所属保险业务员"
             hasFeedback >
-            {fieldValidata.salesClerk()(<Input />)}
+            {fieldValidate.salesClerk()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="所属保险业务员联系方式"
             hasFeedback >
-            {fieldValidata.salesClerkMobile()(<Input />)}
+            {fieldValidate.salesClerkMobile()(<Input />)}
           </FormItem>
 
           <FormItem>

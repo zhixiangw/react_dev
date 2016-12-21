@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Col, Row, Modal, Input, Form } from 'antd'
 const FormItem = Form.Item
 
-import validata from './validata'
+import validate from './validate'
 import './index.less'
 
 class UserInfo extends Component {
@@ -25,13 +25,11 @@ class UserInfo extends Component {
   }
 
   editPassword () {
-    const { form: { validateFields, getFieldsValue }, confirm } = this.props
-    validateFields((errors) => {
+    const { form: { validateFields }, confirm } = this.props
+    validateFields((errors, values) => {
       if (!!errors) return
-      const feildValues = getFieldsValue()
-      confirm(feildValues)
+      confirm(values)
     })
-
   }
 
   handleChange (type, e) {
@@ -52,7 +50,7 @@ class UserInfo extends Component {
       labelCol: { span: 8 },
       wrapperCol: { span: 10 },
     }
-    const fieldValidata = validata(getFieldDecorator)
+    const fieldValidate = validate(getFieldDecorator)
 
     return (
         <Modal
@@ -76,14 +74,14 @@ class UserInfo extends Component {
                   {...formItemLayout}
                   label="修改前密码"
                   hasFeedback >
-                  {fieldValidata.oldPassword()(<Input type="password" />)}
+                  {fieldValidate.oldPassword()(<Input type="password" />)}
                 </FormItem>
 
                 <FormItem
                   {...formItemLayout}
                   label="修改后密码"
                   hasFeedback >
-                  {fieldValidata.newPassword()(<Input type="password" />)}
+                  {fieldValidate.newPassword()(<Input type="password" />)}
                 </FormItem>
               </section> :
               <Row>

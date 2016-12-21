@@ -5,7 +5,7 @@ import { Form, Select, Button, Row, Col, Timeline, Progress } from 'antd'
 const FormItem = Form.Item
 const Option = Select.Option
 
-import validata from './validate'
+import validate from './validate'
 import './index.less'
 
 class BasicInfo extends Component {
@@ -16,11 +16,10 @@ class BasicInfo extends Component {
   }
 
   handleSubmit () {
-    const { form: { validateFields, getFieldsValue }, onSubmit } = this.props
-    validateFields((errors) => {
+    const { form: { validateFields }, onSubmit } = this.props
+    validateFields((errors, values) => {
       if (!!errors) return
-      const feildValues = getFieldsValue()
-      onSubmit(feildValues)
+      onSubmit(values)
     })
   }
 
@@ -34,7 +33,7 @@ class BasicInfo extends Component {
       labelCol: { span: 6 },
       wrapperCol: { span: 16 },
     }
-    const fieldValidata = validata(getFieldDecorator)
+    const fieldValidate = validate(getFieldDecorator)
     return (
       <div className="executive-info-form-box">
         <Row type="flex">
@@ -46,7 +45,7 @@ class BasicInfo extends Component {
                   {...formItemLayout}
                   label="手续费状态"
                   hasFeedback >
-                  {fieldValidata.feeStatus()(
+                  {fieldValidate.feeStatus()(
                     <Select placeholder="请选择">
                       <Option value={'1'}>未缴费</Option>
                       <Option value={'2'}>已缴费</Option>
@@ -58,7 +57,7 @@ class BasicInfo extends Component {
                   {...formItemLayout}
                   label="首期保费"
                   hasFeedback >
-                  {fieldValidata.initialPremium()(
+                  {fieldValidate.initialPremium()(
                     <Select placeholder="请选择">
                       <Option value={'1'}>未缴费</Option>
                       <Option value={'2'}>已缴费</Option>
@@ -77,7 +76,7 @@ class BasicInfo extends Component {
                   {...formItemLayout}
                   label="合同状态"
                   hasFeedback >
-                  {fieldValidata.contractStatus()(
+                  {fieldValidate.contractStatus()(
                     <Select placeholder="请选择">
                       <Option value={'1'}>签约中</Option>
                       <Option value={'2'}>还款中</Option>
@@ -91,7 +90,7 @@ class BasicInfo extends Component {
                     {...formItemLayout}
                     label="合同结束原因"
                     hasFeedback >
-                    {fieldValidata.contractEndReason()(
+                    {fieldValidate.contractEndReason()(
                       <Select placeholder="请选择">
                         <Option value={'1'}>正常还款完成</Option>
                         <Option value={'2'}>提前还款已结束</Option>

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Input, Form, Button, Upload, Icon, Row, Col } from 'antd'
 const FormItem = Form.Item
 
-import validata from './validate'
+import validate from './validate'
 import './index.less'
 
 class CarsInfo extends Component {
@@ -16,11 +16,10 @@ class CarsInfo extends Component {
   }
 
   handleSubmit () {
-    const { form: { validateFields, getFieldsValue }, onSubmit } = this.props
-    validateFields((errors) => {
+    const { form: { validateFields }, onSubmit } = this.props
+    validateFields((errors, values) => {
       if (!!errors) return
-      const feildValues = getFieldsValue()
-      onSubmit(feildValues)
+      onSubmit(values)
     })
   }
 
@@ -34,7 +33,7 @@ class CarsInfo extends Component {
       labelCol: { span: 6 },
       wrapperCol: { span: 10 },
     }
-    const fieldValidata = validata(getFieldDecorator)
+    const fieldValidate = validate(getFieldDecorator)
     return (
       <div className="cars-info-form-box">
         <Row className="cars-info-title">
@@ -45,14 +44,14 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="保单号"
             hasFeedback >
-            {fieldValidata.policyNumber()(<Input />)}
+            {fieldValidate.policyNumber()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="保单附件上传"
             hasFeedback >
-            {fieldValidata.policyAttachment()(
+            {fieldValidate.policyAttachment()(
               <Upload
                 action="/upload.do"
                 name="policyAttachment"
@@ -69,14 +68,14 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="商业保险费"
             hasFeedback >
-            {fieldValidata.commercialInsurancePremium()(<Input />)}
+            {fieldValidate.commercialInsurancePremium()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="其他文档上传"
             hasFeedback >
-            {fieldValidata.otherAttachment()(
+            {fieldValidate.otherAttachment()(
               <Upload
                 action="/upload.do"
                 name="contractAttachment"
@@ -96,28 +95,28 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="车牌号码"
             hasFeedback >
-            {fieldValidata.carNumber()(<Input />)}
+            {fieldValidate.carNumber()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="车辆品牌"
             hasFeedback >
-            {fieldValidata.carBrand()(<Input />)}
+            {fieldValidate.carBrand()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="车辆型号"
             hasFeedback >
-            {fieldValidata.carModel()(<Input />)}
+            {fieldValidate.carModel()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="车辆识别号"
             hasFeedback >
-            {fieldValidata.carIdNumber()(<Input />)}
+            {fieldValidate.carIdNumber()(<Input />)}
           </FormItem>
 
           <Row className="cars-info-title">
@@ -127,7 +126,7 @@ class CarsInfo extends Component {
              {...formItemLayout}
              label="驾驶证号"
              hasFeedback >
-            {fieldValidata.drivingLicense()(<Input />)}
+            {fieldValidate.drivingLicense()(<Input />)}
           </FormItem>
 
           <FormItem
@@ -136,7 +135,7 @@ class CarsInfo extends Component {
             extra={`请上传驾驶证清晰彩色原件扫描件或者数码照，支持jpg、jpeg、bmp、png、gif格式照片，
               大小不超过2M`}
             hasFeedback >
-            {fieldValidata.drivingLicenseAttachment()(
+            {fieldValidate.drivingLicenseAttachment()(
               <Upload
                 action="/upload.do"
                 name="businessLicensePic"
