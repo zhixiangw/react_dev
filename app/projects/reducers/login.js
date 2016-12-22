@@ -27,7 +27,7 @@ const loginInfo = (state = Map({
   type: ls && ls.getItem('type'),
   hasLogin: ls && ls.getItem('hasLogin')
 }), { type, constname, request, response }) => {
-  const loginType = 'admin'
+  const loginType = 'verify' // 此处自定义登录角色 admin = 管理员， salesman = 业务员， verify = 审核员
   switch (type) {
     case API_SUCCESS:
       if (constname === loginAction.LOGIN) {

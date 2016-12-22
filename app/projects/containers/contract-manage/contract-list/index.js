@@ -6,7 +6,7 @@ const TabPane = Tabs.TabPane
 const Search = Input.Search
 const Option = Select.Option
 
-import { test as testAction } from '../../../actions'
+import { contract as contractAction } from '../../../actions'
 
 import Attachment from './attachment'
 import ConfirmModal from './confirm-modal'
@@ -18,16 +18,20 @@ class ContractList extends Component {
     this.state = {
       activeTabKey: '1',
       isShow: false,
-      isPopShow: false,
       isModalShow: false,
       type: 1,
       currentName: '',
-      selectType: 'all'
+      selectType: 'all',
+      title: ''
     }
 
     this.tabChange = this.tabChange.bind(this)
     this.getKey1Columns = this.getKey1Columns.bind(this)
+    this.getKey2Columns = this.getKey2Columns.bind(this)
+    this.getKey3Columns = this.getKey3Columns.bind(this)
     this.parseKey1Data = this.parseKey1Data.bind(this)
+    this.parseKey2Data = this.parseKey2Data.bind(this)
+    this.parseKey3Data = this.parseKey3Data.bind(this)
     this.toggleShow = this.toggleShow.bind(this)
     this.getContent = this.getContent.bind(this)
     this.handleVisibleChange = this.handleVisibleChange.bind(this)
@@ -35,28 +39,48 @@ class ContractList extends Component {
     this.hideComfrimModal = this.hideComfrimModal.bind(this)
     this.sendConfirm = this.sendConfirm.bind(this)
     this.handleSearch = this.handleSearch.bind(this)
+    this.search = this.search.bind(this)
+  }
+
+  componentWillMount() {
+    const condition = {
+      type: 1,
+    }
+    this.search(condition)
   }
 
   tabChange(key) {
-    this.setState({ activeTabKey: key })
+    const { title, selectType } = this.state
+    let condition = {
+      type: +key,
+    }
+    if (+key > 1) {
+      condition.title = title
+      condition.status = selectType === 'all' ? null : +selectType
+    }
+    this.setState({ activeTabKey: key }, () => {
+      this.search(condition)
+    })
   }
 
   getKey1Columns () {
+    const { loginInfo } = this.props
+    const type = loginInfo.get('type')
     return [{
       title: '序号',
       dataIndex: 'index'
     }, {
       title: '合同编号',
-      dataIndex: 'title'
+      dataIndex: 'contractCode'
     }, {
       title: '客户姓名',
-      dataIndex: 'author'
+      dataIndex: 'customerName'
     }, {
       title: '手续费状态',
-      dataIndex: 'lastReplyTime'
+      dataIndex: 'poundageStatus'
     }, {
       title: '首期保费',
-      dataIndex: 'id'
+      dataIndex: 'initialPremium'
     }, {
       title: '操作',
       dataIndex: 'handle',
@@ -72,16 +96,124 @@ class ContractList extends Component {
           <div>
             <Link to={option}>编辑</Link>
             &nbsp;&nbsp;
-            <a onClick={this.toggleShow.bind(this, cord.author)}>附件</a>
+            <a onClick={this.toggleShow.bind(this, cord.customerName)}>附件</a>
             &nbsp;&nbsp;
+            { type !== 'salesman' ?
             <Popover
               placement="bottom"
-              content={this.getContent(id, cord.author, cord.index)}
+              content={this.getContent(id, cord.customerName, cord.index, cord.isNeedConfirm)}
               trigger="click"
-              visible={this.state[`isPopShow${cord.index}`]}
+              visible={this.state[`isPopShow4key1${cord.index}`]}
               onVisibleChange={this.handleVisibleChange.bind(this, cord.index)} >
                 <a>更多</a>
-            </Popover>
+            </Popover> : null
+            }
+          </div>
+        )
+      }
+    }]
+  }
+
+  getKey2Columns () {
+    const { loginInfo } = this.props
+    const type = loginInfo.get('type')
+    return [{
+      title: '合同编号',
+      dataIndex: 'contractCode'
+    }, {
+      title: '客户姓名',
+      dataIndex: 'customerName'
+    }, {
+      title: '业务状态',
+      dataIndex: 'status'
+    }, {
+      title: '剩余借款金额',
+      dataIndex: 'surplusLoanAmount'
+    }, {
+      title: '总借款金额',
+      dataIndex: 'totalLoanAmount'
+    }, {
+      title: '每期扣款时间',
+      dataIndex: 'eachChargeTime',
+      render: (eachChargeTime) => `每月${eachChargeTime}号`
+    }, {
+      title: '当期还款状态',
+      dataIndex: 'currentRepaymentStatus'
+    }, {
+      title: '操作',
+      dataIndex: 'handle',
+      render: (id, cord) => {
+        const option = {
+          pathname: '/contractManage/detail',
+          query: {
+            id,
+            type: 'edit'
+          }
+        }
+        return (
+          <div>
+            <Link to={option}>编辑</Link>
+            &nbsp;&nbsp;
+            <a onClick={this.toggleShow.bind(this, cord.customerName)}>附件</a>
+            &nbsp;&nbsp;
+            { type !== 'salesman' ?
+            <Popover
+              placement="bottom"
+              content={this.getContent(id, cord.customerName, cord.index, cord.isNeedConfirm)}
+              trigger="click"
+              visible={this.state[`isPopShow4key2${cord.index}`]}
+              onVisibleChange={this.handleVisibleChange.bind(this, cord.index)} >
+                <a>更多</a>
+            </Popover> : null
+            }
+          </div>
+        )
+      }
+    }]
+  }
+
+  getKey3Columns () {
+    const { loginInfo } = this.props
+    const type = loginInfo.get('type')
+    return [{
+      title: '序号',
+      dataIndex: 'index'
+    }, {
+      title: '合同编号',
+      dataIndex: 'contractCode'
+    }, {
+      title: '客户姓名',
+      dataIndex: 'customerName'
+    }, {
+      title: '结束原因',
+      dataIndex: 'endReason'
+    }, {
+      title: '操作',
+      dataIndex: 'handle',
+      render: (id, cord) => {
+        const option = {
+          pathname: '/contractManage/detail',
+          query: {
+            id,
+            type: 'edit'
+          }
+        }
+        return (
+          <div>
+            <Link to={option}>编辑</Link>
+            &nbsp;&nbsp;
+            <a onClick={this.toggleShow.bind(this, cord.customerName)}>附件</a>
+            &nbsp;&nbsp;
+            { type !== 'salesman' ?
+            <Popover
+              placement="bottom"
+              content={this.getContent(id, cord.customerName, cord.index, cord.isNeedConfirm)}
+              trigger="click"
+              visible={this.state[`isPopShow4key3${cord.index}`]}
+              onVisibleChange={this.handleVisibleChange.bind(this, cord.index)} >
+                <a>更多</a>
+            </Popover> : null
+            }
           </div>
         )
       }
@@ -90,11 +222,38 @@ class ContractList extends Component {
 
   parseKey1Data (list) {
     return list.map((item, index) => ({
-      index,
-      title: item.title,
-      author: item.author && item.author.loginname,
-      lastReplyTime: item.last_reply_at,
-      id: item.id,
+      index: index + 1,
+      contractCode: item.contractCode,
+      customerName: item.customerName,
+      poundageStatus: item.poundageStatus,
+      initialPremium: item.initialPremium,
+      isNeedConfirm: item.isNeedConfirm,
+      handle: item.id
+    }))
+  }
+
+  parseKey2Data (list) {
+    return list.map((item, index) => ({
+      index: index + 1,
+      contractCode: item.contractCode,
+      customerName: item.customerName,
+      status: item.status,
+      surplusLoanAmount: item.surplusLoanAmount,
+      totalLoanAmount: item.totalLoanAmount,
+      eachChargeTime: item.eachChargeTime,
+      currentRepaymentStatus: item.currentRepaymentStatus,
+      isNeedConfirm: item.isNeedConfirm,
+      handle: item.id
+    }))
+  }
+
+  parseKey3Data (list) {
+    return list.map((item, index) => ({
+      index: index + 1,
+      contractCode: item.contractCode,
+      customerName: item.customerName,
+      endReason: item.endReason,
+      isNeedConfirm: item.isNeedConfirm,
       handle: item.id
     }))
   }
@@ -116,17 +275,22 @@ class ContractList extends Component {
     this.setState({ [`isPopShow${listIndex}`]: false })
   }
 
-  getContent (customerId, customer, listIndex) {
-    const optionArr = [
-      { name: '放款通知', type: 1, isNeedConfirm: false },
-      { name: '还款通知', type: 2, isNeedConfirm: true },
-      { name: '扣款通知', type: 3, isNeedConfirm: true },
+  getContent (customerId, customer, listIndex, isNeedConfirm) {
+    const { loginInfo } = this.props
+    const type = loginInfo.get('type')
+    let optionArr = [
+      { name: '放款通知', type: 1 },
+      { name: '还款通知', type: 2 },
+      { name: '扣款通知', type: 3 },
       { name: '删除合同', type: 4 }
     ]
+    if (type === 'verify') {
+      optionArr.shift()
+    }
     return (
       optionArr.map((item, index) =>
         <p key={index + 1} className="list-popover-content"
-          onClick={this.handleMore.bind(this, customerId, customer, listIndex, item.name, item.type, item.isNeedConfirm)} >
+          onClick={this.handleMore.bind(this, customerId, customer, listIndex, item.name, item.type, isNeedConfirm)} >
             {item.name}
         </p>
       )
@@ -134,7 +298,8 @@ class ContractList extends Component {
   }
 
   handleVisibleChange (index, visible) {
-    this.setState({ [`isPopShow${index}`]: visible })
+    const { activeTabKey } = this.state
+    this.setState({ [`isPopShow4key${activeTabKey}${index}`]: visible })
   }
 
   hideComfrimModal () {
@@ -152,7 +317,25 @@ class ContractList extends Component {
   }
 
   handleSearch (value) {
-    console.info(value)
+    this.setState({ title: value })
+    const { activeTabKey, selectType } = this.state
+    let condition = {
+      type: +activeTabKey,
+      status: selectType === 'all' ? null : +selectType,
+      title: value
+    }
+    this.search(condition)
+  }
+
+  search (condition) {
+    const { queryContractList4key1, queryContractList4key2, queryContractList4key3 } = this.props
+    if (condition.type === 1) {
+      queryContractList4key1(condition)
+    } else if (condition.type === 2) {
+      queryContractList4key2(condition)
+    } else {
+      queryContractList4key3(condition)
+    }
   }
 
   operations () {
@@ -176,8 +359,7 @@ class ContractList extends Component {
 
   render() {
     const { activeTabKey, isShow, isModalShow, currentName, type } = this.state
-    const { list } = this.props
-    const listData = list.getIn(['data', 'recent_replies']) && list.getIn(['data', 'recent_replies']).toJS()
+    const { list4key1, list4key2, list4key3 } = this.props
     return (
       <div className="contract-list">
         <Tabs
@@ -188,26 +370,26 @@ class ContractList extends Component {
             <div className="tabel-box">
               <Table
                 columns={this.getKey1Columns()}
-                loading={list.get('doing')}
-                dataSource={this.parseKey1Data(listData || [])}
+                loading={list4key1.get('doing')}
+                dataSource={this.parseKey1Data(list4key1.get('dataList').toJS() || [])}
                 pagination={false} />
             </div>
           </TabPane>
           <TabPane tab="还款中" key="2">
             <div className="tabel-box">
               <Table
-                columns={this.getKey1Columns()}
-                loading={list.get('doing')}
-                dataSource={this.parseKey1Data(listData || [])}
+                columns={this.getKey2Columns()}
+                loading={list4key2.get('doing')}
+                dataSource={this.parseKey2Data(list4key2.get('dataList').toJS() || [])}
                 pagination={false} />
             </div>
           </TabPane>
           <TabPane tab="已结束" key="3">
             <div className="tabel-box">
               <Table
-                columns={this.getKey1Columns()}
-                loading={list.get('doing')}
-                dataSource={this.parseKey1Data(listData || [])}
+                columns={this.getKey3Columns()}
+                loading={list4key3.get('doing')}
+                dataSource={this.parseKey3Data(list4key3.get('dataList').toJS() || [])}
                 pagination={false} />
             </div>
           </TabPane>
@@ -236,10 +418,15 @@ class ContractList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  list: state.test.testFetch
+  list4key1: state.contract.contractList4key1,
+  list4key2: state.contract.contractList4key2,
+  list4key3: state.contract.contractList4key3,
+  loginInfo: state.login.loginInfo
 })
 const mapDispatchToProps = (dispatch) => ({
-  sendAsyncAction: () => dispatch(testAction.testFetch())
+  queryContractList4key1: (condition) => dispatch(contractAction.queryContractList4key1(condition)),
+  queryContractList4key2: (condition) => dispatch(contractAction.queryContractList4key2(condition)),
+  queryContractList4key3: (condition) => dispatch(contractAction.queryContractList4key3(condition))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContractList)
