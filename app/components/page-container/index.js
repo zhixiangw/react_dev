@@ -24,8 +24,8 @@ class PageContainer extends Component {
   }
 
   componentWillMount() {
-    const { logout } = this.props
-    if (!window.localStorage.getItem('hasLogin')) {
+    const { logout, loginInfo } = this.props
+    if (!loginInfo.get('hasLogin')) {
       logout()
     }
   }
@@ -137,7 +137,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   cleanMsg: () => dispatch(systemAction.clean()),
   modifyPassWord: (condition) => dispatch(loginAction.modifyPassword(condition)),
-  logout: () => dispatch(replace('/'))
+  logout: () => dispatch(loginAction.logout()).then(() => dispatch(replace('/')))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageContainer)

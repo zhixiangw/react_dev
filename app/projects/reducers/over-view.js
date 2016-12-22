@@ -23,8 +23,6 @@ const overViewData = (state = Map(), { type, constname, response }) => {
 
 const overViewList = (state = Map({
   doing: false,
-  totalCount: 0,
-  totalPageCount: 0,
   dataList: List()
 }), { type, constname, response }) => {
   const dataList = [{
