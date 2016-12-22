@@ -25,3 +25,17 @@ export function logout () {
     })
   }
 }
+
+export const MODIFY_PASSWORD = 'MODIFY_PASSWORD'
+export function modifyPassword (condition) {
+  return (dispatch) => {
+    return dispatch({
+      [FETCH_API]: {
+        constname: MODIFY_PASSWORD,
+        url: '//jsonplaceholder.typicode.com/posts/',
+        request: condition,
+        msg: '修改成功'
+      }
+    })
+  }
+}
