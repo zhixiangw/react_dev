@@ -42,7 +42,7 @@ export default () => next => action => {
     return next(action)
   }
 
-  let { url, request, waiting, msg, constname } = fethAPI
+  let { url, request, msg, constname } = fethAPI
 
   function actionWith (result) {
     const finalAction = Object.assign({}, action, result)
@@ -53,7 +53,6 @@ export default () => next => action => {
   next(actionWith({
     type: API_REQUEST,
     constname,
-    waiting,
     request
   }))
 
@@ -62,7 +61,6 @@ export default () => next => action => {
       next(actionWith({
         type: API_SUCCESS,
         constname,
-        waiting,
         request,
         response,
         msg
@@ -73,8 +71,7 @@ export default () => next => action => {
       next(actionWith({
         type: API_FAILURE,
         constname,
-        waiting,
-        error: result.json && result.json.message ? result.json.message : '网络不佳,请稍后再试',
+        msg: result.json && result.json.message ? result.json.message : '网络不佳,请稍后再试',
         status: result.response ? result.response.status : undefined
       }))
       return Promise.reject(result)

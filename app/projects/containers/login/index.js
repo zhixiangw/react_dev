@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { replace } from 'react-router-redux'
 
-import { Input, Form, Button } from 'antd'
+import { Input, Form, Button, message } from 'antd'
 const FormItem = Form.Item
+
+import { login as loginAction } from '../../actions'
 
 import validate from './validate'
 import './index.less'
@@ -17,12 +19,19 @@ class Login extends Component {
   }
 
   handleSubmit () {
-    const { form: { validateFields, getFieldsValue }, dispatch } = this.props
-    validateFields((errors) => {
-      if (!!errors) return
-      const feildValues = getFieldsValue()
-      console.info(feildValues)
-      dispatch(replace('/overView'))
+    const { form: { validateFields }, dispatch } = this.props
+    validateFields((errors, values) => {
+      if (!!errors) {
+        return
+      }
+      const hide = message.loading('', 0)
+      dispatch(loginAction.login(values)).then(() => {
+        dispatch(replace('/overView'))
+        setTimeout(hide, 0)
+      }, () => {
+        message.error('登录失败', 2)
+        setTimeout(hide, 0)
+      })
     })
   }
 
