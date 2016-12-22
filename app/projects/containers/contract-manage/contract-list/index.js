@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { Tabs, Table, Row, Col, notification, Popover, Select, Input } from 'antd'
+import { Tabs, Table, Row, Col, notification, Popover, Select, Input, message } from 'antd'
 const TabPane = Tabs.TabPane
 const Search = Input.Search
 const Option = Select.Option
@@ -272,7 +272,7 @@ class ContractList extends Component {
     } else {
       this.setState({ isModalShow: true, type, customerId, currentName: customer })
     }
-    this.setState({ [`isPopShow${listIndex}`]: false })
+    this.setState({ [`isPopShow4key${this.state.activeTabKey}${listIndex}`]: false })
   }
 
   getContent (customerId, customer, listIndex, isNeedConfirm) {
@@ -308,8 +308,23 @@ class ContractList extends Component {
 
   sendConfirm () {
     const { type, customerId } = this.state
-    console.info(type, customerId)
-    this.hideComfrimModal()
+    const { sendNotification, deleteContract } = this.props
+    const condition = {
+      type,
+      customerId
+    }
+    const hide = message.loading('', 0)
+    if (type === 4) {
+      deleteContract().then(() => {
+        this.hideComfrimModal()
+        setTimeout(hide, 0)
+      })
+    } else {
+      sendNotification(condition).then(() => {
+        this.hideComfrimModal()
+        setTimeout(hide, 0)
+      })
+    }
   }
 
   handleChange (field, e) {
@@ -426,7 +441,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   queryContractList4key1: (condition) => dispatch(contractAction.queryContractList4key1(condition)),
   queryContractList4key2: (condition) => dispatch(contractAction.queryContractList4key2(condition)),
-  queryContractList4key3: (condition) => dispatch(contractAction.queryContractList4key3(condition))
+  queryContractList4key3: (condition) => dispatch(contractAction.queryContractList4key3(condition)),
+  sendNotification: (condition) => dispatch(contractAction.sendNotification(condition)),
+  deleteContract: () => dispatch(contractAction.deleteContract())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContractList)
