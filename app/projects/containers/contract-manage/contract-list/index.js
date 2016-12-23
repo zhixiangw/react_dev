@@ -50,7 +50,10 @@ class ContractList extends Component {
   }
 
   tabChange(key) {
-    const { title, selectType } = this.state
+    const { title, selectType, activeTabKey } = this.state
+    if (+key === +activeTabKey) {
+      return
+    }
     let condition = {
       type: +key,
     }
@@ -89,7 +92,7 @@ class ContractList extends Component {
           pathname: '/contractManage/detail',
           query: {
             id,
-            type: 'edit'
+            handleType: 'edit'
           }
         }
         return (
@@ -147,7 +150,7 @@ class ContractList extends Component {
           pathname: '/contractManage/detail',
           query: {
             id,
-            type: 'edit'
+            handleType: 'edit'
           }
         }
         return (
@@ -195,7 +198,7 @@ class ContractList extends Component {
           pathname: '/contractManage/detail',
           query: {
             id,
-            type: 'edit'
+            handleType: 'edit'
           }
         }
         return (

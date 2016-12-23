@@ -12,6 +12,7 @@ export default function (getFieldDecorator) {
       rules: [{
         required: true,
         whitespace: true,
+        type: 'array',
         message: '请上传合同附件'
       }],
       valuePropName: 'fileList',
@@ -20,6 +21,12 @@ export default function (getFieldDecorator) {
           return e
         }
         return e && e.fileList
+      },
+      getValueFromEvent: (e) => {
+        if (!e || !e.fileList) {
+          return e
+        }
+        return e && e.fileList.slice(-1)
       }
     }),
 
@@ -27,7 +34,7 @@ export default function (getFieldDecorator) {
       rules: [{
         required: true,
         whitespace: true,
-        type: 'date',
+        type: 'object',
         message: '请选择借款时间'
       }]
     }),
@@ -45,6 +52,13 @@ export default function (getFieldDecorator) {
         required: true,
         whitespace: true,
         message: '请输入客户联系方式'
+      }, {
+        validator: (rule, value, callback) => {
+          if (value && !/^\d{11}$/.test(value)) {
+            callback('请输入正确的客户联系方式')
+          }
+          callback()
+        }
       }]
     }),
 
@@ -60,8 +74,22 @@ export default function (getFieldDecorator) {
       rules: [{
         required: true,
         whitespace: true,
+        type: 'array',
         message: '请选择营业执照副本扫描件'
-      }]
+      }],
+      valuePropName: 'fileList',
+      normalize: e => {
+        if (Array.isArray(e)) {
+          return e
+        }
+        return e && e.fileList
+      },
+      getValueFromEvent: (e) => {
+        if (!e || !e.fileList) {
+          return e
+        }
+        return e && e.fileList.slice(-1)
+      }
     }),
 
     loanAmount: () => getFieldDecorator('loanAmount', {
@@ -101,6 +129,13 @@ export default function (getFieldDecorator) {
         required: true,
         whitespace: true,
         message: '请输入所属诺亚信业务员联系方式'
+      }, {
+        validator: (rule, value, callback) => {
+          if (value && !/^\d{11}$/.test(value)) {
+            callback('请输入正确的所属诺亚信业务员联系方式')
+          }
+          callback()
+        }
       }]
     }),
 
@@ -117,6 +152,13 @@ export default function (getFieldDecorator) {
         required: true,
         whitespace: true,
         message: '请输入所属保险业务员联系方式'
+      }, {
+        validator: (rule, value, callback) => {
+          if (value && !/^\d{11}$/.test(value)) {
+            callback('请输入正确的所属保险业务员联系方式')
+          }
+          callback()
+        }
       }]
     })
   }

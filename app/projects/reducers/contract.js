@@ -214,10 +214,126 @@ const contractList4key3 = (state = Map({
   }
 }
 
+const contractDetail = (state = Map({
+  basicInfo: Map(),
+  carsInfo: Map(),
+  executiveInfo: Map()
+}), { type, constname, response }) => {
+  const dataObj = {
+    basicInfo: {
+      contractCode: '20161223',
+      contractAttachment: [{
+        url: 'http://10.0.60.44:4100/api/file/Dv9FqRllP76E47t9uhA2vPQCmjvw87Pv6uz+GatTT1lvSmuKIol0+QuGco/Fzo4p3zWCInFOckDyHJUWzYtUGQ==.pdf',
+        name: 'xxx.pdf',
+        uid: -1,
+      }],
+      loanDate: '2016-12-23',
+      customerName: '客户一',
+      customerMobile: '18866668888',
+      businessLicense: 'bs2016122365654255xxx',
+      businessLicensePic: [{
+        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+        name: 'xxx.png',
+        uid: -1
+      }],
+      loanAmount: '10000',
+      loanTerm: '11',
+      eachChargeTime: '2',
+      noainClerk: '诺亚信业务员1',
+      noainClerkMobile: '18866667777',
+      salesClerk: '保险业务员1',
+      salesClerkMobile: '18866669999'
+    },
+    carsInfo: {
+      policyNumber: 'av20161223',
+      policyAttachment: [{
+        url: 'http://10.0.60.44:4100/api/file/Dv9FqRllP76E47t9uhA2vPQCmjvw87Pv6uz+GatTT1lvSmuKIol0+QuGco/Fzo4p3zWCInFOckDyHJUWzYtUGQ==.pdf',
+        name: 'xxx.pdf',
+        uid: -1,
+      }],
+      commercialInsurancePremium: '5000',
+      otherAttachment: [{
+        url: 'http://10.0.60.44:4100/api/file/Dv9FqRllP76E47t9uhA2vPQCmjvw87Pv6uz+GatTT1lvSmuKIol0+QuGco/Fzo4p3zWCInFOckDyHJUWzYtUGQ==.pdf',
+        name: 'xxx.pdf',
+        uid: -1,
+      }],
+      carNumber: '沪A·888888',
+      carBrand: '法拉利',
+      carModel: '银色限量版',
+      carIdNumber: 'x11',
+      drivingLicense: '513226196901070415',
+      drivingLicenseAttachment: [{
+        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+        name: 'xxx.png',
+        uid: -1
+      }]
+    },
+    executiveInfo: {
+      feeStatus: '1',
+      initialPremium: '1',
+      contractStatus: '1',
+      contractEndReason: '1',
+      repaymentSchedule: '78',
+      surplusAmount: '6000',
+      repaymentRecord: [{
+        title: '第三期还款',
+        content: [{
+          time: '2016-12-25',
+          desc: '警告一次'
+        }, {
+          time: '2016-12-25',
+          desc: '已通知还款'
+        }]
+      }, {
+        title: '第二期还款',
+        content: [{
+          time: '2016-12-22',
+          desc: '已还款1000.00'
+        }, {
+          time: '2016-12-22',
+          desc: '警告一次'
+        }, {
+          time: '2016-12-21',
+          desc: '已通知还款'
+        }]
+      }, {
+        title: '第一期还款',
+        content: [{
+          time: '2016-12-12',
+          desc: '已还款2000.00'
+        }, {
+          time: '2016-12-11',
+          desc: '已通知还款'
+        }]
+      }, {
+        title: '放款',
+        content: [{
+          time: '2016-12-02',
+          desc: '已放款6000.00'
+        }, {
+          time: '2016-12-01',
+          desc: '已通知放款'
+        }]
+      }]
+    }
+  }
+  switch (type) {
+    case API_SUCCESS:
+      if (constname === contractAction.QUERY_CONTRACT_DETAIL) {
+        return state.merge({}, dataObj)
+      }
+      return state
+
+    default:
+      return state
+  }
+}
+
 const rootReducer = combineReducers({
   contractList4key1,
   contractList4key2,
-  contractList4key3
+  contractList4key3,
+  contractDetail
 })
 
 export default rootReducer
