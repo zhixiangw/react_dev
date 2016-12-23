@@ -271,7 +271,7 @@ const contractDetail = (state = Map({
     executiveInfo: {
       feeStatus: '1',
       initialPremium: '1',
-      contractStatus: '1',
+      contractStatus: '3',
       contractEndReason: '1',
       repaymentSchedule: '78',
       surplusAmount: '6000',

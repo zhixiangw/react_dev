@@ -15,20 +15,41 @@ class BasicInfo extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  componentWillMount() {
+    const { info, form: { setFieldsValue } } = this.props
+    setFieldsValue(info)
+  }
+
+  componentDidUpdate (prevProps) {
+    const { info, form: { setFieldsValue } } = this.props
+    if (info !== prevProps.info) {
+      setFieldsValue(info)
+    }
+  }
+
   handleSubmit () {
     const { form: { validateFields }, onSubmit } = this.props
     validateFields((errors, values) => {
-      if (!!errors) return
+      if (!!errors) {
+        return
+      }
       onSubmit(values)
     })
   }
 
-  handleUpload (e) {
-    console.info(e)
+  getTimelineItem (record) {
+    return record.map((item, index) => {
+      return (
+        <Timeline.Item key={index}>
+          { item.title ? <p className="time-line-title" >{item.title}</p> : null }
+          { item.content.map((list, cindex) => <p key={`p${cindex}`}>{`${list.time}  ${list.desc}`}</p>) }
+        </Timeline.Item>
+      )
+    })
   }
 
   render() {
-    const { form: { getFieldDecorator, getFieldValue } } = this.props
+    const { form: { getFieldDecorator, getFieldValue }, info, eachChargeTime } = this.props
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 16 },
@@ -105,9 +126,9 @@ class BasicInfo extends Component {
             </section>
             <section className="logic-status">
               <p className="logic-status-title" style={{ margin: 0 }}>还款完成度</p>
-              <p className="logic-status-content">{`剩余${6000.00}未结清`}</p>
+              <p className="logic-status-content">{`剩余${Number(info.surplusAmount).toFixed(2)}未结清`}</p>
               <div className="logic-progress">
-                <Progress type="circle" percent={65} />
+                <Progress type="circle" percent={+info.repaymentSchedule || 0} />
               </div>
             </section>
           </Col>
@@ -115,34 +136,11 @@ class BasicInfo extends Component {
           <Col span="14">
             <section className="logic-status">
               <p className="logic-status-title" style={{ margin: 0 }}>执行记录</p>
-              <p className="logic-status-content">每月10号发送扣款指令，并提前两天短信通知客户</p>
+              <p className="logic-status-content">{`每月${eachChargeTime}号发送扣款指令，并提前两天短信通知客户`}</p>
               <Row>
                 <Col span="20" offset="4">
                   <Timeline>
-                    <Timeline.Item>
-                      <p className="time-line-title">Create a services site 2015-09-01</p>
-                      <p>Create a services site 2015-09-01</p>
-                      <p>Create a services site 2015-09-01</p>
-                      <p>Create a services site 2015-09-01</p>
-                    </Timeline.Item>
-                    <Timeline.Item>
-                      <p className="time-line-title">Solve initial network problems 2015-09-01</p>
-                      <p>Solve initial network problems 2015-09-01</p>
-                      <p>Solve initial network problems 2015-09-01</p>
-                      <p>Solve initial network problems 2015-09-01</p>
-                    </Timeline.Item>
-                    <Timeline.Item>
-                      <p className="time-line-title">Technical testing 2015-09-01</p>
-                      <p>Technical testing 2015-09-01</p>
-                      <p>Technical testing 2015-09-01</p>
-                      <p>Technical testing 2015-09-01</p>
-                    </Timeline.Item>
-                    <Timeline.Item>
-                      <p className="time-line-title">Network problems being solved 2015-09-01</p>
-                      <p>Network problems being solved 2015-09-01</p>
-                      <p>Network problems being solved 2015-09-01</p>
-                      <p>Network problems being solved 2015-09-01</p>
-                    </Timeline.Item>
+                    {this.getTimelineItem(info.repaymentRecord)}
                   </Timeline>
                 </Col>
               </Row>
