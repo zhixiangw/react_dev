@@ -40,19 +40,16 @@ class CustomerManage extends Component {
   saveBasicInfo (values) {
     const { saveBasicInfoFunc } = this.props
     saveBasicInfoFunc(values)
-    console.info(values)
   }
 
   saveCarsInfo (values) {
     const { saveCarsInfoFunc } = this.props
     saveCarsInfoFunc(values)
-    console.info(values)
   }
 
   saveExecutiveInfo (values) {
     const { saveExecutiveInfoFunc } = this.props
     saveExecutiveInfoFunc(values)
-    console.info(values)
   }
 
   render() {

@@ -12,6 +12,7 @@ export default function (getFieldDecorator) {
       rules: [{
         required: true,
         whitespace: true,
+        type: 'array',
         message: '请上传保单附件'
       }],
       valuePropName: 'fileList',
@@ -20,6 +21,12 @@ export default function (getFieldDecorator) {
           return e
         }
         return e && e.fileList
+      },
+      getValueFromEvent: (e) => {
+        if (!e || !e.fileList) {
+          return e
+        }
+        return e && e.fileList.slice(-1)
       }
     }),
 
@@ -35,6 +42,7 @@ export default function (getFieldDecorator) {
       rules: [{
         required: true,
         whitespace: true,
+        type: 'array',
         message: '请上传其他文档'
       }],
       valuePropName: 'fileList',
@@ -43,6 +51,12 @@ export default function (getFieldDecorator) {
           return e
         }
         return e && e.fileList
+      },
+      getValueFromEvent: (e) => {
+        if (!e || !e.fileList) {
+          return e
+        }
+        return e && e.fileList.slice(-1)
       }
     }),
 
@@ -90,6 +104,7 @@ export default function (getFieldDecorator) {
       rules: [{
         required: true,
         whitespace: true,
+        type: 'array',
         message: '请上传驾驶证副本扫描件'
       }],
       valuePropName: 'fileList',
@@ -98,6 +113,12 @@ export default function (getFieldDecorator) {
           return e
         }
         return e && e.fileList
+      },
+      getValueFromEvent: (e) => {
+        if (!e || !e.fileList) {
+          return e
+        }
+        return e && e.fileList.slice(-1)
       }
     })
   }

@@ -19,6 +19,11 @@ class CarsInfo extends Component {
     this.handleBeforeUpload = this.handleBeforeUpload.bind(this)
   }
 
+  componentWillMount() {
+    const { info, form: { setFieldsValue } } = this.props
+    setFieldsValue(info)
+  }
+
   componentDidUpdate (prevProps) {
     const { info, form: { setFieldsValue } } = this.props
     if (info !== prevProps.info) {

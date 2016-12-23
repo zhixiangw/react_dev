@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Input, Form, Button, Upload, Icon, Row, Col } from 'antd'
+import { Input, Form, Button, Upload, Icon, Row, Col, message } from 'antd'
 const FormItem = Form.Item
 
 import validate from './validate'
@@ -12,19 +12,55 @@ class CarsInfo extends Component {
     super(props)
 
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleUpload = this.handleUpload.bind(this)
+    this.handleBeforeUpload = this.handleBeforeUpload.bind(this)
+  }
+
+  componentWillMount() {
+    const { info, form: { setFieldsValue } } = this.props
+    setFieldsValue(info)
+  }
+
+  componentDidUpdate (prevProps) {
+    const { info, form: { setFieldsValue } } = this.props
+    if (info !== prevProps.info) {
+      setFieldsValue(info)
+    }
+  }
+
+  normalize (arr) {
+    return arr.map(item => {
+      return {
+        name: item.name,
+        url: item.response && item.response.url || 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+        uid: item.uid
+      }
+    })
   }
 
   handleSubmit () {
     const { form: { validateFields }, onSubmit } = this.props
     validateFields((errors, values) => {
-      if (!!errors) return
+      if (!!errors) {
+        return
+      }
+      values.policyAttachment = this.normalize(values.policyAttachment)
+      values.otherAttachment = this.normalize(values.otherAttachment)
       onSubmit(values)
     })
   }
 
-  handleUpload (e) {
-    console.info(e)
+  handleBeforeUpload(type, file) {
+    const isPDF = file.type === 'application/pdf'
+    if (type !== 'all' && !isPDF) {
+      message.error('必须上传PDF格式的文件')
+      return false
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      message.error('文件大小必须小于2M')
+      return false
+    }
+    return true
   }
 
   render() {
@@ -53,10 +89,10 @@ class CarsInfo extends Component {
             hasFeedback >
             {fieldValidate.policyAttachment()(
               <Upload
-                action="/upload.do"
+                action="//jsonplaceholder.typicode.com/posts/"
                 name="policyAttachment"
                 accept=".pdf"
-                onChange={this.handleUpload} >
+                beforeUpload={this.handleBeforeUpload.bind(this, 'application/pdf')} >
               <Button type="ghost">
                 <Icon type="upload" /> 点击上传保单附件
               </Button>
@@ -77,10 +113,10 @@ class CarsInfo extends Component {
             hasFeedback >
             {fieldValidate.otherAttachment()(
               <Upload
-                action="/upload.do"
+                action="//jsonplaceholder.typicode.com/posts/"
                 name="contractAttachment"
                 accept=".pdf"
-                onChange={this.handleUpload} >
+                beforeUpload={this.handleBeforeUpload.bind(this, 'application/pdf')} >
               <Button type="ghost">
                 <Icon type="upload" /> 点击上传其他文档
               </Button>
@@ -137,7 +173,7 @@ class CarsInfo extends Component {
             hasFeedback >
             {fieldValidate.drivingLicenseAttachment()(
               <Upload
-                action="/upload.do"
+                action="//jsonplaceholder.typicode.com/posts/"
                 name="businessLicensePic"
                 accept=".jpg,.png,.jpeg,.bmp,.gif"
                 onChange={this.handleUpload} >
