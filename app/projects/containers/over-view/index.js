@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
 moment.locale('zh-cn')
-import { Table, Row, Col, DatePicker } from 'antd'
+import { Table, Row, Col, DatePicker, message } from 'antd'
 const RangePicker = DatePicker.RangePicker
 
 import { overView as overViewAction } from '../../actions'
@@ -44,7 +44,12 @@ class OverView extends Component {
 
   search (condition) {
     const { queryOverViewList } = this.props
-    queryOverViewList(condition)
+    const hide = message.loading('', 0)
+    queryOverViewList(condition).then(() => {
+      setTimeout(hide, 0)
+    }, () => {
+      setTimeout(hide, 0)
+    })
   }
 
   disabledDate(current) {

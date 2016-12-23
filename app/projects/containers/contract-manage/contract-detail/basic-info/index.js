@@ -20,7 +20,8 @@ class CarsInfo extends Component {
   }
 
   componentWillMount() {
-    const { info, form: { setFieldsValue } } = this.props
+    const { info, form: { setFieldsValue }, handleType } = this.props
+    info.loanDate = info.loanDate && moment(info.loanDate) || null
     setFieldsValue(info)
   }
 

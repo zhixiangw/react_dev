@@ -18,8 +18,8 @@ class SystemSetting extends Component {
 
   componentWillMount() {
     const { querySystemSetting, systemSettingInfo, form: { setFieldsValue } } = this.props
-
-    querySystemSetting().then(() => setFieldsValue(systemSettingInfo.toJS()))
+    const hide = message.loading('', 0)
+    querySystemSetting().then(() => setTimeout(hide, 0), () => setTimeout(hide, 0))
   }
 
   componentDidUpdate (prevProps) {

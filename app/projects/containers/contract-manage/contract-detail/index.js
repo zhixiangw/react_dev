@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Tabs } from 'antd'
+import { Tabs, message } from 'antd'
 const TabPane = Tabs.TabPane
 
 import { contract as contractAction } from '../../../actions'
@@ -26,7 +26,12 @@ class CustomerManage extends Component {
   componentWillMount() {
     const { location: { query: { handleType, id } }, queryContractDetail } = this.props
     if (id && handleType === 'edit') {
-      queryContractDetail(id)
+      const hide = message.loading('', 0)
+      queryContractDetail(id).then(() => {
+        setTimeout(hide, 0)
+      }, () => {
+        setTimeout(hide, 0)
+      })
     }
   }
 
@@ -39,17 +44,32 @@ class CustomerManage extends Component {
 
   saveBasicInfo (values) {
     const { saveBasicInfoFunc } = this.props
-    saveBasicInfoFunc(values)
+    const hide = message.loading('', 0)
+    saveBasicInfoFunc(values).then(() => {
+      setTimeout(hide, 0)
+    }, () => {
+      setTimeout(hide, 0)
+    })
   }
 
   saveCarsInfo (values) {
     const { saveCarsInfoFunc } = this.props
-    saveCarsInfoFunc(values)
+    const hide = message.loading('', 0)
+    saveCarsInfoFunc(values).then(() => {
+      setTimeout(hide, 0)
+    }, () => {
+      setTimeout(hide, 0)
+    })
   }
 
   saveExecutiveInfo (values) {
     const { saveExecutiveInfoFunc } = this.props
-    saveExecutiveInfoFunc(values)
+    const hide = message.loading('', 0)
+    saveExecutiveInfoFunc(values).then(() => {
+      setTimeout(hide, 0)
+    }, () => {
+      setTimeout(hide, 0)
+    })
   }
 
   render() {
@@ -62,20 +82,20 @@ class CustomerManage extends Component {
           onChange={this.tabChange} >
           <TabPane tab="基础信息" key="1">
             <BasicInfo
-              info={contractDetail.get('basicInfo').toJS()}
+              info={handleType !== 'create' && contractDetail.get('basicInfo').toJS() || {}}
               handleType={handleType}
               onSubmit={this.saveBasicInfo} />
           </TabPane>
           <TabPane tab="车辆信息" key="2">
             <CarsInfo
-              info={contractDetail.get('carsInfo').toJS()}
+              info={handleType !== 'create' && contractDetail.get('carsInfo').toJS() || {}}
               handleType={handleType}
               onSubmit={this.saveCarsInfo} />
           </TabPane>
           <TabPane tab="执行情况" key="3">
             <ExecutiveInfo
-              info={contractDetail.get('executiveInfo').toJS()}
-              eachChargeTime={contractDetail.getIn(['basicInfo', 'eachChargeTime'])}
+              info={handleType !== 'create' && contractDetail.get('executiveInfo').toJS() || {}}
+              eachChargeTime={handleType !== 'create' && contractDetail.getIn(['basicInfo', 'eachChargeTime']) || null}
               onSubmit={this.saveExecutiveInfo} />
           </TabPane>
         </Tabs>
