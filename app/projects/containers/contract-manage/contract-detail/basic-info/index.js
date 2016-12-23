@@ -27,7 +27,7 @@ class CarsInfo extends Component {
   componentDidUpdate (prevProps) {
     const { info, form: { setFieldsValue } } = this.props
     if (info !== prevProps.info) {
-      info.loanDate = moment(info.loanDate)
+      info.loanDate = info.loanDate && moment(info.loanDate) || null
       setFieldsValue(info)
     }
   }
@@ -79,7 +79,7 @@ class CarsInfo extends Component {
   }
 
   render() {
-    const { form: { getFieldDecorator } } = this.props
+    const { form: { getFieldDecorator }, handleType } = this.props
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 10 },
@@ -238,7 +238,7 @@ class CarsInfo extends Component {
 
           <FormItem>
             <p style={{ textAlign: 'center' }}>
-              <Button type="primary" onClick={this.handleSubmit}>保存</Button>
+              <Button type="primary" onClick={this.handleSubmit}>{ handleType === 'create' && '下一步' || '保存' }</Button>
             </p>
           </FormItem>
         </Form>

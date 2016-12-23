@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { Tabs, Table, Row, Col, notification, Popover, Select, Input, message } from 'antd'
+import { Tabs, Table, Row, Col, notification, Popover, Select, Input, message, Button } from 'antd'
 const TabPane = Tabs.TabPane
 const Search = Input.Search
 const Option = Select.Option
@@ -375,6 +375,21 @@ class ContractList extends Component {
     )
   }
 
+  createContractButton () {
+    const { loginInfo } = this.props
+    const type = loginInfo.get('type')
+    if (type === 'admin') {
+      const option = {
+        pathname: '/contractManage/detail',
+        query: {
+          handleType: 'create'
+        }
+      }
+      return <Link to={option}><Button type="primary">新建合同</Button></Link>
+    }
+    return null
+  }
+
   render() {
     const { activeTabKey, isShow, isModalShow, currentName, type } = this.state
     const { list4key1, list4key2, list4key3 } = this.props
@@ -383,7 +398,7 @@ class ContractList extends Component {
         <Tabs
           defaultActiveKey={ activeTabKey }
           onChange={this.tabChange}
-          tabBarExtraContent={activeTabKey !== '1' && this.operations() || null}>
+          tabBarExtraContent={activeTabKey !== '1' && this.operations() || this.createContractButton()}>
           <TabPane tab="签约中" key="1">
             <div className="tabel-box">
               <Table

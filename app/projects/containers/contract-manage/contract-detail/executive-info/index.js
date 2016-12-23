@@ -38,14 +38,14 @@ class BasicInfo extends Component {
   }
 
   getTimelineItem (record) {
-    return record.map((item, index) => {
+    return record && record.map((item, index) => {
       return (
         <Timeline.Item key={index}>
           { item.title ? <p className="time-line-title" >{item.title}</p> : null }
           { item.content.map((list, cindex) => <p key={`p${cindex}`}>{`${list.time}  ${list.desc}`}</p>) }
         </Timeline.Item>
       )
-    })
+    }) || []
   }
 
   render() {
@@ -126,7 +126,7 @@ class BasicInfo extends Component {
             </section>
             <section className="logic-status">
               <p className="logic-status-title" style={{ margin: 0 }}>还款完成度</p>
-              <p className="logic-status-content">{`剩余${Number(info.surplusAmount).toFixed(2)}未结清`}</p>
+              <p className="logic-status-content">{info.surplusAmount ? `剩余${Number(info.surplusAmount).toFixed(2)}未结清` : null}</p>
               <div className="logic-progress">
                 <Progress type="circle" percent={+info.repaymentSchedule || 0} />
               </div>
@@ -136,7 +136,7 @@ class BasicInfo extends Component {
           <Col span="14">
             <section className="logic-status">
               <p className="logic-status-title" style={{ margin: 0 }}>执行记录</p>
-              <p className="logic-status-content">{`每月${eachChargeTime}号发送扣款指令，并提前两天短信通知客户`}</p>
+              <p className="logic-status-content">{eachChargeTime && `每月${eachChargeTime}号发送扣款指令，并提前两天短信通知客户` || null}</p>
               <Row>
                 <Col span="20" offset="4">
                   <Timeline>

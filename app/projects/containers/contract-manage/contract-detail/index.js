@@ -54,7 +54,7 @@ class CustomerManage extends Component {
 
   render() {
     const { activeTabKey } = this.state
-    const { contractDetail } = this.props
+    const { contractDetail, location: { query: { handleType } } } = this.props
     return (
       <div className="customer-manage">
         <Tabs
@@ -63,11 +63,13 @@ class CustomerManage extends Component {
           <TabPane tab="基础信息" key="1">
             <BasicInfo
               info={contractDetail.get('basicInfo').toJS()}
+              handleType={handleType}
               onSubmit={this.saveBasicInfo} />
           </TabPane>
           <TabPane tab="车辆信息" key="2">
             <CarsInfo
               info={contractDetail.get('carsInfo').toJS()}
+              handleType={handleType}
               onSubmit={this.saveCarsInfo} />
           </TabPane>
           <TabPane tab="执行情况" key="3">
@@ -83,7 +85,8 @@ class CustomerManage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  contractDetail: state.contract.contractDetail
+  contractDetail: state.contract.contractDetail,
+  loginInfo: state.login.loginInfo
 })
 const mapDispatchToProps = (dispatch) => ({
   queryContractDetail: (id) => dispatch(contractAction.queryContractDetail(id)),
