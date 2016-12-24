@@ -5,6 +5,7 @@ import system from './system'
 import login from './login'
 import overView from './over-view'
 import contract from './contract'
+import user from './user'
 import test from './test'
 
 export default combineReducers({
@@ -13,5 +14,6 @@ export default combineReducers({
   login,
   overView,
   contract,
+  user,
   test
 })
