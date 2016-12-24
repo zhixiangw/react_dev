@@ -25,15 +25,17 @@ export default class Nav extends Component {
     const defaultOpenKeys = ['sub1']
     let selectedKeys
     const menuArr = [
-      '/overView',
-      '/contractManage',
-      '/customerManage',
-      '/systemSetting'
+      'overView',
+      'contractManage',
+      'customerManage',
+      'systemSetting'
     ]
-    const getModulePath = pathname.replace('/detail', '')
-    if (menuArr.indexOf(getModulePath) !== -1) {
-      selectedKeys = [getModulePath.replace('/', '')]
-    }
+    menuArr.forEach(item => {
+      if (pathname.indexOf(item) !== -1){
+        selectedKeys = [item]
+      }
+      return
+    })
     return {
       defaultOpenKeys,
       selectedKeys
@@ -42,6 +44,7 @@ export default class Nav extends Component {
 
   render () {
     const { defaultOpenKeys, selectedKeys } = this.state
+    const { type } = this.props
 
     return (
       <Menu theme="dark"
@@ -55,10 +58,12 @@ export default class Nav extends Component {
           <MenuItem key="contractManage" >
             <Link to="/contractManage">合同列表</Link>
           </MenuItem>
-          <MenuItem key="customerManage" >
+          <MenuItem key="customerManage"
+            disabled={type !== 'admin'} >
             <Link to="/customerManage">用户管理</Link>
           </MenuItem>
-          <MenuItem key="systemSetting" >
+          <MenuItem key="systemSetting"
+            disabled={type !== 'admin'} >
             <Link to="/systemSetting">系统设置</Link>
           </MenuItem>
         </SubMenu>

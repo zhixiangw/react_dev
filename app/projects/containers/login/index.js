@@ -18,6 +18,12 @@ class Login extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  componentWillMount() {
+    if (window.localStorage.getItem('hasLogin')) {
+      this.props.dispatch(replace('/overView'))
+    }
+  }
+
   handleSubmit () {
     const { form: { validateFields }, dispatch } = this.props
     validateFields((errors, values) => {

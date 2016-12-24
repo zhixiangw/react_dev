@@ -14,17 +14,17 @@ export default function (history) {
     <Router history={history}>
       <Route path="/" component={Login} />
       <Route path="/overView" component={PageContainer}>
-          <IndexRoute component={OverView} />
+        <IndexRoute component={OverView} />
       </Route>
       <Route path="/contractManage" component={PageContainer}>
-          <IndexRoute component={ContractList} />
-          <Route path="detail" component={ContractDetail} />
+        <IndexRoute component={ContractList} />
+        <Route path="detail" component={ContractDetail} />
       </Route>
       <Route path="/customerManage" component={PageContainer}>
-          <IndexRoute component={UserList} />
+        <IndexRoute component={UserList} />
       </Route>
       <Route path="/systemSetting" component={PageContainer}>
-          <IndexRoute component={SystemSetting} />
+        <IndexRoute component={SystemSetting} />
       </Route>
     </Router>
   )
