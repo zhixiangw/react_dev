@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { replace } from 'react-router-redux'
 import { Col, Row, message, Icon, Popover } from 'antd'
 
-import { system as systemAction } from '../../projects/actions'
+import { system as systemAction, login as loginAction } from '../../projects/actions'
 import NavMenu from '../nav-menu'
 import UserInfo from '../user-info'
 
@@ -19,8 +19,15 @@ class PageContainer extends Component {
     }
     this.clickLogout = this.clickLogout.bind(this)
     this.toggleShow = this.toggleShow.bind(this)
-    this.modifyPassword = this.modifyPassword.bind(this)
+    this.modifyPasswordFunc = this.modifyPasswordFunc.bind(this)
     this.handleVisibleChange = this.handleVisibleChange.bind(this)
+  }
+
+  componentWillMount() {
+    const { logout, loginInfo } = this.props
+    if (!loginInfo.get('hasLogin')) {
+      logout()
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -56,9 +63,12 @@ class PageContainer extends Component {
     this.setState({ isShow: !this.state.isShow, isPopShow: false })
   }
 
-  modifyPassword (params) {
-    console.info(params)
-    this.toggleShow()
+  modifyPasswordFunc (params) {
+    const { modifyPassWord, logout } = this.props
+    modifyPassWord(params).then(() => {
+      this.toggleShow()
+      logout()
+    })
   }
 
   getContent () {
@@ -76,6 +86,8 @@ class PageContainer extends Component {
 
   render () {
     const { isShow, isPopShow } = this.state
+    const { loginInfo } = this.props
+    const password = loginInfo.get('password')
     return (
       <div className="contain">
         <Row className="top-nav">
@@ -98,7 +110,7 @@ class PageContainer extends Component {
         </Row>
         <Row type="flex" className="layout">
           <Col span="4" className="side-nav">
-            <NavMenu location={this.props.location} />
+            <NavMenu location={this.props.location} type={loginInfo.get('type')}/>
           </Col>
 
           <Col span="20" className="content">
@@ -109,7 +121,8 @@ class PageContainer extends Component {
         <UserInfo
           isShow={isShow}
           cancel={this.toggleShow}
-          confirm={this.modifyPassword} />
+          password={password}
+          confirm={this.modifyPasswordFunc} />
       </div>
     )
   }
@@ -117,12 +130,14 @@ class PageContainer extends Component {
 
 const mapStateToProps = state => ({
   location: state.routing.locationBeforeTransitions,
-  systemMsg: state.system.systemMsg
+  systemMsg: state.system.systemMsg,
+  loginInfo: state.login.loginInfo
 })
 
 const mapDispatchToProps = dispatch => ({
   cleanMsg: () => dispatch(systemAction.clean()),
-  logout: () => dispatch(replace('/'))
+  modifyPassWord: (condition) => dispatch(loginAction.modifyPassword(condition)),
+  logout: () => dispatch(loginAction.logout()).then(() => dispatch(replace('/')))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageContainer)

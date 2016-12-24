@@ -44,7 +44,7 @@ class UserInfo extends Component {
 
 
   render () {
-    const { isShow, cancel, form: { getFieldDecorator } } = this.props
+    const { isShow, cancel, form: { getFieldDecorator }, password } = this.props
     const { isShowPasswordInput } = this.state
     const formItemLayout = {
       labelCol: { span: 8 },
@@ -74,7 +74,7 @@ class UserInfo extends Component {
                   {...formItemLayout}
                   label="修改前密码"
                   hasFeedback >
-                  {fieldValidate.oldPassword()(<Input type="password" />)}
+                  {fieldValidate.oldPassword(password)(<Input type="password" />)}
                 </FormItem>
 
                 <FormItem

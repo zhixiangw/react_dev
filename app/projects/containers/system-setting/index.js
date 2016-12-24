@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Input, Form, Button, Row, Col, Upload, Icon } from 'antd'
+import { Input, Form, Button, Row, Col, Upload, Icon, message } from 'antd'
 const FormItem = Form.Item
 
-import { test as testAction } from '../../actions'
+import { system as systemAction } from '../../actions'
 
 import validate from './validate'
 import './index.less'
@@ -16,11 +16,42 @@ class SystemSetting extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  componentWillMount() {
+    const { querySystemSetting, systemSettingInfo, form: { setFieldsValue } } = this.props
+    const hide = message.loading('', 0)
+    querySystemSetting().then(() => setTimeout(hide, 0), () => setTimeout(hide, 0))
+  }
+
+  componentDidUpdate (prevProps) {
+    const { systemSettingInfo, form: { setFieldsValue } } = this.props
+    if (systemSettingInfo !== prevProps.systemSettingInfo) {
+      setFieldsValue(systemSettingInfo.toJS())
+    }
+  }
+
+  normalize (arr) {
+    return arr.map(item => {
+      return {
+        name: item.name,
+        url: item.response && item.response.url || 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+        uid: item.uid
+      }
+    })
+  }
+
   handleSubmit () {
-    const { form: { validateFields } } = this.props
+    const { form: { validateFields }, submitSystemSetting } = this.props
     validateFields((errors, values) => {
-      if (!!errors) return
-      console.info(values)
+      if (!!errors) {
+        return
+      }
+      values.contractTemplate = this.normalize(values.contractTemplate)
+      const hide = message.loading('', 0)
+      submitSystemSetting(values).then(() => {
+        setTimeout(hide, 0)
+      }, () => {
+        setTimeout(hide, 0)
+      })
     })
   }
 
@@ -36,7 +67,7 @@ class SystemSetting extends Component {
             </Col>
             <Col span="2">
               <FormItem>
-                {fieldValidate.preNotice()(<Input />)}
+                {fieldValidate.eachChargeTime()(<Input />)}
               </FormItem>
             </Col>
             <Col span="3">
@@ -63,7 +94,7 @@ class SystemSetting extends Component {
               <FormItem>
                 {fieldValidate.contractTemplate()(
                   <Upload
-                    action="/upload.do"
+                    action="//jsonplaceholder.typicode.com/posts/"
                     name="contractTemplate"
                     accept=".pdf"
                     onChange={this.handleUpload} >
@@ -90,10 +121,11 @@ class SystemSetting extends Component {
 SystemSetting = Form.create()(SystemSetting)
 
 const mapStateToProps = (state) => ({
-  list: state.test.testFetch
+  systemSettingInfo: state.system.systemSettingInfo
 })
 const mapDispatchToProps = (dispatch) => ({
-  sendAsyncAction: (condition) => dispatch(testAction.testFetch(condition))
+  querySystemSetting: () => dispatch(systemAction.querySystemSetting()),
+  submitSystemSetting: (condition) => dispatch(systemAction.submitSystemSetting(condition))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SystemSetting)

@@ -1,12 +1,13 @@
 export default function (getFieldDecorator) {
   return {
-    preNotice: () => getFieldDecorator('preNotice'),
+    eachChargeTime: () => getFieldDecorator('eachChargeTime'),
 
     expWarning: () => getFieldDecorator('expWarning'),
 
     contractTemplate: () => getFieldDecorator('contractTemplate', {
       rules: [{
         whitespace: true,
+        type: 'array',
         message: '请上传合同附件'
       }],
       valuePropName: 'fileList',
@@ -15,6 +16,12 @@ export default function (getFieldDecorator) {
           return e
         }
         return e && e.fileList
+      },
+      getValueFromEvent: (e) => {
+        if (!e || !e.fileList) {
+          return e
+        }
+        return e && e.fileList.slice(-1)
       }
     })
   }

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Tabs } from 'antd'
+import { Tabs, message } from 'antd'
 const TabPane = Tabs.TabPane
 
-import { test as testAction } from '../../../actions'
+import { contract as contractAction } from '../../../actions'
 
 import './index.less'
 import BasicInfo from './basic-info'
@@ -23,24 +23,58 @@ class CustomerManage extends Component {
     this.saveExecutiveInfo = this.saveExecutiveInfo.bind(this)
   }
 
+  componentWillMount() {
+    const { location: { query: { handleType, id } }, queryContractDetail } = this.props
+    if (id && handleType === 'edit') {
+      const hide = message.loading('', 0)
+      queryContractDetail(id).then(() => {
+        setTimeout(hide, 0)
+      }, () => {
+        setTimeout(hide, 0)
+      })
+    }
+  }
+
   tabChange (key) {
+    if (+key === +this.state.activeTabKey) {
+      return
+    }
     this.setState({ activeTabKey: key })
   }
 
   saveBasicInfo (values) {
-    console.info(values)
+    const { saveBasicInfoFunc } = this.props
+    const hide = message.loading('', 0)
+    saveBasicInfoFunc(values).then(() => {
+      setTimeout(hide, 0)
+    }, () => {
+      setTimeout(hide, 0)
+    })
   }
 
   saveCarsInfo (values) {
-    console.info(values)
+    const { saveCarsInfoFunc } = this.props
+    const hide = message.loading('', 0)
+    saveCarsInfoFunc(values).then(() => {
+      setTimeout(hide, 0)
+    }, () => {
+      setTimeout(hide, 0)
+    })
   }
 
   saveExecutiveInfo (values) {
-    console.info(values)
+    const { saveExecutiveInfoFunc } = this.props
+    const hide = message.loading('', 0)
+    saveExecutiveInfoFunc(values).then(() => {
+      setTimeout(hide, 0)
+    }, () => {
+      setTimeout(hide, 0)
+    })
   }
 
   render() {
     const { activeTabKey } = this.state
+    const { contractDetail, location: { query: { handleType } } } = this.props
     return (
       <div className="customer-manage">
         <Tabs
@@ -48,14 +82,20 @@ class CustomerManage extends Component {
           onChange={this.tabChange} >
           <TabPane tab="基础信息" key="1">
             <BasicInfo
+              info={handleType !== 'create' && contractDetail.get('basicInfo').toJS() || {}}
+              handleType={handleType}
               onSubmit={this.saveBasicInfo} />
           </TabPane>
           <TabPane tab="车辆信息" key="2">
             <CarsInfo
+              info={handleType !== 'create' && contractDetail.get('carsInfo').toJS() || {}}
+              handleType={handleType}
               onSubmit={this.saveCarsInfo} />
           </TabPane>
           <TabPane tab="执行情况" key="3">
             <ExecutiveInfo
+              info={handleType !== 'create' && contractDetail.get('executiveInfo').toJS() || {}}
+              eachChargeTime={handleType !== 'create' && contractDetail.getIn(['basicInfo', 'eachChargeTime']) || null}
               onSubmit={this.saveExecutiveInfo} />
           </TabPane>
         </Tabs>
@@ -65,10 +105,14 @@ class CustomerManage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  list: state.test.testFetch
+  contractDetail: state.contract.contractDetail,
+  loginInfo: state.login.loginInfo
 })
 const mapDispatchToProps = (dispatch) => ({
-  sendAsyncAction: () => dispatch(testAction.testFetch())
+  queryContractDetail: (id) => dispatch(contractAction.queryContractDetail(id)),
+  saveBasicInfoFunc: (condition) => dispatch(contractAction.saveBasicInfo(condition)),
+  saveCarsInfoFunc: (condition) => dispatch(contractAction.saveCarsInfo(condition)),
+  saveExecutiveInfoFunc: (condition) => dispatch(contractAction.saveExecutiveInfo(condition))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomerManage)

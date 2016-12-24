@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
-import { Input, Form, Select, Button, Upload, Icon, DatePicker, Alert, Row, Col } from 'antd'
+import moment from 'moment'
+import 'moment/locale/zh-cn'
+moment.locale('zh-cn')
+import { Input, Form, Select, Button, Upload, Icon, DatePicker, Alert, Row, Col, message } from 'antd'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -14,19 +16,57 @@ class CarsInfo extends Component {
     super(props)
 
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleUpload = this.handleUpload.bind(this)
+    this.handleBeforeUpload = this.handleBeforeUpload.bind(this)
+  }
+
+  componentWillMount() {
+    const { info, form: { setFieldsValue }, handleType } = this.props
+    info.loanDate = info.loanDate && moment(info.loanDate) || null
+    setFieldsValue(info)
+  }
+
+  componentDidUpdate (prevProps) {
+    const { info, form: { setFieldsValue } } = this.props
+    if (info !== prevProps.info) {
+      info.loanDate = info.loanDate && moment(info.loanDate) || null
+      setFieldsValue(info)
+    }
+  }
+
+  normalize (arr) {
+    return arr.map(item => {
+      return {
+        name: item.name,
+        url: item.response && item.response.url || 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+        uid: item.uid
+      }
+    })
   }
 
   handleSubmit () {
     const { form: { validateFields }, onSubmit } = this.props
     validateFields((errors, values) => {
-      if (!!errors) return
+      if (!!errors) {
+        return
+      }
+      values.contractAttachment = this.normalize(values.contractAttachment)
+      values.businessLicensePic = this.normalize(values.businessLicensePic)
       onSubmit(values)
     })
   }
 
-  handleUpload (e) {
-    console.info(e)
+  handleBeforeUpload(type, file) {
+    const isPDF = file.type === 'application/pdf'
+    if (type !== 'all' && !isPDF) {
+      message.error('必须上传PDF格式的文件')
+      return false
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      message.error('文件大小必须小于2M')
+      return false
+    }
+    return true
   }
 
   disabledDate (current) {
@@ -40,7 +80,7 @@ class CarsInfo extends Component {
   }
 
   render() {
-    const { form: { getFieldDecorator } } = this.props
+    const { form: { getFieldDecorator }, handleType } = this.props
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 10 },
@@ -66,13 +106,13 @@ class CarsInfo extends Component {
             hasFeedback >
             {fieldValidate.contractAttachment()(
               <Upload
-                action="/upload.do"
+                action="//jsonplaceholder.typicode.com/posts/"
                 name="contractAttachment"
                 accept=".pdf"
-                onChange={this.handleUpload} >
-              <Button type="ghost">
-                <Icon type="upload" /> 点击上传合同附件
-              </Button>
+                beforeUpload={this.handleBeforeUpload.bind(this, 'application/pdf')} >
+                <Button type="ghost">
+                  <Icon type="upload" /> 点击上传合同附件
+                </Button>
               </Upload>
             )}
           </FormItem>
@@ -119,13 +159,13 @@ class CarsInfo extends Component {
             hasFeedback >
             {fieldValidate.businessLicensePic()(
               <Upload
-                action="/upload.do"
+                action="//jsonplaceholder.typicode.com/posts/"
                 name="businessLicensePic"
                 accept=".jpg,.png,.jpeg,.bmp,.gif"
-                onChange={this.handleUpload} >
-              <Button type="ghost">
-                <Icon type="upload" /> 点击上传营业执照副本扫描件
-              </Button>
+                beforeUpload={this.handleBeforeUpload.bind(this, 'all')} >
+                <Button type="ghost">
+                  <Icon type="upload" /> 点击上传营业执照副本扫描件
+                </Button>
               </Upload>
             )}
           </FormItem>
@@ -199,7 +239,7 @@ class CarsInfo extends Component {
 
           <FormItem>
             <p style={{ textAlign: 'center' }}>
-              <Button type="primary" onClick={this.handleSubmit}>保存</Button>
+              <Button type="primary" onClick={this.handleSubmit}>{ handleType === 'create' && '下一步' || '保存' }</Button>
             </p>
           </FormItem>
         </Form>
@@ -208,9 +248,7 @@ class CarsInfo extends Component {
   }
 }
 
-CarsInfo = Form.create()(CarsInfo)
-const mapStateToProps = (state) => ({
-  list: state.test.testFetch
-})
 
-export default connect(mapStateToProps)(CarsInfo)
+CarsInfo = Form.create()(CarsInfo)
+
+export default connect()(CarsInfo)

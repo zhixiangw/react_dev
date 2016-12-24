@@ -6,10 +6,6 @@ import './index.less'
 class Attachment extends Component {
   render () {
     const { isShow, cancel, title } = this.props
-    const formItemLayout = {
-      labelCol: { span: 8 },
-      wrapperCol: { span: 10 },
-    }
 
     return (
         <Modal
@@ -21,31 +17,31 @@ class Attachment extends Component {
             <Row>
               <Col span="8">营业执照：</Col>
               <Col span="14">
-                <a href="https://www.baidu.com">下载</a>
+                <a href="https://www.baidu.com" target="_blank">下载</a>
               </Col>
             </Row>
             <Row>
               <Col span="8">行驶证附件：</Col>
               <Col span="14">
-                <a href="https://www.baidu.com">下载</a>
+                <a href="https://www.baidu.com" target="_blank">下载</a>
               </Col>
             </Row>
             <Row>
               <Col span="8">合同附件：</Col>
               <Col span="14">
-                <a href="https://www.baidu.com">下载</a>
+                <a href="https://www.baidu.com" target="_blank">下载</a>
               </Col>
             </Row>
             <Row>
               <Col span="8">保单附件：</Col>
               <Col span="14">
-                <a href="https://www.baidu.com">下载</a>
+                <a href="https://www.baidu.com" target="_blank">下载</a>
               </Col>
             </Row>
             <Row>
               <Col span="8">其他附件：</Col>
               <Col span="14">
-                <a href="https://www.baidu.com">下载</a>
+                <a href="https://www.baidu.com" target="_blank">下载</a>
               </Col>
             </Row>
           </div>

@@ -1,15 +1,11 @@
 import React, { Component } from 'react'
-import { Col, Row, Modal } from 'antd'
+import { Modal } from 'antd'
 
 import './index.less'
 
 class ConfirmModal extends Component {
   render () {
     const { isShow, cancel, title, confirm, children } = this.props
-    const formItemLayout = {
-      labelCol: { span: 8 },
-      wrapperCol: { span: 10 },
-    }
 
     return (
         <Modal

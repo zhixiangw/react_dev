@@ -8,3 +8,7 @@
 3、npm run dev
 
 4、打开浏览器，键入localhost:8080
+
+5、新增权限控制的字段，用户登录的时候，分三种不同的权限，拥有不同的页面展示。
+
+reducer文件夹中的login.js，自定义登录角色 admin = 管理员， salesman = 业务员， verify = 审核员

@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
 moment.locale('zh-cn')
-import { Table, Row, Col, DatePicker } from 'antd'
+import { Table, Row, Col, DatePicker, message } from 'antd'
 const RangePicker = DatePicker.RangePicker
 
-import { test as testAction } from '../../actions'
+import { overView as overViewAction } from '../../actions'
 import Chart from './chart'
 import './index.less'
 
@@ -26,31 +26,30 @@ class OverView extends Component {
   }
 
   componentWillMount() {
+    const { queryOverView } = this.props
     const condition = {
       startDate: moment().format('YYYY-MM-DD'),
       endDate: moment().subtract(7, 'days').format('YYYY-MM-DD'),
-      type: this.state.activeId
     }
     this.search(condition)
+    queryOverView()
   }
 
   toggleActive (activeId) {
-    const { startDate, endDate } = this.state
-    if (this.state.activeId === activeId) return
-    this.setState({ activeId }, () => {
-      const condition = {
-        startDate,
-        endDate,
-        type: activeId
-      }
-      this.search(condition)
-    })
+    if (this.state.activeId === activeId) {
+      return
+    }
+    this.setState({ activeId })
   }
 
   search (condition) {
-    const { sendAsyncAction } = this.props
-    console.info(condition)
-    sendAsyncAction(condition)
+    const { queryOverViewList } = this.props
+    const hide = message.loading('', 0)
+    queryOverViewList(condition).then(() => {
+      setTimeout(hide, 0)
+    }, () => {
+      setTimeout(hide, 0)
+    })
   }
 
   disabledDate(current) {
@@ -74,41 +73,54 @@ class OverView extends Component {
   getColumns () {
     return [{
       title: '日期',
-      dataIndex: 'index'
+      dataIndex: 'date'
     }, {
       title: '新增合同',
-      dataIndex: 'title'
+      dataIndex: 'newContract'
     }, {
       title: '放款合同数',
-      dataIndex: 'author'
+      dataIndex: 'loanContract'
     }, {
       title: '放款金额',
-      dataIndex: 'lastReplyTime'
+      dataIndex: 'loanAmount'
     }, {
       title: '欠缴合同数',
-      dataIndex: 'handle'
+      dataIndex: 'unpaidContract'
     }]
   }
 
   parseData (list) {
-    return list.map((item, index) => ({
-      index,
-      title: item.title,
-      author: item.author && item.author.loginname,
-      lastReplyTime: item.last_reply_at,
-      handle: item.id
+    return list.map(item => ({
+      date: item.date,
+      newContract: item.newContract,
+      loanContract: item.loanContract,
+      loanAmount: Number(item.loanAmount).toFixed(2),
+      unpaidContract: item.unpaidContract
     }))
   }
 
-  getChartDate () {
+  getChartDate (dataList) {
+    const { activeId } = this.state
+    let xData = []
+    let yData = []
+    dataList.forEach(item => {
+      xData.push(item.date)
+      if (+activeId === 1) {
+        yData.push(item.newContract)
+      } else if (+activeId === 2) {
+        yData.push(item.loanContract)
+      } else {
+        yData.push(item.unpaidContract)
+      }
+    })
     return {
-      xData: ['2016/11/01', '2016/11/02', '2016/11/03', '2016/11/04', '2016/11/05'],
-      yData: [Math.random() * 100, Math.random() * 600, Math.random() * 450, Math.random() * 650, Math.random() * 120]
+      xData,
+      yData
     }
   }
 
   render() {
-    const { list } = this.props
+    const { overViewData, list } = this.props
     const { activeId } = this.state
     const tablinkArr = ['新增合同数', '已放款合同数', '欠款合同数']
     return (
@@ -116,25 +128,25 @@ class OverView extends Component {
         <Row gutter={32} className="index-over-view">
           <Col span="6">
             <div className="index-over-view-box">
-              <p>980</p>
+              <p>{overViewData.get('contractNum')}</p>
               <p>合同总数</p>
             </div>
           </Col>
           <Col span="6">
             <div className="index-over-view-box">
-              <p>8</p>
+              <p>{overViewData.get('unpaidContractNum')}</p>
               <p>欠缴合同数量</p>
             </div>
           </Col>
           <Col span="6">
             <div className="index-over-view-box">
-              <p>90000.00</p>
+              <p>{Number(overViewData.get('totalLoanAmount')).toFixed(2)}</p>
               <p>借款总金额</p>
             </div>
           </Col>
           <Col span="6">
             <div className="index-over-view-box">
-              <p>109</p>
+              <p>{overViewData.get('endContractNum')}</p>
               <p>已结束/已退保合同数</p>
             </div>
           </Col>
@@ -177,8 +189,8 @@ class OverView extends Component {
           <Row>
             <Chart
               title={tablinkArr[activeId - 1]}
-              xData={this.getChartDate().xData}
-              yData={this.getChartDate().yData} />
+              xData={this.getChartDate(list.get('dataList').toJS()).xData}
+              yData={this.getChartDate(list.get('dataList').toJS()).yData} />
           </Row>
         </section>
         <section className="tabel">
@@ -189,7 +201,7 @@ class OverView extends Component {
             <Table
               columns={this.getColumns()}
               loading={list.get('doing')}
-              dataSource={this.parseData(list.getIn(['data', 'recent_replies']) && list.getIn(['data', 'recent_replies']).toJS() || [])}
+              dataSource={this.parseData(list.get('dataList').toJS() || [])}
               pagination={false} />
           </div>
         </section>
@@ -199,10 +211,12 @@ class OverView extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  list: state.test.testFetch
+  overViewData: state.overView.overViewData,
+  list: state.overView.overViewList
 })
 const mapDispatchToProps = (dispatch) => ({
-  sendAsyncAction: () => dispatch(testAction.testFetch())
+  queryOverView: () => dispatch(overViewAction.queryOverView()),
+  queryOverViewList: (condition) => dispatch(overViewAction.queryOverViewList(condition))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(OverView)
