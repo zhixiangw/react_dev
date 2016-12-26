@@ -110,7 +110,7 @@ class PageContainer extends Component {
         </Row>
         <Row type="flex" className="layout">
           <Col span="4" className="side-nav">
-            <NavMenu location={this.props.location} type={loginInfo.get('type')}/>
+            <NavMenu location={this.props.location} type={loginInfo.get('type')} />
           </Col>
 
           <Col span="20" className="content">
