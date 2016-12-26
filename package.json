@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
+    "prod": "webpack --config webpack.config.prod.js",
     "dev": "node ./webpack-dev-server"
   },
   "repository": {
     "type": "git",
-    "url": "https://git.oschina.net/zhixiang_w/react_env.git"
+    "url": "https://github.com/zhixiangw/react_dev"
   },
   "author": "",
   "license": "ISC",
