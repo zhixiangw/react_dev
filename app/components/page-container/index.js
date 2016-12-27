@@ -137,7 +137,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   cleanMsg: () => dispatch(systemAction.clean()),
   modifyPassWord: (condition) => dispatch(loginAction.modifyPassword(condition)),
-  logout: () => dispatch(loginAction.logout()).then(() => dispatch(replace('/')))
+  logout: () => dispatch(loginAction.logout()).then(() => dispatch(replace(`${__STATIC_BASE__}/`)))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageContainer)

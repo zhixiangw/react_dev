@@ -31,7 +31,7 @@ export default class Nav extends Component {
       'systemSetting'
     ]
     menuArr.forEach(item => {
-      if (pathname.indexOf(item) !== -1){
+      if (pathname.indexOf(item) !== -1) {
         selectedKeys = [item]
       }
       return
@@ -53,18 +53,18 @@ export default class Nav extends Component {
         mode="inline">
         <SubMenu key="sub1" title="UI Kits" >
           <MenuItem key="overView" >
-            <Link to="/overView">首页概览</Link>
+            <Link to={`${__STATIC_BASE__}/overView`}>首页概览</Link>
           </MenuItem>
           <MenuItem key="contractManage" >
-            <Link to="/contractManage">合同列表</Link>
+            <Link to={`${__STATIC_BASE__}/contractManage`}>合同列表</Link>
           </MenuItem>
           <MenuItem key="customerManage"
             disabled={type !== 'admin'} >
-            <Link to="/customerManage">用户管理</Link>
+            <Link to={`${__STATIC_BASE__}/customerManage`}>用户管理</Link>
           </MenuItem>
           <MenuItem key="systemSetting"
             disabled={type !== 'admin'} >
-            <Link to="/systemSetting">系统设置</Link>
+            <Link to={`${__STATIC_BASE__}/systemSetting`}>系统设置</Link>
           </MenuItem>
         </SubMenu>
       </Menu>

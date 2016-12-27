@@ -5,7 +5,9 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 var ROOT_PATH = path.resolve(__dirname);
 var APP_PATH = path.resolve(ROOT_PATH, 'app')
-var BUILD_PATH = path.resolve(ROOT_PATH, 'build')
+var DIST_PATH = path.resolve(ROOT_PATH, 'dist')
+
+var staticBase = '/car'
 
 module.exports = {
   context: path.resolve(__dirname, '.'),
@@ -13,9 +15,9 @@ module.exports = {
     bundle: path.resolve(APP_PATH, 'main.js')
   },
   output: {
-    path: BUILD_PATH,
-    publicPath: '/car/',
-    filename: 'js/[name].js'
+    path: DIST_PATH,
+    publicPath: `${staticBase}/`,
+    filename: 'js/[name].[hash].js'
   },
   module: {
     loaders: [{
@@ -46,11 +48,13 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
+      __PRODUCTION__: true,
+      __STATIC_BASE__: `"${staticBase}"`,
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
     }),
-    new ExtractTextPlugin('css/[name].css'), // 抽离css到单独的文件
+    new ExtractTextPlugin('css/[name].[hash].css'), // 抽离css到单独的文件
     new webpack.NoErrorsPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
@@ -58,9 +62,9 @@ module.exports = {
       }
     }),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, './temp/index.html'),
+      template: path.resolve(__dirname, './temp/index.prod.html'),
       favicon: path.resolve(__dirname, './favicon.ico'),
-      filename: path.resolve(__dirname, './build/index.html')
+      filename: path.resolve(__dirname, './dist/index.html')
     }),
   ],
   resolve: {
