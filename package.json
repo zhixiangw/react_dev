@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prod": "webpack --config webpack.config.prod.js",
+    "prod": "set NODE_ENV=production & webpack --config webpack.config.prod.js",
     "dev": "node ./webpack-dev-server"
   },
   "repository": {

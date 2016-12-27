@@ -8,12 +8,13 @@ var APP_PATH = path.resolve(ROOT_PATH, 'app')
 var BUILD_PATH = path.resolve(ROOT_PATH, 'build')
 
 module.exports = {
+  context: path.resolve(__dirname, '.'),
   entry: {
     bundle: path.resolve(APP_PATH, 'main.js')
   },
   output: {
     path: BUILD_PATH,
-    publicPath: '/',
+    publicPath: '/car/',
     filename: 'js/[name].js'
   },
   module: {
