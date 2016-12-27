@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 
-import { Input, Form, Button, message, Modal, Radio } from 'antd'
+import { Input, Form, Modal, Radio } from 'antd'
 const FormItem = Form.Item
 const RadioGroup = Radio.Group
-
-import { user as userAction } from '../../../actions'
 
 import validate from './validate'
 

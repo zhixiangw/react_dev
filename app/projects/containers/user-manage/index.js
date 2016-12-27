@@ -32,7 +32,7 @@ class UserList extends Component {
   }
 
   tabChange(key) {
-    const { title, selectType, activeTabKey } = this.state
+    const { activeTabKey } = this.state
     if (+key === +activeTabKey) {
       return
     }
@@ -52,7 +52,6 @@ class UserList extends Component {
   }
 
   getKey1Columns () {
-    const { loginInfo } = this.props
     return [{
       title: '业务员账号',
       dataIndex: 'clerkAccount'
@@ -70,7 +69,7 @@ class UserList extends Component {
       dataIndex: 'handle',
       render: (id, cord) => {
         return (<div>
-          <a>进入后台</a>
+          <a onClick={() => alert('暂未开放')}>进入后台</a>
           &nbsp;&nbsp;
           <Popconfirm
             title="确定要重置密码吗？"
@@ -85,7 +84,6 @@ class UserList extends Component {
   }
 
   getKey2Columns () {
-    const { loginInfo } = this.props
     return [{
       title: '审核员账号',
       dataIndex: 'verifyAccount'
@@ -100,7 +98,7 @@ class UserList extends Component {
       dataIndex: 'handle',
       render: (id, cord) => {
         return (<div>
-          <a>进入后台</a>
+          <a onClick={() => alert('暂未开放')}>进入后台</a>
           &nbsp;&nbsp;
           <Popconfirm
             title="确定要重置密码吗？"
@@ -142,13 +140,13 @@ class UserList extends Component {
     const { createUser } = this.props
     const hide = message.loading('', 0)
     createUser(condition).then(() => {
-        this.setState({ isShow: false })
-        setTimeout(hide, 0)
+      this.setState({ isShow: false })
+      setTimeout(hide, 0)
     }, () => setTimeout(hide, 0))
   }
 
   search (key) {
-    const { queryUserList4key1, queryUserList4key2,  } = this.props
+    const { queryUserList4key1, queryUserList4key2 } = this.props
     if (+key === 1) {
       queryUserList4key1(key)
     } else {
