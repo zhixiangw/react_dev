@@ -89,7 +89,7 @@ class ContractList extends Component {
       dataIndex: 'handle',
       render: (id, cord) => {
         const option = {
-          pathname: '/contractManage/detail',
+          pathname: `${__STATIC_BASE__}/contractManage/detail`,
           query: {
             id,
             handleType: 'edit'
@@ -147,7 +147,7 @@ class ContractList extends Component {
       dataIndex: 'handle',
       render: (id, cord) => {
         const option = {
-          pathname: '/contractManage/detail',
+          pathname: `${__STATIC_BASE__}/contractManage/detail`,
           query: {
             id,
             handleType: 'edit'
@@ -195,7 +195,7 @@ class ContractList extends Component {
       dataIndex: 'handle',
       render: (id, cord) => {
         const option = {
-          pathname: '/contractManage/detail',
+          pathname: `${__STATIC_BASE__}/contractManage/detail`,
           query: {
             id,
             handleType: 'edit'
@@ -380,7 +380,7 @@ class ContractList extends Component {
     const type = loginInfo.get('type')
     if (type === 'admin') {
       const option = {
-        pathname: '/contractManage/detail',
+        pathname: `${__STATIC_BASE__}/contractManage/detail`,
         query: {
           handleType: 'create'
         }

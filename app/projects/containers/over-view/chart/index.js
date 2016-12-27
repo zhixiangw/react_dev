@@ -16,24 +16,24 @@ class Chart extends Component {
         shadowColor: 'rgba(0, 0, 0, 0.3)',
         shadowBlur: 2
       },
-      tooltip : {
+      tooltip: {
         trigger: 'axis'
       },
-      xAxis : [
+      xAxis: [
         {
-          data : xData
+          data: xData
         }
       ],
-      yAxis : [
+      yAxis: [
         {
-          type : 'value'
+          type: 'value'
         }
       ],
-      series : [
+      series: [
         {
-          type:'line',
+          type: 'line',
           name: '数量',
-          data:yData
+          data: yData
         }
       ]
     }
@@ -43,8 +43,8 @@ class Chart extends Component {
     return (
       <ReactEcharts
         option={this.getOption()}
-        style={{height: '350px', width: '100%'}}
-        className='react_for_echarts' />
+        style={{ height: '350px', width: '100%' }}
+        className="react_for_echarts" />
     )
   }
 }

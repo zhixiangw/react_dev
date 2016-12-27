@@ -7,6 +7,8 @@ var ROOT_PATH = path.resolve(__dirname);
 var APP_PATH = path.resolve(ROOT_PATH, 'app')
 var BUILD_PATH = path.resolve(ROOT_PATH, 'build')
 
+var staticBase = ''
+
 module.exports = {
   entry: {
     bundle: [
@@ -49,6 +51,8 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
+      __PRODUCTION__: false,
+      __STATIC_BASE__: `"${staticBase}"`,
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }

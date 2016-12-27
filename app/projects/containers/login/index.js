@@ -20,7 +20,7 @@ class Login extends Component {
 
   componentWillMount() {
     if (window.localStorage.getItem('hasLogin')) {
-      this.props.dispatch(replace('/overView'))
+      this.props.dispatch(replace(`${__STATIC_BASE__}/overView`))
     }
   }
 
@@ -32,7 +32,7 @@ class Login extends Component {
       }
       const hide = message.loading('', 0)
       dispatch(loginAction.login(values)).then(() => {
-        dispatch(replace('/overView'))
+        dispatch(replace(`${__STATIC_BASE__}/overView`))
         setTimeout(hide, 0)
       }, () => {
         message.error('登录失败', 2)
