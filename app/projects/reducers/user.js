@@ -37,7 +37,7 @@ const userList4key1 = (state = Map({
     clerkName: '业务员五',
     assignedContractNumb: '159',
     contractIn: '14'
-  },]
+  }]
   switch (type) {
     case API_REQUEST:
       if (constname === userAction.QUERY_USER_LIST_4_KEY_1) {

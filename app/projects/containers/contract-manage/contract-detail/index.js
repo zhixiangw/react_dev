@@ -74,7 +74,7 @@ class CustomerManage extends Component {
 
   render() {
     const { activeTabKey } = this.state
-    const { contractDetail, location: { query: { handleType } } } = this.props
+    const { contractDetail, location: { query: { handleType } }, salesManList } = this.props
     return (
       <div className="customer-manage">
         <Tabs
@@ -84,6 +84,7 @@ class CustomerManage extends Component {
             <BasicInfo
               info={handleType !== 'create' && contractDetail.get('basicInfo').toJS() || {}}
               handleType={handleType}
+              salesManList={salesManList.get('dataList').toJS()}
               onSubmit={this.saveBasicInfo} />
           </TabPane>
           <TabPane tab="车辆信息" key="2">
@@ -106,6 +107,7 @@ class CustomerManage extends Component {
 
 const mapStateToProps = (state) => ({
   contractDetail: state.contract.contractDetail,
+  salesManList: state.user.userList4key1,
   loginInfo: state.login.loginInfo
 })
 const mapDispatchToProps = (dispatch) => ({

@@ -61,7 +61,7 @@ class ContractList extends Component {
       condition.title = title
       condition.status = selectType === 'all' ? null : +selectType
     }
-    this.setState({ activeTabKey: key }, () => {
+    this.setState({ activeTabKey: key, selectType: 'all' }, () => {
       this.search(condition)
     })
   }
@@ -287,7 +287,9 @@ class ContractList extends Component {
       { name: '扣款通知', type: 3 },
       { name: '删除合同', type: 4 }
     ]
-    if (type === 'verify') {
+    if (+this.state.activeTabKey === 3) {
+      optionArr.splice(0, 3)
+    } else if (type === 'verify') {
       optionArr.shift()
     }
     return (
@@ -357,18 +359,29 @@ class ContractList extends Component {
   }
 
   operations () {
-    const { selectType } = this.state
+    const { selectType, activeTabKey } = this.state
     return (
       <Row style={{ width: '400px' }}>
-        <Col span="6">
+        <Col span="8">
+        {
+          +activeTabKey === 2 ?
           <Select value={selectType} onChange={this.handleChange.bind(this, 'selectType')} style={{ width: '100%' }} >
             <Option value="all">全部</Option>
             <Option value="1">当期还清</Option>
             <Option value="2">一次警告</Option>
-            <Option value="3">前缴费</Option>
+            <Option value="3">欠缴费</Option>
+          </Select> : +activeTabKey === 3 &&
+          <Select value={selectType} onChange={this.handleChange.bind(this, 'selectType')} style={{ width: '100%' }} >
+            <Option value="all">全部</Option>
+            <Option value="1">正常还款完成</Option>
+            <Option value="2">提前还款已结束</Option>
+            <Option value="3">已退保</Option>
+            <Option value="4">车辆全损已结清</Option>
+            <Option value="5">合同报废</Option>
           </Select>
+        }
         </Col>
-        <Col span="18">
+        <Col span="16">
           <Search placeholder="请输入合同编号/客户名称" onSearch={this.handleSearch} style={{ width: '100%' }} />
         </Col>
       </Row>

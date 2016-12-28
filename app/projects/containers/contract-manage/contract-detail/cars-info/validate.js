@@ -96,7 +96,7 @@ export default function (getFieldDecorator) {
       rules: [{
         required: true,
         whitespace: true,
-        message: '请输入驾驶证号'
+        message: '请输入行驶证号'
       }]
     }),
 
@@ -105,7 +105,7 @@ export default function (getFieldDecorator) {
         required: true,
         whitespace: true,
         type: 'array',
-        message: '请上传驾驶证副本扫描件'
+        message: '请上传行驶证副本扫描件'
       }],
       valuePropName: 'fileList',
       normalize: e => {
