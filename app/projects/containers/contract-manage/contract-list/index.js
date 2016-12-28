@@ -362,7 +362,7 @@ class ContractList extends Component {
     const { selectType, activeTabKey } = this.state
     return (
       <Row style={{ width: '400px' }}>
-        <Col span="6">
+        <Col span="8">
         {
           +activeTabKey === 2 ?
           <Select value={selectType} onChange={this.handleChange.bind(this, 'selectType')} style={{ width: '100%' }} >
@@ -381,7 +381,7 @@ class ContractList extends Component {
           </Select>
         }
         </Col>
-        <Col span="18">
+        <Col span="16">
           <Search placeholder="请输入合同编号/客户名称" onSearch={this.handleSearch} style={{ width: '100%' }} />
         </Col>
       </Row>

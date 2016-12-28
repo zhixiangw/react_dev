@@ -239,7 +239,7 @@ const contractDetail = (state = Map({
       loanAmount: '10000',
       loanTerm: '11',
       eachChargeTime: '2',
-      noainClerk: '诺亚信业务员1',
+      noainClerk: '业务员二',
       noainClerkMobile: '18866667777',
       salesClerk: '保险业务员1',
       salesClerkMobile: '18866669999'

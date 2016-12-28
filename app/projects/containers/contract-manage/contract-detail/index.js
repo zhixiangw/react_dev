@@ -84,7 +84,7 @@ class CustomerManage extends Component {
             <BasicInfo
               info={handleType !== 'create' && contractDetail.get('basicInfo').toJS() || {}}
               handleType={handleType}
-              salesManList={salesManList.toJS()}
+              salesManList={salesManList.get('dataList').toJS()}
               onSubmit={this.saveBasicInfo} />
           </TabPane>
           <TabPane tab="车辆信息" key="2">
