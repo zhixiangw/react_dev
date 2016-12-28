@@ -64,7 +64,7 @@ class CarsInfo extends Component {
   }
 
   render() {
-    const { form: { getFieldDecorator }, handleType } = this.props
+    const { form: { getFieldDecorator } } = this.props
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 10 },
@@ -156,19 +156,19 @@ class CarsInfo extends Component {
           </FormItem>
 
           <Row className="cars-info-title">
-            <Col span="6">驾驶证信息</Col>
+            <Col span="6">行驶证信息</Col>
           </Row>
            <FormItem
              {...formItemLayout}
-             label="驾驶证号"
+             label="行驶证号"
              hasFeedback >
             {fieldValidate.drivingLicense()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
-            label="驾驶证副本扫描件"
-            extra={`请上传驾驶证清晰彩色原件扫描件或者数码照，支持jpg、jpeg、bmp、png、gif格式照片，
+            label="行驶证副本扫描件"
+            extra={`请上传行驶证清晰彩色原件扫描件或者数码照，支持jpg、jpeg、bmp、png、gif格式照片，
               大小不超过2M`}
             hasFeedback >
             {fieldValidate.drivingLicenseAttachment()(
@@ -178,7 +178,7 @@ class CarsInfo extends Component {
                 accept=".jpg,.png,.jpeg,.bmp,.gif"
                 onChange={this.handleUpload} >
               <Button type="ghost">
-                <Icon type="upload" /> 点击上传驾驶证副本扫描件
+                <Icon type="upload" /> 点击上传行驶证副本扫描件
               </Button>
               </Upload>
             )}
@@ -186,7 +186,7 @@ class CarsInfo extends Component {
 
           <FormItem>
             <p style={{ textAlign: 'center' }}>
-              <Button type="primary" onClick={this.handleSubmit}>{ handleType === 'create' && '下一步' || '保存' }</Button>
+              <Button type="primary" onClick={this.handleSubmit}>保存</Button>
             </p>
           </FormItem>
         </Form>

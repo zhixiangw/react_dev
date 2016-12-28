@@ -20,7 +20,7 @@ class CarsInfo extends Component {
   }
 
   componentWillMount() {
-    const { info, form: { setFieldsValue }, handleType } = this.props
+    const { info, form: { setFieldsValue } } = this.props
     info.loanDate = info.loanDate && moment(info.loanDate) || null
     setFieldsValue(info)
   }
@@ -79,8 +79,15 @@ class CarsInfo extends Component {
     })
   }
 
+  getSalesManOptions () {
+    const { salesManList } = this.props
+    return salesManList.map((item, index) => {
+      return <Option key={index + 1} value={item.clerkName}>{item.clerkName}</Option>
+    })
+  }
+
   render() {
-    const { form: { getFieldDecorator }, handleType } = this.props
+    const { form: { getFieldDecorator, getFieldValue }, handleType } = this.props
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 10 },
@@ -104,7 +111,7 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="合同附件上传"
             hasFeedback >
-            {fieldValidate.contractAttachment()(
+            {fieldValidate.contractAttachment(handleType)(
               <Upload
                 action="//jsonplaceholder.typicode.com/posts/"
                 name="contractAttachment"
@@ -190,7 +197,11 @@ class CarsInfo extends Component {
               )}
             </FormItem>
             </Col>
-            <Col span="6" offset="1"><Alert message="每期还款1200.00" type="info" /></Col>
+            <Col span="6" offset="1">
+              <Alert
+                message={`每期还款${getFieldValue('loanAmount') ? Number(getFieldValue('loanAmount') * (0.0057 + 1 / 11)).toFixed(2) : 0}`}
+                type="info" />
+            </Col>
           </Row>
 
           <Row>
@@ -213,7 +224,11 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="所属诺亚信业务员"
             hasFeedback >
-            {fieldValidate.noainClerk()(<Input />)}
+            {fieldValidate.noainClerk()(
+              <Select>
+                {this.getSalesManOptions()}
+              </Select>
+            )}
           </FormItem>
 
           <FormItem
@@ -239,7 +254,7 @@ class CarsInfo extends Component {
 
           <FormItem>
             <p style={{ textAlign: 'center' }}>
-              <Button type="primary" onClick={this.handleSubmit}>{ handleType === 'create' && '下一步' || '保存' }</Button>
+              <Button type="primary" onClick={this.handleSubmit}>保存</Button>
             </p>
           </FormItem>
         </Form>

@@ -8,9 +8,9 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    contractAttachment: () => getFieldDecorator('contractAttachment', {
+    contractAttachment: (handleType) => getFieldDecorator('contractAttachment', {
       rules: [{
-        required: true,
+        required: handleType !== 'create',
         whitespace: true,
         type: 'array',
         message: '请上传合同附件'
