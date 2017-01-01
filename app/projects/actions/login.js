@@ -6,7 +6,7 @@ export function login (condition) {
     return dispatch({
       [FETCH_API]: {
         constname: LOGIN,
-        url: '//jsonplaceholder.typicode.com/posts/',
+        url: 'http://120.25.68.86:8080/car-loan/login',
         request: condition,
         msg: '登录成功'
       }

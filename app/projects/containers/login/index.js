@@ -36,6 +36,7 @@ class Login extends Component {
         setTimeout(hide, 0)
       }, () => {
         message.error('登录失败', 2)
+        dispatch(replace(`${__STATIC_BASE__}/`))
         setTimeout(hide, 0)
       })
     })
@@ -58,7 +59,7 @@ class Login extends Component {
             {...formItemLayout}
             label="登录账号"
             hasFeedback >
-            {fieldValidate.account()(<Input />)}
+            {fieldValidate.username()(<Input />)}
           </FormItem>
 
           <FormItem

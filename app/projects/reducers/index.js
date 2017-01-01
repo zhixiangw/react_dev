@@ -6,7 +6,6 @@ import login from './login'
 import overView from './over-view'
 import contract from './contract'
 import user from './user'
-import test from './test'
 
 export default combineReducers({
   routing,
@@ -14,6 +13,5 @@ export default combineReducers({
   login,
   overView,
   contract,
-  user,
-  test
+  user
 })

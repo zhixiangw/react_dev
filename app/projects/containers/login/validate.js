@@ -1,6 +1,6 @@
 export default function (getFieldDecorator) {
   return {
-    account: () => getFieldDecorator('account', {
+    username: () => getFieldDecorator('username', {
       rules: [{
         required: true,
         whitespace: true,

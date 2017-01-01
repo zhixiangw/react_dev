@@ -3,13 +3,13 @@ import 'isomorphic-fetch'
 function packFetch(url, condition) {
   // Fetch 请求默认是不带 cookie 的,如果你想在fetch请求里附带cookies之类的凭证信息,需要设置 fetch(url, {credentials: 'include'})
   let option = {
-    // credentials: 'include',
+    credentials: 'include'
   }
   if (condition) {
     if (condition.formData) { // 文件上传必须字段
       option = {
         method: 'post',
-        // credentials: 'include',
+        credentials: 'include',
         headers: {
           Accept: 'application/json'
         },
@@ -18,7 +18,7 @@ function packFetch(url, condition) {
     } else {
       option = {
         method: 'post',
-        // credentials: 'include',
+        credentials: 'include',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
