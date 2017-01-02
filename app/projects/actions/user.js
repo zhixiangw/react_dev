@@ -30,7 +30,7 @@ export function createUser (condition) {
     return dispatch({
       [FETCH_API]: {
         constname: CREATE_USER,
-        url: '//jsonplaceholder.typicode.com/posts/',
+        url: `${__API_BASE__}save`,
         request: condition,
         msg: '操作成功'
       }

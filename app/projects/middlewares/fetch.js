@@ -9,7 +9,7 @@ function packFetch(url, condition) {
     if (condition.formData) { // 文件上传必须字段
       option = {
         method: 'post',
-        credentials: 'include',
+        // credentials: 'include',
         headers: {
           Accept: 'application/json'
         },
@@ -18,7 +18,7 @@ function packFetch(url, condition) {
     } else {
       option = {
         method: 'post',
-        credentials: 'include',
+        // credentials: 'include',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'

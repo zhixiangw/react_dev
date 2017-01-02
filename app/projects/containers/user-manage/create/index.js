@@ -49,7 +49,7 @@ class CreateUser extends Component {
             {...formItemLayout}
             label="角色"
             hasFeedback >
-            {fieldValidate.type()(
+            {fieldValidate.role()(
               <RadioGroup>
                 <Radio value="1">业务员</Radio>
                 <Radio value="2">审核员</Radio>
@@ -68,14 +68,14 @@ class CreateUser extends Component {
             {...formItemLayout}
             label="账号名称"
             hasFeedback >
-            {fieldValidate.accountName()(<Input />)}
+            {fieldValidate.name()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="联系方式"
             hasFeedback >
-            {fieldValidate.mobile()(<Input />)}
+            {fieldValidate.contact()(<Input />)}
           </FormItem>
         </Form>
       </div>

@@ -52,6 +52,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       __PRODUCTION__: false,
+      __API_BASE__: '"http://120.25.68.86:8080/car-loan/"',
       __STATIC_BASE__: `"${staticBase}"`,
       'process.env': {
         NODE_ENV: JSON.stringify('production')

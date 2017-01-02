@@ -202,7 +202,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   queryUserList4key1: (condition) => dispatch(userAction.queryUserList4key1(condition)),
   queryUserList4key2: (condition) => dispatch(userAction.queryUserList4key2(condition)),
-  createUser: () => dispatch(userAction.createUser()),
+  createUser: (condition) => dispatch(userAction.createUser(condition)),
   resetPasswordFunc: (condition) => dispatch(userAction.resetPassword(condition))
 })
 

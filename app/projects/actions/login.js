@@ -6,7 +6,7 @@ export function login (condition) {
     return dispatch({
       [FETCH_API]: {
         constname: LOGIN,
-        url: 'http://120.25.68.86:8080/car-loan/login',
+        url: 'http://120.25.68.86:8080/car-loan/login.json',
         request: condition,
         msg: '登录成功'
       }

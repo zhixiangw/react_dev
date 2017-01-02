@@ -1,6 +1,6 @@
 export default function (getFieldDecorator) {
   return {
-    type: () => getFieldDecorator('type', {
+    role: () => getFieldDecorator('role', {
       rules: [{
         required: true,
         whitespace: true,
@@ -16,7 +16,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    accountName: () => getFieldDecorator('accountName', {
+    name: () => getFieldDecorator('name', {
       rules: [{
         required: true,
         whitespace: true,
@@ -24,7 +24,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    mobile: () => getFieldDecorator('mobile', {
+    contact: () => getFieldDecorator('contact', {
       rules: [{
         required: true,
         whitespace: true,
