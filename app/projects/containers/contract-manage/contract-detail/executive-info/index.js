@@ -66,7 +66,7 @@ class BasicInfo extends Component {
                   {...formItemLayout}
                   label="手续费状态"
                   hasFeedback >
-                  {fieldValidate.feeStatus()(
+                  {fieldValidate.serviceCharge()(
                     <Select placeholder="请选择">
                       <Option value={'1'}>未缴费</Option>
                       <Option value={'2'}>已缴费</Option>
@@ -111,7 +111,7 @@ class BasicInfo extends Component {
                     {...formItemLayout}
                     label="合同结束原因"
                     hasFeedback >
-                    {fieldValidate.contractEndReason()(
+                    {fieldValidate.endReason()(
                       <Select placeholder="请选择">
                         <Option value={'1'}>正常还款完成</Option>
                         <Option value={'2'}>提前还款已结束</Option>
@@ -158,8 +158,5 @@ class BasicInfo extends Component {
 }
 
 BasicInfo = Form.create()(BasicInfo)
-const mapStateToProps = (state) => ({
-  list: state.test.testFetch
-})
 
-export default connect(mapStateToProps)(BasicInfo)
+export default connect()(BasicInfo)

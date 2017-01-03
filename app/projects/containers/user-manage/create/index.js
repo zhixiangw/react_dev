@@ -75,7 +75,7 @@ class CreateUser extends Component {
             {...formItemLayout}
             label="联系方式"
             hasFeedback >
-            {fieldValidate.contact()(<Input />)}
+            {fieldValidate.contact()(<Input maxLength="11" />)}
           </FormItem>
         </Form>
       </div>

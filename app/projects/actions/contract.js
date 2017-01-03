@@ -112,7 +112,7 @@ export function saveExecutiveInfo (condition) {
     return dispatch({
       [FETCH_API]: {
         constname: SAVE_EXECUTIVE_INFO,
-        url: `${__API_BASE__}contract/save`,
+        url: `${__API_BASE__}constatus/save`,
         request: condition,
         msg: '操作成功'
       }

@@ -1,6 +1,6 @@
 export default function (getFieldDecorator) {
   return {
-    feeStatus: () => getFieldDecorator('feeStatus', {
+    serviceCharge: () => getFieldDecorator('serviceCharge', {
       rules: [{
         required: true,
         whitespace: true,
@@ -24,7 +24,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    contractEndReason: () => getFieldDecorator('contractEndReason', {
+    endReason: () => getFieldDecorator('endReason', {
       rules: [{
         required: true,
         whitespace: true,

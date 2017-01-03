@@ -30,7 +30,7 @@ export function createUser (condition) {
     return dispatch({
       [FETCH_API]: {
         constname: CREATE_USER,
-        url: `${__API_BASE__}save`,
+        url: `${__API_BASE__}user/save`,
         request: condition,
         msg: '操作成功'
       }
