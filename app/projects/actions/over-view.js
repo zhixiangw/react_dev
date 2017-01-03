@@ -6,7 +6,7 @@ export function queryOverView () {
     return dispatch({
       [FETCH_API]: {
         constname: QUERY_OVER_VIEW,
-        url: 'https://cnodejs.org/api/v1/user/alsotang'
+        url: `${__API_BASE__}home/statistics`
       }
     })
   }

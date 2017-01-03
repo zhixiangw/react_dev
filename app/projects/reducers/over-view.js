@@ -8,10 +8,10 @@ const overViewData = (state = Map(), { type, constname, response }) => {
     case API_SUCCESS:
       if (constname === overViewAction.QUERY_OVER_VIEW) {
         return response && Immutable.fromJS({
-          contractNum: Math.ceil(Math.random() * 100),
-          unpaidContractNum: Math.ceil(Math.random() * 10),
-          totalLoanAmount: Math.ceil(Math.random() * 10000),
-          endContractNum: Math.ceil(Math.random() * 100)
+          contractNum: response.contractCounts,
+          unpaidContractNum: response.notPaidCounts,
+          totalLoanAmount: response.loanAmounts,
+          endContractNum: response.contractCounts
         })
       }
       return state
