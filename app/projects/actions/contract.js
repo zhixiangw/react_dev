@@ -39,12 +39,12 @@ export function queryContractList4key3 (condition) {
   }
 }
 
-export const SEND_NOTIFICATION = 'QUERY_CONTRACT_LIST_4_KEY_3'
+export const SEND_NOTIFICATION = 'SEND_NOTIFICATION'
 export function sendNotification (condition) {
   return (dispatch) => {
     return dispatch({
       [FETCH_API]: {
-        constname: QUERY_CONTRACT_LIST_4_KEY_3,
+        constname: SEND_NOTIFICATION,
         url: '//jsonplaceholder.typicode.com/posts/',
         request: condition,
         msg: '操作成功'
@@ -84,7 +84,7 @@ export function saveBasicInfo (condition) {
     return dispatch({
       [FETCH_API]: {
         constname: SAVE_BASICE_INFO,
-        url: '//jsonplaceholder.typicode.com/posts/',
+        url: `${__API_BASE__}contract/save`,
         request: condition,
         msg: '操作成功'
       }
@@ -98,7 +98,7 @@ export function saveCarsInfo (condition) {
     return dispatch({
       [FETCH_API]: {
         constname: SAVE_CARS_INFO,
-        url: '//jsonplaceholder.typicode.com/posts/',
+        url: `${__API_BASE__}contract/save`,
         request: condition,
         msg: '操作成功'
       }
@@ -112,7 +112,7 @@ export function saveExecutiveInfo (condition) {
     return dispatch({
       [FETCH_API]: {
         constname: SAVE_EXECUTIVE_INFO,
-        url: '//jsonplaceholder.typicode.com/posts/',
+        url: `${__API_BASE__}contract/save`,
         request: condition,
         msg: '操作成功'
       }

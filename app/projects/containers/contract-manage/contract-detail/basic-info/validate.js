@@ -1,6 +1,6 @@
 export default function (getFieldDecorator) {
   return {
-    contractCode: () => getFieldDecorator('contractCode', {
+    contractCode: () => getFieldDecorator('no', {
       rules: [{
         required: true,
         whitespace: true,
@@ -8,7 +8,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    contractAttachment: (handleType) => getFieldDecorator('contractAttachment', {
+    contractAttachment: (handleType) => getFieldDecorator('attachmentPath', {
       rules: [{
         required: handleType !== 'create',
         whitespace: true,
@@ -30,7 +30,7 @@ export default function (getFieldDecorator) {
       }
     }),
 
-    loanDate: () => getFieldDecorator('loanDate', {
+    loanDate: () => getFieldDecorator('loantime', {
       rules: [{
         required: true,
         whitespace: true,
@@ -39,7 +39,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    customerName: () => getFieldDecorator('customerName', {
+    customerName: () => getFieldDecorator('customer', {
       rules: [{
         required: true,
         whitespace: true,
@@ -47,7 +47,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    customerMobile: () => getFieldDecorator('customerMobile', {
+    customerMobile: () => getFieldDecorator('customerContact', {
       rules: [{
         required: true,
         whitespace: true,
@@ -62,7 +62,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    businessLicense: () => getFieldDecorator('businessLicense', {
+    businessLicense: () => getFieldDecorator('businessLicence', {
       rules: [{
         required: true,
         whitespace: true,
@@ -70,7 +70,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    businessLicensePic: () => getFieldDecorator('businessLicensePic', {
+    businessLicensePic: () => getFieldDecorator('businessLicencePath', {
       rules: [{
         required: true,
         whitespace: true,
@@ -92,7 +92,7 @@ export default function (getFieldDecorator) {
       }
     }),
 
-    loanAmount: () => getFieldDecorator('loanAmount', {
+    loanAmount: () => getFieldDecorator('loanMoney', {
       rules: [{
         required: true,
         whitespace: true,
@@ -100,7 +100,8 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    loanTerm: () => getFieldDecorator('loanTerm', {
+    loanTerm: () => getFieldDecorator('repaymentPeriod', {
+      initialValue: '11',
       rules: [{
         required: true,
         whitespace: true,
@@ -108,7 +109,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    eachChargeTime: () => getFieldDecorator('eachChargeTime', {
+    eachChargeTime: () => getFieldDecorator('periodicDay', {
       rules: [{
         required: true,
         whitespace: true,
@@ -116,7 +117,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    noainClerk: () => getFieldDecorator('noainClerk', {
+    noainClerk: () => getFieldDecorator('salesName', {
       rules: [{
         required: true,
         whitespace: true,
@@ -124,7 +125,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    noainClerkMobile: () => getFieldDecorator('noainClerkMobile', {
+    noainClerkMobile: () => getFieldDecorator('salesContact', {
       rules: [{
         required: true,
         whitespace: true,
@@ -139,7 +140,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    salesClerk: () => getFieldDecorator('salesClerk', {
+    salesClerk: () => getFieldDecorator('insuranceSales', {
       rules: [{
         required: true,
         whitespace: true,
@@ -147,7 +148,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    salesClerkMobile: () => getFieldDecorator('salesClerkMobile', {
+    salesClerkMobile: () => getFieldDecorator('insuranceSalesContact', {
       rules: [{
         required: true,
         whitespace: true,

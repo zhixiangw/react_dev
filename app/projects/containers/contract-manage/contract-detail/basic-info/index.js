@@ -14,7 +14,10 @@ import './index.less'
 class CarsInfo extends Component {
   constructor (props) {
     super(props)
-
+    this.state = {
+      attachmentPathName: 'default',
+      businessLicencePathName: 'default'
+    }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleBeforeUpload = this.handleBeforeUpload.bind(this)
   }
@@ -49,8 +52,10 @@ class CarsInfo extends Component {
       if (!!errors) {
         return
       }
-      values.contractAttachment = this.normalize(values.contractAttachment)
-      values.businessLicensePic = this.normalize(values.businessLicensePic)
+
+      values.loantime = values.loantime.format('YYYY-MM-DD')
+      values.attachmentPath = this.normalize(values.attachmentPath)[0].url
+      values.businessLicencePath = this.normalize(values.businessLicencePath)[0].url
       onSubmit(values)
     })
   }
@@ -66,6 +71,7 @@ class CarsInfo extends Component {
       message.error('文件大小必须小于2M')
       return false
     }
+    this.setState({ [isPDF && 'attachmentPathName' || 'businessLicencePathName']: file.name })
     return true
   }
 
@@ -113,8 +119,9 @@ class CarsInfo extends Component {
             hasFeedback >
             {fieldValidate.contractAttachment(handleType)(
               <Upload
-                action="//jsonplaceholder.typicode.com/posts/"
-                name="contractAttachment"
+                action={`${__API_BASE__}file/upload`}
+                name="attachmentPath"
+                data={{ fileName: this.state.attachmentPathName }}
                 accept=".pdf"
                 beforeUpload={this.handleBeforeUpload.bind(this, 'application/pdf')} >
                 <Button type="ghost">
@@ -144,7 +151,7 @@ class CarsInfo extends Component {
                 {...afterFormItemLayout}
                 label="客户联系方式"
                 hasFeedback >
-                {fieldValidate.customerMobile()(<Input />)}
+                {fieldValidate.customerMobile()(<Input maxLength="11" />)}
               </FormItem>
             </Col>
             <Col span="6" offset="1"><Alert message="扣款前两天，将短信通知客户还款" type="info" /></Col>
@@ -166,8 +173,9 @@ class CarsInfo extends Component {
             hasFeedback >
             {fieldValidate.businessLicensePic()(
               <Upload
-                action="//jsonplaceholder.typicode.com/posts/"
-                name="businessLicensePic"
+                action={`${__API_BASE__}file/upload`}
+                name="businessLicencePath"
+                data={{ fileName: this.state.businessLicencePathName }}
                 accept=".jpg,.png,.jpeg,.bmp,.gif"
                 beforeUpload={this.handleBeforeUpload.bind(this, 'all')} >
                 <Button type="ghost">
@@ -199,7 +207,7 @@ class CarsInfo extends Component {
             </Col>
             <Col span="6" offset="1">
               <Alert
-                message={`每期还款${getFieldValue('loanAmount') ? Number(getFieldValue('loanAmount') * (0.0057 + 1 / 11)).toFixed(2) : 0}`}
+                message={`每期还款${getFieldValue('loanMoney') ? Number(getFieldValue('loanMoney') * (0.0057 + 1 / 11)).toFixed(2) : 0}`}
                 type="info" />
             </Col>
           </Row>
@@ -235,7 +243,7 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="所属诺亚信业务员联系方式"
             hasFeedback >
-            {fieldValidate.noainClerkMobile()(<Input />)}
+            {fieldValidate.noainClerkMobile()(<Input maxLength="11" />)}
           </FormItem>
 
           <FormItem
@@ -249,7 +257,7 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="所属保险业务员联系方式"
             hasFeedback >
-            {fieldValidate.salesClerkMobile()(<Input />)}
+            {fieldValidate.salesClerkMobile()(<Input maxLength="11" />)}
           </FormItem>
 
           <FormItem>
