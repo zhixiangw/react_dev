@@ -21,32 +21,56 @@ const ls = (typeof window.localStorage !== 'undefined' && window.localStorage) |
   }
 
 const loginInfo = (state = Map({
-  memberId: ls && ls.getItem('memberId'),
-  account: ls && ls.getItem('account'),
+  id: ls && ls.getItem('id'),
+  username: ls && ls.getItem('username'),
   password: ls && ls.getItem('password'),
   type: ls && ls.getItem('type'),
-  hasLogin: ls && ls.getItem('hasLogin')
+  hasLogin: ls && ls.getItem('hasLogin'),
+  name: ls && ls.getItem('name'),
+  contact: ls && ls.getItem('contact')
 }), { type, constname, request, response }) => {
-  const loginType = 'admin' // 此处自定义登录角色 admin = 管理员， salesman = 业务员， verify = 审核员
+  let loginType = '' // 此处自定义登录角色 admin = 管理员， salesman = 业务员， verify = 审核员
+  switch (response && +response.role) {
+    case 1:
+      loginType = 'salesman'
+      break;
+    case 2:
+      loginType = 'verify'
+      break;
+    case 9:
+      loginType = 'admin'
+      break;
+    default:
+      loginType = 'admin'
+      break;
+  }
   switch (type) {
     case API_SUCCESS:
       if (constname === loginAction.LOGIN) {
-        ls.setItem('memberId', 1)
-        ls.setItem('account', request.account)
+        ls.setItem('id', response.id)
+        ls.setItem('username', request.username)
         ls.setItem('password', request.password)
         ls.setItem('type', loginType)
         ls.setItem('hasLogin', true)
+        ls.setItem('name', response.name)
+        ls.setItem('contact', response.contact)
         return response && Immutable.fromJS({
-          memberId: 1,
-          account: request.account,
+          id: response.id,
+          username: request.username,
           password: request.password,
           type: loginType,
+          name: response.name,
+          contact: response.contact,
           hasLogin: true
         })
       }
 
       if (constname === loginAction.LOGOUT) {
         ls.removeItem('hasLogin')
+        ls.removeItem('id')
+        ls.removeItem('username')
+        ls.removeItem('password')
+        ls.removeItem('type')
         return response && Immutable.fromJS({
           hasLogin: false
         })

@@ -1,6 +1,6 @@
 export default function (getFieldProps) {
   return {
-    oldPassword: (password) => getFieldProps('oldPassword', {
+    oldPassword: (password) => getFieldProps('oldpassword', {
       rules: [{
         required: true,
         whitespace: true,
@@ -15,7 +15,7 @@ export default function (getFieldProps) {
       }]
     }),
 
-    newPassword: () => getFieldProps('newPassword', {
+    newPassword: () => getFieldProps('newpassword', {
       rules: [{
         required: true,
         whitespace: true,

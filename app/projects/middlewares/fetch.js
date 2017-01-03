@@ -1,9 +1,20 @@
 import 'isomorphic-fetch'
+// 将json对象转换为表单提交的请求字符串提交
+function parseToQueryStr(queryObj) {
+  let queryString = ''
+  Object.getOwnPropertyNames(queryObj).forEach(key => {
+    if (queryObj[key] || +queryObj[key] === 0) {
+      queryString = `${queryString}${key}=${queryObj[key]}&`
+    }
+  })
+  return queryString.substr(0, queryString.length - 1)
+}
 
 function packFetch(url, condition) {
   // Fetch 请求默认是不带 cookie 的,如果你想在fetch请求里附带cookies之类的凭证信息,需要设置 fetch(url, {credentials: 'include'})
+  // 此处需要注意，携带cookie的话，是不允许跨域请求的，所以本地调试的跨域接口的时候，需要注释掉
   let option = {
-    credentials: 'include'
+    // credentials: 'include'
   }
   if (condition) {
     if (condition.formData) { // 文件上传必须字段
@@ -21,14 +32,27 @@ function packFetch(url, condition) {
         // credentials: 'include',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: JSON.stringify(condition)
+        body: encodeURI(parseToQueryStr(condition))
       }
     }
   }
 
-  return fetch(url, option).then(response => response.json())
+  return fetch(url, option)
+    .then(response =>
+      response.json().then(json => ({ json, response }))
+    ).then(({ json, response }) => {
+      if (!json.pass && json.code === 'FAILED') {
+        return Promise.reject({ json, response })
+      }
+      if (json instanceof Array) {
+        return [].concat(json)
+      }
+      return Object.assign({},
+          json
+      )
+    })
 }
 
 export const FETCH_API = Symbol('Fetch_API')
@@ -71,7 +95,7 @@ export default () => next => action => {
       next(actionWith({
         type: API_FAILURE,
         constname,
-        msg: result.json && result.json.message ? result.json.message : '网络不佳,请稍后再试',
+        msg: result.json && result.json.msg ? result.json.msg : '网络不佳,请稍后再试',
         status: result.response ? result.response.status : undefined
       }))
       return Promise.reject(result)

@@ -27,7 +27,9 @@ class UserInfo extends Component {
   editPassword () {
     const { form: { validateFields }, confirm } = this.props
     validateFields((errors, values) => {
-      if (!!errors) return
+      if (!!errors) {
+        return
+      }
       confirm(values)
     })
   }
@@ -44,7 +46,7 @@ class UserInfo extends Component {
 
 
   render () {
-    const { isShow, cancel, form: { getFieldDecorator }, password } = this.props
+    const { isShow, cancel, form: { getFieldDecorator }, password, loginInfo } = this.props
     const { isShowPasswordInput } = this.state
     const formItemLayout = {
       labelCol: { span: 8 },
@@ -60,11 +62,11 @@ class UserInfo extends Component {
           <div className="user-info">
             <Row>
               <Col span="8">登录账号：</Col>
-              <Col span="14">a52659854467876464</Col>
+              <Col span="14">{loginInfo.get('username')}</Col>
             </Row>
             <Row>
               <Col span="8">登录名称：</Col>
-              <Col span="14">David M.</Col>
+              <Col span="14">{loginInfo.get('name')}</Col>
             </Row>
             <Form horizontal>
             {

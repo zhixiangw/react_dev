@@ -70,7 +70,7 @@ class PageContainer extends Component {
     modifyPassWord(params).then(() => {
       this.toggleShow()
       logout()
-    })
+    }, () => this.toggleShow())
   }
 
   getContent () {
@@ -99,7 +99,7 @@ class PageContainer extends Component {
             <Icon type="down-circle-o" />
           </Col>
           <Col span="20" className="right-metro">
-            <p>David M.</p>
+            <p>{loginInfo.get('name')}</p>
             <Popover
               visible={isPopShow}
               placement="bottomRight"
@@ -124,6 +124,7 @@ class PageContainer extends Component {
           isShow={isShow}
           cancel={this.toggleShow}
           password={password}
+          loginInfo={loginInfo}
           confirm={this.modifyPasswordFunc} />
       </div>
     )
