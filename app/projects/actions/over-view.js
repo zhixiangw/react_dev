@@ -12,14 +12,26 @@ export function queryOverView () {
   }
 }
 
+export const QUERY_OVER_VIEW_TREND = 'QUERY_OVER_VIEW_TREND'
+export function queryOverViewTrend (condition) {
+  return (dispatch) => {
+    return dispatch({
+      [FETCH_API]: {
+        constname: QUERY_OVER_VIEW_TREND,
+        url: `${__API_BASE__}home/trend`,
+        request: condition
+      }
+    })
+  }
+}
+
 export const QUERY_OVER_VIEW_LIST = 'QUERY_OVER_VIEW_LIST'
-export function queryOverViewList (condition) {
+export function queryOverViewList () {
   return (dispatch) => {
     return dispatch({
       [FETCH_API]: {
         constname: QUERY_OVER_VIEW_LIST,
-        url: '//jsonplaceholder.typicode.com/posts/',
-        request: condition
+        url: `${__API_BASE__}home/homeDetail`
       }
     })
   }

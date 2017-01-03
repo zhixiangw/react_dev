@@ -26,13 +26,14 @@ class OverView extends Component {
   }
 
   componentWillMount() {
-    const { queryOverView } = this.props
+    const { queryOverView, queryOverViewList } = this.props
     const condition = {
-      startDate: moment().format('YYYY-MM-DD'),
-      endDate: moment().subtract(7, 'days').format('YYYY-MM-DD'),
+      start: moment().format('YYYY-MM-DD'),
+      end: moment().subtract(7, 'days').format('YYYY-MM-DD'),
     }
-    this.search(condition)
     queryOverView()
+    this.search(condition)
+    queryOverViewList()
   }
 
   toggleActive (activeId) {
@@ -43,9 +44,9 @@ class OverView extends Component {
   }
 
   search (condition) {
-    const { queryOverViewList } = this.props
+    const { queryOverViewTrend } = this.props
     const hide = message.loading('', 0)
-    queryOverViewList(condition).then(() => {
+    queryOverViewTrend(condition).then(() => {
       setTimeout(hide, 0)
     }, () => {
       setTimeout(hide, 0)
@@ -99,20 +100,21 @@ class OverView extends Component {
     }))
   }
 
-  getChartDate (dataList) {
+  getChartDate () {
+    const { overViewTrend } = this.props
     const { activeId } = this.state
     let xData = []
     let yData = []
-    dataList.forEach(item => {
-      xData.push(item.date)
-      if (+activeId === 1) {
-        yData.push(item.newContract)
-      } else if (+activeId === 2) {
-        yData.push(item.loanContract)
-      } else {
-        yData.push(item.unpaidContract)
-      }
-    })
+    if (+activeId === 1) {
+      xData = Object.keys(overViewTrend.get('newContracts') && overViewTrend.get('newContracts').toJS() || {})
+      yData = Object.values(overViewTrend.get('newContracts') && overViewTrend.get('newContracts').toJS() || {})
+    } else if (+activeId === 2) {
+      xData = Object.keys(overViewTrend.get('onloanContracts') && overViewTrend.get('onloanContracts').toJS() || {})
+      yData = Object.values(overViewTrend.get('onloanContracts') && overViewTrend.get('onloanContracts').toJS() || {})
+    } else {
+      xData = Object.keys(overViewTrend.get('notPaidContracts') && overViewTrend.get('notPaidContracts').toJS() || {})
+      yData = Object.values(overViewTrend.get('notPaidContracts') && overViewTrend.get('notPaidContracts').toJS() || {})
+    }
     return {
       xData,
       yData
@@ -212,11 +214,13 @@ class OverView extends Component {
 
 const mapStateToProps = (state) => ({
   overViewData: state.overView.overViewData,
+  overViewTrend: state.overView.overViewTrend,
   list: state.overView.overViewList
 })
 const mapDispatchToProps = (dispatch) => ({
   queryOverView: () => dispatch(overViewAction.queryOverView()),
-  queryOverViewList: (condition) => dispatch(overViewAction.queryOverViewList(condition))
+  queryOverViewTrend: (condition) => dispatch(overViewAction.queryOverViewTrend(condition)),
+  queryOverViewList: () => dispatch(overViewAction.queryOverViewList())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(OverView)

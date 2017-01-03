@@ -21,41 +21,27 @@ const overViewData = (state = Map(), { type, constname, response }) => {
   }
 }
 
+const overViewTrend = (state = Map(), { type, constname, response }) => {
+  switch (type) {
+    case API_SUCCESS:
+      if (constname === overViewAction.QUERY_OVER_VIEW_TREND) {
+        return response && Immutable.fromJS({
+          newContracts: response.newContracts,
+          notPaidContracts: response.notPaidContracts,
+          onloanContracts: response.onloanContracts
+        })
+      }
+      return state
+
+    default:
+      return state
+  }
+}
+
 const overViewList = (state = Map({
   doing: false,
   dataList: List()
 }), { type, constname, response }) => {
-  const dataList = [{
-    date: '2016-12-01',
-    newContract: Math.ceil(Math.random() * 100),
-    loanContract: Math.ceil(Math.random() * 100),
-    loanAmount: Math.ceil(Math.random() * 10000),
-    unpaidContract: Math.ceil(Math.random() * 100),
-  }, {
-    date: '2016-12-02',
-    newContract: Math.ceil(Math.random() * 100),
-    loanContract: Math.ceil(Math.random() * 100),
-    loanAmount: Math.ceil(Math.random() * 10000),
-    unpaidContract: Math.ceil(Math.random() * 100),
-  }, {
-    date: '2016-12-03',
-    newContract: Math.ceil(Math.random() * 100),
-    loanContract: Math.ceil(Math.random() * 100),
-    loanAmount: Math.ceil(Math.random() * 10000),
-    unpaidContract: Math.ceil(Math.random() * 100),
-  }, {
-    date: '2016-12-04',
-    newContract: Math.ceil(Math.random() * 100),
-    loanContract: Math.ceil(Math.random() * 100),
-    loanAmount: Math.ceil(Math.random() * 10000),
-    unpaidContract: Math.ceil(Math.random() * 100),
-  }, {
-    date: '2016-12-05',
-    newContract: Math.ceil(Math.random() * 100),
-    loanContract: Math.ceil(Math.random() * 100),
-    loanAmount: Math.ceil(Math.random() * 10000),
-    unpaidContract: Math.ceil(Math.random() * 100),
-  }]
   switch (type) {
     case API_REQUEST:
       if (constname === overViewAction.QUERY_OVER_VIEW_LIST) {
@@ -69,7 +55,15 @@ const overViewList = (state = Map({
       if (constname === overViewAction.QUERY_OVER_VIEW_LIST) {
         return state.merge({}, {
           doing: false,
-          dataList
+          dataList: response && response.map(item => {
+            return {
+              date: '2016-12-01',
+              newContract: item.contractCounts,
+              loanContract: item.loanAmounts,
+              loanAmount: item.loanAmounts,
+              unpaidContract: item.notPaidCounts
+            }
+          })
         })
       }
       return state
@@ -81,6 +75,7 @@ const overViewList = (state = Map({
 
 const rootReducer = combineReducers({
   overViewData,
+  overViewTrend,
   overViewList
 })
 
