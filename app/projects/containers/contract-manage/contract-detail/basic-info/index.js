@@ -87,7 +87,7 @@ class CarsInfo extends Component {
   getSalesManOptions () {
     const { salesManList } = this.props
     return salesManList.map((item, index) => {
-      return <Option key={index + 1} value={item.clerkName}>{item.clerkName}</Option>
+      return <Option key={index + 1} value={item.name}>{item.name}</Option>
     })
   }
 

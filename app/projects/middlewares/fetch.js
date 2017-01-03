@@ -27,6 +27,7 @@ function packFetch(url, condition) {
         body: condition.formData.data
       }
     } else {
+      condition.JSESSIONID = 'CDCF9D2266162E4EA9830369BC72CBF7'
       option = {
         method: 'post',
         // credentials: 'include',

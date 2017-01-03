@@ -114,19 +114,19 @@ class UserList extends Component {
 
   parseKey1Data (list) {
     return list.map(item => ({
-      clerkAccount: item.clerkAccount,
-      clerkName: item.clerkName,
-      assignedContractNumb: item.assignedContractNumb,
-      contractIn: item.contractIn,
+      clerkAccount: item.account,
+      clerkName: item.name,
+      assignedContractNumb: item.counts,
+      contractIn: item.xcounts,
       handle: item.id
     }))
   }
 
   parseKey2Data (list) {
     return list.map(item => ({
-      verifyAccount: item.verifyAccount,
-      verifyName: item.verifyName,
-      entryContract: item.entryContract,
+      verifyAccount: item.account,
+      verifyName: item.name,
+      entryContract: item.counts,
       handle: item.id
     }))
   }
