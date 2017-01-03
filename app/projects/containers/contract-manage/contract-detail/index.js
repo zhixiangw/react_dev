@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { replace } from 'react-router-redux'
 import { Tabs, message } from 'antd'
 const TabPane = Tabs.TabPane
 
@@ -43,9 +44,10 @@ class CustomerManage extends Component {
   }
 
   saveBasicInfo (values) {
-    const { saveBasicInfoFunc } = this.props
+    const { saveBasicInfoFunc, replaceRouter } = this.props
     const hide = message.loading('', 0)
-    saveBasicInfoFunc(values).then(() => {
+    saveBasicInfoFunc(values).then((response) => {
+      replaceRouter(`${__STATIC_BASE__}contractManage/detail?handleType=edit&id=${response.id}`)
       setTimeout(hide, 0)
     }, () => {
       setTimeout(hide, 0)
@@ -74,7 +76,7 @@ class CustomerManage extends Component {
 
   render() {
     const { activeTabKey } = this.state
-    const { contractDetail, location: { query: { handleType } }, salesManList } = this.props
+    const { contractDetail, location: { query: { handleType, id } }, salesManList } = this.props
     return (
       <div className="customer-manage">
         <Tabs
@@ -84,6 +86,7 @@ class CustomerManage extends Component {
             <BasicInfo
               info={handleType !== 'create' && contractDetail.get('basicInfo').toJS() || {}}
               handleType={handleType}
+              id={id}
               salesManList={salesManList.get('dataList').toJS()}
               onSubmit={this.saveBasicInfo} />
           </TabPane>
@@ -91,12 +94,14 @@ class CustomerManage extends Component {
             <CarsInfo
               info={handleType !== 'create' && contractDetail.get('carsInfo').toJS() || {}}
               handleType={handleType}
+              id={id}
               onSubmit={this.saveCarsInfo} />
           </TabPane>
           <TabPane tab="执行情况" key="3">
             <ExecutiveInfo
               info={handleType !== 'create' && contractDetail.get('executiveInfo').toJS() || {}}
               eachChargeTime={handleType !== 'create' && contractDetail.getIn(['basicInfo', 'eachChargeTime']) || null}
+              id={id}
               onSubmit={this.saveExecutiveInfo} />
           </TabPane>
         </Tabs>
@@ -114,7 +119,8 @@ const mapDispatchToProps = (dispatch) => ({
   queryContractDetail: (id) => dispatch(contractAction.queryContractDetail(id)),
   saveBasicInfoFunc: (condition) => dispatch(contractAction.saveBasicInfo(condition)),
   saveCarsInfoFunc: (condition) => dispatch(contractAction.saveCarsInfo(condition)),
-  saveExecutiveInfoFunc: (condition) => dispatch(contractAction.saveExecutiveInfo(condition))
+  saveExecutiveInfoFunc: (condition) => dispatch(contractAction.saveExecutiveInfo(condition)),
+  replaceRouter: (url) => dispatch(replace(url))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomerManage)

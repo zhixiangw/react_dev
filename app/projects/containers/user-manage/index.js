@@ -138,6 +138,7 @@ class UserList extends Component {
     createUser(condition).then(() => {
       this.setState({ isShow: false })
       setTimeout(hide, 0)
+      this.search(this.state.activeTabKey)
     }, () => setTimeout(hide, 0))
   }
 
