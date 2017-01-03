@@ -25,11 +25,12 @@ class UserInfo extends Component {
   }
 
   editPassword () {
-    const { form: { validateFields }, confirm } = this.props
+    const { form: { validateFields }, confirm, loginInfo } = this.props
     validateFields((errors, values) => {
       if (!!errors) {
         return
       }
+      values.id = loginInfo.get('id')
       confirm(values)
     })
   }

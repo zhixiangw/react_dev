@@ -39,13 +39,12 @@ export function createUser (condition) {
 }
 
 export const RESET_PASSWORD = 'RESET_PASSWORD'
-export function resetPassword (condition) {
+export function resetPassword (id) {
   return (dispatch) => {
     return dispatch({
       [FETCH_API]: {
         constname: RESET_PASSWORD,
-        url: '//jsonplaceholder.typicode.com/posts/',
-        request: condition,
+        url: `${__API_BASE__}user/resetPassword?id=${id}`,
         msg: '操作成功'
       }
     })

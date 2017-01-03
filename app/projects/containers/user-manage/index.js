@@ -41,10 +41,10 @@ class UserList extends Component {
     })
   }
 
-  resetPassword () {
+  resetPassword (id) {
     const { resetPasswordFunc } = this.props
     const hide = message.loading('', 0)
-    resetPasswordFunc({ password: 666888 }).then(() => {
+    resetPasswordFunc(id).then(() => {
       setTimeout(hide, 0)
     }, () => {
       setTimeout(hide, 0)
@@ -69,11 +69,9 @@ class UserList extends Component {
       dataIndex: 'handle',
       render: (id, cord) => {
         return (<div>
-          <a onClick={() => alert('暂未开放')}>进入后台</a>
-          &nbsp;&nbsp;
           <Popconfirm
             title="确定要重置密码吗？"
-            onConfirm={this.resetPassword}
+            onConfirm={this.resetPassword.bind(this, id)}
             okText="确定"
             cancelText="取消">
               <a>重置密码</a>
@@ -98,11 +96,9 @@ class UserList extends Component {
       dataIndex: 'handle',
       render: (id, cord) => {
         return (<div>
-          <a onClick={() => alert('暂未开放')}>进入后台</a>
-          &nbsp;&nbsp;
           <Popconfirm
             title="确定要重置密码吗？"
-            onConfirm={this.resetPassword}
+            onConfirm={this.resetPassword.bind(this, id)}
             okText="确定"
             cancelText="取消">
               <a>重置密码</a>
@@ -203,7 +199,7 @@ const mapDispatchToProps = (dispatch) => ({
   queryUserList4key1: (condition) => dispatch(userAction.queryUserList4key1(condition)),
   queryUserList4key2: (condition) => dispatch(userAction.queryUserList4key2(condition)),
   createUser: (condition) => dispatch(userAction.createUser(condition)),
-  resetPasswordFunc: (condition) => dispatch(userAction.resetPassword(condition))
+  resetPasswordFunc: (id) => dispatch(userAction.resetPassword(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserList)
