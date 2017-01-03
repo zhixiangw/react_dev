@@ -1,6 +1,6 @@
 export default function (getFieldDecorator) {
   return {
-    policyNumber: () => getFieldDecorator('policyNumber', {
+    no: () => getFieldDecorator('no', {
       rules: [{
         required: true,
         whitespace: true,
@@ -8,7 +8,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    policyAttachment: () => getFieldDecorator('policyAttachment', {
+    insuranceAttachmentPath: () => getFieldDecorator('insuranceAttachmentPath', {
       rules: [{
         required: true,
         whitespace: true,
@@ -30,7 +30,7 @@ export default function (getFieldDecorator) {
       }
     }),
 
-    commercialInsurancePremium: () => getFieldDecorator('commercialInsurancePremium', {
+    premium: () => getFieldDecorator('premium', {
       rules: [{
         required: true,
         whitespace: true,
@@ -38,7 +38,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    otherAttachment: () => getFieldDecorator('otherAttachment', {
+    otherAttachmentPath: () => getFieldDecorator('otherAttachmentPath', {
       rules: [{
         required: true,
         whitespace: true,
@@ -60,7 +60,7 @@ export default function (getFieldDecorator) {
       }
     }),
 
-    carNumber: () => getFieldDecorator('carNumber', {
+    plateNumber: () => getFieldDecorator('plateNumber', {
       rules: [{
         required: true,
         whitespace: true,
@@ -84,7 +84,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    carIdNumber: () => getFieldDecorator('carIdNumber', {
+    carIdentifyNumber: () => getFieldDecorator('carIdentifyNumber', {
       rules: [{
         required: true,
         whitespace: true,
@@ -92,7 +92,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    drivingLicense: () => getFieldDecorator('drivingLicense', {
+    driverLicense: () => getFieldDecorator('driverLicense', {
       rules: [{
         required: true,
         whitespace: true,
@@ -100,7 +100,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    drivingLicenseAttachment: () => getFieldDecorator('drivingLicenseAttachment', {
+    driverLicensePath: () => getFieldDecorator('driverLicensePath', {
       rules: [{
         required: true,
         whitespace: true,

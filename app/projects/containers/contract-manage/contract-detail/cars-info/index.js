@@ -10,7 +10,11 @@ import './index.less'
 class CarsInfo extends Component {
   constructor (props) {
     super(props)
-
+    this.state = {
+      insuranceAttachmentPathName: 'default',
+      otherAttachmentPathName: 'default',
+      driverLicensePathName: 'default'
+    }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleBeforeUpload = this.handleBeforeUpload.bind(this)
   }
@@ -31,7 +35,7 @@ class CarsInfo extends Component {
     return arr.map(item => {
       return {
         name: item.name,
-        url: item.response && item.response.url || 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+        url: `${__API_BASE__}file/${item.response && item.response.obj}?filePath=${item.response && item.response.obj}`,
         uid: item.uid
       }
     })
@@ -43,15 +47,16 @@ class CarsInfo extends Component {
       if (!!errors) {
         return
       }
-      values.policyAttachment = this.normalize(values.policyAttachment)
-      values.otherAttachment = this.normalize(values.otherAttachment)
+      values.insuranceAttachmentPath = this.normalize(values.insuranceAttachmentPath)[0].url
+      values.otherAttachmentPath = this.normalize(values.otherAttachmentPath)[0].url
+      values.driverLicensePath = this.normalize(values.driverLicensePath)[0].url
       onSubmit(values)
     })
   }
 
   handleBeforeUpload(type, file) {
     const isPDF = file.type === 'application/pdf'
-    if (type !== 'all' && !isPDF) {
+    if (type !== 'driverLicensePath' && !isPDF) {
       message.error('必须上传PDF格式的文件')
       return false
     }
@@ -60,6 +65,8 @@ class CarsInfo extends Component {
       message.error('文件大小必须小于2M')
       return false
     }
+    this.setState({ [type === 'insuranceAttachmentPath' && 'insuranceAttachmentPathName'
+     || type === 'otherAttachmentPath' && 'otherAttachmentPathName' || 'driverLicensePathName']: file.name.toString().replace(/.pdf|.png|.jpg|.jpeg|.bmp|.gif/, '') })
     return true
   }
 
@@ -80,19 +87,20 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="保单号"
             hasFeedback >
-            {fieldValidate.policyNumber()(<Input />)}
+            {fieldValidate.no()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="保单附件上传"
             hasFeedback >
-            {fieldValidate.policyAttachment()(
+            {fieldValidate.insuranceAttachmentPath()(
               <Upload
-                action="//jsonplaceholder.typicode.com/posts/"
-                name="policyAttachment"
+                action={`${__API_BASE__}file/upload`}
+                name="insuranceAttachmentPath"
+                data={{ fileName: this.state.insuranceAttachmentPathName }}
                 accept=".pdf"
-                beforeUpload={this.handleBeforeUpload.bind(this, 'application/pdf')} >
+                beforeUpload={this.handleBeforeUpload.bind(this, 'insuranceAttachmentPath')} >
               <Button type="ghost">
                 <Icon type="upload" /> 点击上传保单附件
               </Button>
@@ -104,19 +112,20 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="商业保险费"
             hasFeedback >
-            {fieldValidate.commercialInsurancePremium()(<Input />)}
+            {fieldValidate.premium()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="其他文档上传"
             hasFeedback >
-            {fieldValidate.otherAttachment()(
+            {fieldValidate.otherAttachmentPath()(
               <Upload
-                action="//jsonplaceholder.typicode.com/posts/"
-                name="contractAttachment"
+                action={`${__API_BASE__}file/upload`}
+                name="otherAttachmentPath"
+                data={{ fileName: this.state.otherAttachmentPathName }}
                 accept=".pdf"
-                beforeUpload={this.handleBeforeUpload.bind(this, 'application/pdf')} >
+                beforeUpload={this.handleBeforeUpload.bind(this, 'otherAttachmentPath')} >
               <Button type="ghost">
                 <Icon type="upload" /> 点击上传其他文档
               </Button>
@@ -131,7 +140,7 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="车牌号码"
             hasFeedback >
-            {fieldValidate.carNumber()(<Input />)}
+            {fieldValidate.plateNumber()(<Input />)}
           </FormItem>
 
           <FormItem
@@ -152,7 +161,7 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="车辆识别号"
             hasFeedback >
-            {fieldValidate.carIdNumber()(<Input />)}
+            {fieldValidate.carIdentifyNumber()(<Input />)}
           </FormItem>
 
           <Row className="cars-info-title">
@@ -162,7 +171,7 @@ class CarsInfo extends Component {
              {...formItemLayout}
              label="行驶证号"
              hasFeedback >
-            {fieldValidate.drivingLicense()(<Input />)}
+            {fieldValidate.driverLicense()(<Input />)}
           </FormItem>
 
           <FormItem
@@ -171,12 +180,13 @@ class CarsInfo extends Component {
             extra={`请上传行驶证清晰彩色原件扫描件或者数码照，支持jpg、jpeg、bmp、png、gif格式照片，
               大小不超过2M`}
             hasFeedback >
-            {fieldValidate.drivingLicenseAttachment()(
+            {fieldValidate.driverLicensePath()(
               <Upload
-                action="//jsonplaceholder.typicode.com/posts/"
-                name="businessLicensePic"
+                action={`${__API_BASE__}file/upload`}
+                name="driverLicensePath"
+                data={{ fileName: this.state.driverLicensePathName }}
                 accept=".jpg,.png,.jpeg,.bmp,.gif"
-                onChange={this.handleUpload} >
+                beforeUpload={this.handleBeforeUpload.bind(this, 'driverLicensePath')} >
               <Button type="ghost">
                 <Icon type="upload" /> 点击上传行驶证副本扫描件
               </Button>
@@ -196,8 +206,5 @@ class CarsInfo extends Component {
 }
 
 CarsInfo = Form.create()(CarsInfo)
-const mapStateToProps = (state) => ({
-  list: state.test.testFetch
-})
 
-export default connect(mapStateToProps)(CarsInfo)
+export default connect()(CarsInfo)

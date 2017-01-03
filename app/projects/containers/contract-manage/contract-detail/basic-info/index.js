@@ -24,14 +24,14 @@ class CarsInfo extends Component {
 
   componentWillMount() {
     const { info, form: { setFieldsValue } } = this.props
-    info.loanDate = info.loanDate && moment(info.loanDate) || null
+    info.loantime = info.loantime && moment(info.loantime) || null
     setFieldsValue(info)
   }
 
   componentDidUpdate (prevProps) {
     const { info, form: { setFieldsValue } } = this.props
     if (info !== prevProps.info) {
-      info.loanDate = info.loanDate && moment(info.loanDate) || null
+      info.loantime = info.loantime && moment(info.loantime) || null
       setFieldsValue(info)
     }
   }
@@ -40,7 +40,7 @@ class CarsInfo extends Component {
     return arr.map(item => {
       return {
         name: item.name,
-        url: item.response && item.response.url || 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+        url: `${__API_BASE__}file/${item.response && item.response.obj}?filePath=${item.response && item.response.obj}`,
         uid: item.uid
       }
     })
@@ -52,7 +52,6 @@ class CarsInfo extends Component {
       if (!!errors) {
         return
       }
-
       values.loantime = values.loantime.format('YYYY-MM-DD')
       values.attachmentPath = this.normalize(values.attachmentPath)[0].url
       values.businessLicencePath = this.normalize(values.businessLicencePath)[0].url
@@ -62,7 +61,7 @@ class CarsInfo extends Component {
 
   handleBeforeUpload(type, file) {
     const isPDF = file.type === 'application/pdf'
-    if (type !== 'all' && !isPDF) {
+    if (type !== 'businessLicencePath' && !isPDF) {
       message.error('必须上传PDF格式的文件')
       return false
     }
@@ -71,7 +70,7 @@ class CarsInfo extends Component {
       message.error('文件大小必须小于2M')
       return false
     }
-    this.setState({ [isPDF && 'attachmentPathName' || 'businessLicencePathName']: file.name })
+    this.setState({ [type === 'attachmentPath' && 'attachmentPathName' || 'businessLicencePathName']: file.name.replace(/.pdf|.png|.jpg|.jpeg|.bmp|.gif/, '') })
     return true
   }
 
@@ -110,20 +109,20 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="合同编号"
             hasFeedback >
-            {fieldValidate.contractCode()(<Input />)}
+            {fieldValidate.no()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="合同附件上传"
             hasFeedback >
-            {fieldValidate.contractAttachment(handleType)(
+            {fieldValidate.attachmentPath(handleType)(
               <Upload
                 action={`${__API_BASE__}file/upload`}
                 name="attachmentPath"
                 data={{ fileName: this.state.attachmentPathName }}
                 accept=".pdf"
-                beforeUpload={this.handleBeforeUpload.bind(this, 'application/pdf')} >
+                beforeUpload={this.handleBeforeUpload.bind(this, 'attachmentPath')} >
                 <Button type="ghost">
                   <Icon type="upload" /> 点击上传合同附件
                 </Button>
@@ -135,14 +134,14 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="借款时间"
             hasFeedback >
-            {fieldValidate.loanDate()(<DatePicker disabledDate={this.disabledDate} />)}
+            {fieldValidate.loantime()(<DatePicker disabledDate={this.disabledDate} />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="客户姓名"
             hasFeedback >
-            {fieldValidate.customerName()(<Input />)}
+            {fieldValidate.customer()(<Input />)}
           </FormItem>
 
           <Row>
@@ -151,7 +150,7 @@ class CarsInfo extends Component {
                 {...afterFormItemLayout}
                 label="客户联系方式"
                 hasFeedback >
-                {fieldValidate.customerMobile()(<Input maxLength="11" />)}
+                {fieldValidate.customerContact()(<Input maxLength="11" />)}
               </FormItem>
             </Col>
             <Col span="6" offset="1"><Alert message="扣款前两天，将短信通知客户还款" type="info" /></Col>
@@ -161,7 +160,7 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="营业执照注册号"
             hasFeedback >
-            {fieldValidate.businessLicense()(<Input />)}
+            {fieldValidate.businessLicence()(<Input />)}
           </FormItem>
 
           <FormItem
@@ -171,13 +170,13 @@ class CarsInfo extends Component {
               （当年注册的可无年检章），由中国大陆工商局或者市场监督管理局颁发，
               支持jpg、jpeg、bmp、png、gif格式照片，大小不超过2M`}
             hasFeedback >
-            {fieldValidate.businessLicensePic()(
+            {fieldValidate.businessLicencePath()(
               <Upload
                 action={`${__API_BASE__}file/upload`}
                 name="businessLicencePath"
                 data={{ fileName: this.state.businessLicencePathName }}
                 accept=".jpg,.png,.jpeg,.bmp,.gif"
-                beforeUpload={this.handleBeforeUpload.bind(this, 'all')} >
+                beforeUpload={this.handleBeforeUpload.bind(this, 'businessLicencePath')} >
                 <Button type="ghost">
                   <Icon type="upload" /> 点击上传营业执照副本扫描件
                 </Button>
@@ -189,7 +188,7 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="借款金额"
             hasFeedback >
-            {fieldValidate.loanAmount()(<Input />)}
+            {fieldValidate.loanMoney()(<Input />)}
           </FormItem>
 
           <Row>
@@ -198,7 +197,7 @@ class CarsInfo extends Component {
               {...afterFormItemLayout}
               label="借款期限"
               hasFeedback >
-              {fieldValidate.loanTerm()(
+              {fieldValidate.repaymentPeriod()(
                 <Select placeholder="请选择">
                   <Option value={'11'}>11期</Option>
                 </Select>
@@ -218,7 +217,7 @@ class CarsInfo extends Component {
               {...afterFormItemLayout}
               label="每期扣款时间"
               hasFeedback >
-              {fieldValidate.eachChargeTime()(
+              {fieldValidate.periodicDay()(
                 <Select>
                   {this.getChargeTimeOptions()}
                 </Select>
@@ -232,7 +231,7 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="所属诺亚信业务员"
             hasFeedback >
-            {fieldValidate.noainClerk()(
+            {fieldValidate.salesName()(
               <Select>
                 {this.getSalesManOptions()}
               </Select>
@@ -243,21 +242,21 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="所属诺亚信业务员联系方式"
             hasFeedback >
-            {fieldValidate.noainClerkMobile()(<Input maxLength="11" />)}
+            {fieldValidate.salesContact()(<Input maxLength="11" />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="所属保险业务员"
             hasFeedback >
-            {fieldValidate.salesClerk()(<Input />)}
+            {fieldValidate.insuranceSales()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="所属保险业务员联系方式"
             hasFeedback >
-            {fieldValidate.salesClerkMobile()(<Input maxLength="11" />)}
+            {fieldValidate.insuranceSalesContact()(<Input maxLength="11" />)}
           </FormItem>
 
           <FormItem>

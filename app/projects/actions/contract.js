@@ -98,7 +98,7 @@ export function saveCarsInfo (condition) {
     return dispatch({
       [FETCH_API]: {
         constname: SAVE_CARS_INFO,
-        url: `${__API_BASE__}contract/save`,
+        url: `${__API_BASE__}car/save`,
         request: condition,
         msg: '操作成功'
       }
