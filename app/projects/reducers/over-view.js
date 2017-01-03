@@ -21,23 +21,6 @@ const overViewData = (state = Map(), { type, constname, response }) => {
   }
 }
 
-const overViewTrend = (state = Map(), { type, constname, response }) => {
-  switch (type) {
-    case API_SUCCESS:
-      if (constname === overViewAction.QUERY_OVER_VIEW_TREND) {
-        return response && Immutable.fromJS({
-          newContracts: response.newContracts,
-          notPaidContracts: response.notPaidContracts,
-          onloanContracts: response.onloanContracts
-        })
-      }
-      return state
-
-    default:
-      return state
-  }
-}
-
 const overViewList = (state = Map({
   doing: false,
   dataList: List()
@@ -55,9 +38,9 @@ const overViewList = (state = Map({
       if (constname === overViewAction.QUERY_OVER_VIEW_LIST) {
         return state.merge({}, {
           doing: false,
-          dataList: response && response.map(item => {
+          dataList: response && response.map((item, index) => {
             return {
-              date: '2016-12-01',
+              date: `2016-12-0${index + 1}`,
               newContract: item.contractCounts,
               loanContract: item.loanAmounts,
               loanAmount: item.loanAmounts,
@@ -75,7 +58,6 @@ const overViewList = (state = Map({
 
 const rootReducer = combineReducers({
   overViewData,
-  overViewTrend,
   overViewList
 })
 
