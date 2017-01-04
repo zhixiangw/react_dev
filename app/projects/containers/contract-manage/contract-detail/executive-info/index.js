@@ -17,20 +17,20 @@ class BasicInfo extends Component {
 
   componentWillMount() {
     const { info, form: { setFieldsValue } } = this.props
-    info.serviceCharge = info.serviceCharge.toString()
-    info.initialPremium = info.initialPremium.toString()
-    info.contractStatus = info.contractStatus.toString()
-    info.endReason = info.endReason.toString()
+    info.serviceCharge = info.serviceCharge && info.serviceCharge.toString()
+    info.initialPremium = info.initialPremium && info.initialPremium.toString()
+    info.contractStatus = info.contractStatus && info.contractStatus.toString()
+    info.endReason = info.endReason && info.endReason.toString()
     setFieldsValue(info)
   }
 
   componentDidUpdate (prevProps) {
     const { info, form: { setFieldsValue } } = this.props
     if (info !== prevProps.info) {
-      info.serviceCharge = info.serviceCharge.toString()
-      info.initialPremium = info.initialPremium.toString()
-      info.contractStatus = info.contractStatus.toString()
-      info.endReason = info.endReason.toString()
+      info.serviceCharge = info.serviceCharge && info.serviceCharge.toString()
+      info.initialPremium = info.initialPremium && info.initialPremium.toString()
+      info.contractStatus = info.contractStatus && info.contractStatus.toString()
+      info.endReason = info.endReason && info.endReason.toString()
       setFieldsValue(info)
     }
   }
