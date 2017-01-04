@@ -80,7 +80,7 @@ class CustomerManage extends Component {
     const hide = message.loading('', 0)
     if (handleType === 'edit') {
       values.contractId = id
-      values.id = contractDetail.get('contractStatus') && contractDetail.get('contractStatus').id
+      values.id = contractDetail.get('contractStatus') && contractDetail.get('contractStatus').toJS().id
     } else {
       values.contractId = this.state.contractId
     }
