@@ -99,7 +99,7 @@ class CustomerManage extends Component {
           onChange={this.tabChange} >
           <TabPane tab="基础信息" key="1">
             <BasicInfo
-              info={handleType !== 'create' && contractDetail.get('basicInfo').toJS() || {}}
+              info={handleType !== 'create' && contractDetail.toJS() || {}}
               handleType={handleType}
               id={id}
               salesManList={salesManList.get('dataList').toJS()}
@@ -107,15 +107,15 @@ class CustomerManage extends Component {
           </TabPane>
           <TabPane tab="车辆信息" key="2">
             <CarsInfo
-              info={handleType !== 'create' && contractDetail.get('carsInfo').toJS() || {}}
+              info={handleType !== 'create' && contractDetail.getIn(['insurancePolicyList', '0']) && contractDetail.getIn(['insurancePolicyList', '0']).toJS() || {}}
               handleType={handleType}
               id={id}
               onSubmit={this.saveCarsInfo} />
           </TabPane>
           <TabPane tab="执行情况" key="3">
             <ExecutiveInfo
-              info={handleType !== 'create' && contractDetail.get('executiveInfo').toJS() || {}}
-              eachChargeTime={handleType !== 'create' && contractDetail.getIn(['basicInfo', 'eachChargeTime']) || null}
+              info={handleType !== 'create' && contractDetail.get('contractStatus') && contractDetail.get('contractStatus').toJS() || {}}
+              eachChargeTime={handleType !== 'create' && contractDetail.get('periodicDay') || null}
               id={id}
               onSubmit={this.saveExecutiveInfo} />
           </TabPane>

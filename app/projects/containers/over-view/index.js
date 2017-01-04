@@ -28,8 +28,8 @@ class OverView extends Component {
   componentWillMount() {
     const { queryOverView } = this.props
     const condition = {
-      start: moment().format('YYYY-MM-DD'),
-      end: moment().subtract(7, 'days').format('YYYY-MM-DD'),
+      start: moment().subtract(7, 'days').format('YYYY-MM-DD'),
+      end: moment().add(1, 'days').format('YYYY-MM-DD'),
     }
     queryOverView()
     this.search(condition)
@@ -63,7 +63,7 @@ class OverView extends Component {
     }, () => {
       const condition = {
         start: dateStrings[0],
-        end: dateStrings[1]
+        end: moment(dateStrings[1]).add(1, 'days').format('YYYY-MM-DD')
       }
       this.search(condition)
     })
@@ -75,26 +75,26 @@ class OverView extends Component {
       dataIndex: 'date'
     }, {
       title: '新增合同',
-      dataIndex: 'newContract'
+      dataIndex: 'newContracts'
     }, {
       title: '放款合同数',
-      dataIndex: 'loanContract'
+      dataIndex: 'onloanContracts'
     }, {
       title: '放款金额',
-      dataIndex: 'loanAmount'
+      dataIndex: 'loanAmounts'
     }, {
       title: '欠缴合同数',
-      dataIndex: 'unpaidContract'
+      dataIndex: 'notPaidContracts'
     }]
   }
 
   parseData (list) {
     return list.map(item => ({
       date: item.date,
-      newContract: item.newContract,
-      loanContract: item.loanContract,
-      loanAmount: Number(item.loanAmount).toFixed(2),
-      unpaidContract: item.unpaidContract
+      newContracts: item.newContracts,
+      onloanContracts: item.onloanContracts,
+      loanAmounts: Number(item.loanAmounts).toFixed(2),
+      notPaidContracts: item.notPaidContracts
     }))
   }
 
@@ -175,13 +175,13 @@ class OverView extends Component {
                 size="large"
                 ranges={
                   { 今天: [moment(), moment()],
-                    昨天: [moment(), moment().subtract(1, 'days')],
-                    '7天': [moment(), moment().subtract(7, 'days')],
-                    '14天': [moment(), moment().subtract(14, 'days')],
-                    '30天': [moment(), moment().subtract(30, 'days')]
+                    昨天: [moment().subtract(1, 'days'), moment()],
+                    '7天': [moment().subtract(7, 'days'), moment()],
+                    '14天': [moment().subtract(14, 'days'), moment()],
+                    '30天': [moment().subtract(30, 'days'), moment()]
                   }}
                 disabledDate={this.disabledDate}
-                defaultValue={[moment(), moment().subtract(7, 'days')]}
+                defaultValue={[moment().subtract(7, 'days'), moment()]}
                 format="YYYY-MM-DD"
                 onChange={this.handleRangePickerChange} />
             </Col>

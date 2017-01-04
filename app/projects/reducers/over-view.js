@@ -38,15 +38,7 @@ const overViewList = (state = Map({
       if (constname === overViewAction.QUERY_OVER_VIEW_LIST) {
         return state.merge({}, {
           doing: false,
-          dataList: response && response.map((item, index) => {
-            return {
-              date: `2016-12-0${index + 1}`,
-              newContract: item.contractCounts,
-              loanContract: item.loanAmounts,
-              loanAmount: item.loanAmounts,
-              unpaidContract: item.notPaidCounts
-            }
-          })
+          dataList: response
         })
       }
       return state

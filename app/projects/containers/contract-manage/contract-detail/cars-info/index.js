@@ -21,14 +21,28 @@ class CarsInfo extends Component {
 
   componentWillMount() {
     const { info, form: { setFieldsValue } } = this.props
+    info.insuranceAttachmentPath = this.normalizeObj(info.insuranceAttachmentPath)
+    info.otherAttachmentPath = this.normalizeObj(info.otherAttachmentPath)
+    info.driverLicensePath = this.normalizeObj(info.driverLicensePath)
     setFieldsValue(info)
   }
 
   componentDidUpdate (prevProps) {
     const { info, form: { setFieldsValue } } = this.props
     if (info !== prevProps.info) {
+      info.insuranceAttachmentPath = this.normalizeObj(info.insuranceAttachmentPath)
+      info.otherAttachmentPath = this.normalizeObj(info.otherAttachmentPath)
+      info.driverLicensePath = this.normalizeObj(info.driverLicensePath)
       setFieldsValue(info)
     }
+  }
+
+  normalizeObj (url) {
+    return [{
+      name: url,
+      url,
+      uid: -1
+    }]
   }
 
   normalize (arr) {

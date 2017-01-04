@@ -157,7 +157,7 @@ class ContractList extends Component {
           <div>
             <Link to={option}>编辑</Link>
             &nbsp;&nbsp;
-            <a onClick={this.toggleShow.bind(this, cord.customer)}>附件</a>
+            <a onClick={this.toggleShow.bind(this, cord.customer, id)}>附件</a>
             &nbsp;&nbsp;
             { type !== 'salesman' ?
             <Popover
@@ -205,7 +205,7 @@ class ContractList extends Component {
           <div>
             <Link to={option}>编辑</Link>
             &nbsp;&nbsp;
-            <a onClick={this.toggleShow.bind(this, cord.customer, contractAttachmentId)}>附件</a>
+            <a onClick={this.toggleShow.bind(this, cord.customer, id)}>附件</a>
             &nbsp;&nbsp;
             { type !== 'salesman' ?
             <Popover
@@ -232,8 +232,8 @@ class ContractList extends Component {
       index: index + 1,
       no: item.no,
       customer: item.customer,
-      serviceCharge: obj[+item.serviceCharge] || '--',
-      initialPremium: obj[+item.initialPremium] || '--',
+      serviceCharge: obj[+item.contractStatus.serviceCharge] || '--',
+      initialPremium: obj[+item.contractStatus.initialPremium] || '--',
       handle: item.id
     }))
   }
@@ -250,10 +250,10 @@ class ContractList extends Component {
       no: item.no,
       customer: item.customer,
       status: item.status,
-      notPaidAmount: item.notPaidAmount,
+      notPaidAmount: item.contractStatus.notPaid,
       loanMoney: item.loanMoney,
       periodicDay: item.periodicDay,
-      repaymentStatus: repaymentStatusObj[+item.repaymentStatus] || '--',
+      repaymentStatus: repaymentStatusObj[+item.contractStatus.repaymentStatus] || '--',
       handle: item.id
     }))
   }
@@ -270,7 +270,7 @@ class ContractList extends Component {
       index: index + 1,
       no: item.no,
       customer: item.customer,
-      endReason: endReasonObj[+item.endReason] || '--',
+      endReason: endReasonObj[+item.contractStatus.endReason] || '--',
       handle: item.id
     }))
   }

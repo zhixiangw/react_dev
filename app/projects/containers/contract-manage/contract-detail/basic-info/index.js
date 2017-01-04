@@ -25,6 +25,10 @@ class CarsInfo extends Component {
   componentWillMount() {
     const { info, form: { setFieldsValue } } = this.props
     info.loantime = info.loantime && moment(info.loantime) || null
+    info.attachmentPath = this.normalizeObj(info.attachmentPath)
+    info.businessLicencePath = this.normalizeObj(info.businessLicencePath)
+    info.periodicDay = info.periodicDay && info.periodicDay.toString()
+    info.repaymentPeriod = info.repaymentPeriod && info.repaymentPeriod.toString()
     setFieldsValue(info)
   }
 
@@ -32,8 +36,20 @@ class CarsInfo extends Component {
     const { info, form: { setFieldsValue } } = this.props
     if (info !== prevProps.info) {
       info.loantime = info.loantime && moment(info.loantime) || null
+      info.attachmentPath = this.normalizeObj(info.attachmentPath)
+      info.businessLicencePath = this.normalizeObj(info.businessLicencePath)
+      info.periodicDay = info.periodicDay && info.periodicDay.toString()
+      info.repaymentPeriod = info.repaymentPeriod && info.repaymentPeriod.toString()
       setFieldsValue(info)
     }
+  }
+
+  normalizeObj (url) {
+    return [{
+      name: url,
+      url,
+      uid: -1
+    }]
   }
 
   normalize (arr) {
