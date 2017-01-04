@@ -42,13 +42,10 @@ class CarsInfo extends Component {
   }
 
   handleSubmit () {
-    const { form: { validateFields }, onSubmit, handleType, id } = this.props
+    const { form: { validateFields }, onSubmit } = this.props
     validateFields((errors, values) => {
       if (!!errors) {
         return
-      }
-      if (handleType === edit && id) {
-        values.id = id
       }
       values.insuranceAttachmentPath = this.normalize(values.insuranceAttachmentPath)[0].url
       values.otherAttachmentPath = this.normalize(values.otherAttachmentPath)[0].url

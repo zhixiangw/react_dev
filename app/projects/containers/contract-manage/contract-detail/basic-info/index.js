@@ -47,13 +47,10 @@ class CarsInfo extends Component {
   }
 
   handleSubmit () {
-    const { form: { validateFields }, onSubmit, handleType, id } = this.props
+    const { form: { validateFields }, onSubmit } = this.props
     validateFields((errors, values) => {
       if (!!errors) {
         return
-      }
-      if (handleType === edit && id) {
-        values.id = id
       }
       values.loantime = values.loantime.format('YYYY-MM-DD')
       values.attachmentPath = this.normalize(values.attachmentPath)[0].url

@@ -15,7 +15,8 @@ class CustomerManage extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      activeTabKey: '1'
+      activeTabKey: '1',
+      contractId: null
     }
 
     this.tabChange = this.tabChange.bind(this)
@@ -44,10 +45,13 @@ class CustomerManage extends Component {
   }
 
   saveBasicInfo (values) {
-    const { saveBasicInfoFunc, replaceRouter } = this.props
+    const { saveBasicInfoFunc, location: { query: { handleType, id } } } = this.props
     const hide = message.loading('', 0)
+    if (handleType === 'edit' && id) {
+      values.id = id
+    }
     saveBasicInfoFunc(values).then((response) => {
-      replaceRouter(`${__STATIC_BASE__}contractManage/detail?handleType=edit&id=${response.id}`)
+      this.setState({ contractId: response.id })
       setTimeout(hide, 0)
     }, () => {
       setTimeout(hide, 0)
@@ -55,8 +59,9 @@ class CustomerManage extends Component {
   }
 
   saveCarsInfo (values) {
-    const { saveCarsInfoFunc } = this.props
+    const { saveCarsInfoFunc, location: { query: { id } } } = this.props
     const hide = message.loading('', 0)
+    values.id = this.state.contractId || id
     saveCarsInfoFunc(values).then(() => {
       setTimeout(hide, 0)
     }, () => {
@@ -65,8 +70,9 @@ class CustomerManage extends Component {
   }
 
   saveExecutiveInfo (values) {
-    const { saveExecutiveInfoFunc } = this.props
+    const { saveExecutiveInfoFunc, location: { query: { id } } } = this.props
     const hide = message.loading('', 0)
+    values.id = this.state.contractId || id
     saveExecutiveInfoFunc(values).then(() => {
       setTimeout(hide, 0)
     }, () => {

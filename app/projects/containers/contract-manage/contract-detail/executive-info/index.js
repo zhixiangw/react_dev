@@ -28,13 +28,10 @@ class BasicInfo extends Component {
   }
 
   handleSubmit () {
-    const { form: { validateFields }, onSubmit, handleType, id } = this.props
+    const { form: { validateFields }, onSubmit } = this.props
     validateFields((errors, values) => {
       if (!!errors) {
         return
-      }
-      if (handleType === edit && id) {
-        values.id = id
       }
       onSubmit(values)
     })
