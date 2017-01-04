@@ -46,9 +46,22 @@ class CarsInfo extends Component {
     }
   }
 
+  getNameFromUrl (url) {
+    let query = url && url.split('?')[1] || ''
+    let sigleQuery = query && query.split('&')
+    let queryArr = sigleQuery && sigleQuery.map(item => item.split('=')) || []
+    let name = 'defalut'
+    queryArr.forEach(item => {
+      if (item[0] === 'filePath') {
+        name = item[1]
+      }
+    })
+    return name
+  }
+
   normalizeObj (url) {
     return [{
-      name: url,
+      name: this.getNameFromUrl(url),
       url,
       uid: -1
     }]

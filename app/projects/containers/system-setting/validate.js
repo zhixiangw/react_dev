@@ -1,6 +1,6 @@
 export default function (getFieldDecorator) {
   return {
-    eachChargeTime: () => getFieldDecorator('eachChargeTime'),
+    periodicDay: () => getFieldDecorator('periodicDay'),
 
     expWarning: () => getFieldDecorator('expWarning'),
 

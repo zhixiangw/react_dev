@@ -26,16 +26,21 @@ class CustomerManage extends Component {
   }
 
   componentWillMount() {
-    const { location: { query: { handleType, id } }, queryContractDetail } = this.props
+    const { location: { query: { handleType, id } } } = this.props
     if (id && handleType === 'edit') {
-      const hide = message.loading('', 0)
       this.setState({ contractId: null })
-      queryContractDetail(id).then(() => {
-        setTimeout(hide, 0)
-      }, () => {
-        setTimeout(hide, 0)
-      })
+      this.queryDetail()
     }
+  }
+
+  queryDetail () {
+    const { location: { query: { id } }, queryContractDetail } = this.props
+    const hide = message.loading('', 0)
+    queryContractDetail(id).then(() => {
+      setTimeout(hide, 0)
+    }, () => {
+      setTimeout(hide, 0)
+    })
   }
 
   tabChange (key) {
@@ -52,8 +57,9 @@ class CustomerManage extends Component {
       values.id = id
     }
     saveBasicInfoFunc(values).then((response) => {
-      this.setState({ contractId: response.id })
       setTimeout(hide, 0)
+      this.setState({ contractId: response.id })
+      this.queryDetail()
     }, () => {
       setTimeout(hide, 0)
     })
@@ -70,6 +76,7 @@ class CustomerManage extends Component {
     }
     saveCarsInfoFunc(values).then(() => {
       setTimeout(hide, 0)
+      this.queryDetail()
     }, () => {
       setTimeout(hide, 0)
     })
@@ -86,6 +93,7 @@ class CustomerManage extends Component {
     }
     saveExecutiveInfoFunc(values).then(() => {
       setTimeout(hide, 0)
+      this.queryDetail()
     }, () => {
       setTimeout(hide, 0)
     })

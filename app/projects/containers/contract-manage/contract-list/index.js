@@ -338,11 +338,13 @@ class ContractList extends Component {
     if (type === 4) {
       deleteContract(contractId).then(() => {
         this.hideComfrimModal()
+        this.handleSearch(this.state.value)
         setTimeout(hide, 0)
       })
     } else {
       sendNotification(condition).then(() => {
         this.hideComfrimModal()
+        this.handleSearch(this.state.value)
         setTimeout(hide, 0)
       })
     }
@@ -495,7 +497,7 @@ const mapDispatchToProps = (dispatch) => ({
   queryContractList4key2: (condition) => dispatch(contractAction.queryContractList4key2(condition)),
   queryContractList4key3: (condition) => dispatch(contractAction.queryContractList4key3(condition)),
   sendNotification: (condition) => dispatch(contractAction.sendNotification(condition)),
-  deleteContract: () => dispatch(contractAction.deleteContract())
+  deleteContract: (contractId) => dispatch(contractAction.deleteContract(contractId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContractList)
