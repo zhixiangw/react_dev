@@ -60,10 +60,11 @@ class CustomerManage extends Component {
   }
 
   saveCarsInfo (values) {
-    const { saveCarsInfoFunc, location: { query: { handleType, id } } } = this.props
+    const { saveCarsInfoFunc, location: { query: { handleType, id } }, contractDetail } = this.props
     const hide = message.loading('', 0)
     if (handleType === 'edit') {
-      values.id = id
+      values.contractId = id
+      values.id = contractDetail.getIn(['insurancePolicyList', '0']) && contractDetail.getIn(['insurancePolicyList', '0']).get('id')
     } else {
       values.contractId = this.state.contractId
     }
@@ -75,10 +76,11 @@ class CustomerManage extends Component {
   }
 
   saveExecutiveInfo (values) {
-    const { saveExecutiveInfoFunc, location: { query: { handleType, id } } } = this.props
+    const { saveExecutiveInfoFunc, location: { query: { handleType, id } }, contractDetail } = this.props
     const hide = message.loading('', 0)
     if (handleType === 'edit') {
-      values.id = id
+      values.contractId = id
+      values.id = contractDetail.get('contractStatus') && contractDetail.get('contractStatus').id
     } else {
       values.contractId = this.state.contractId
     }

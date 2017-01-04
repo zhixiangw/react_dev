@@ -349,10 +349,11 @@ class ContractList extends Component {
   }
 
   handleChange (field, e) {
-    this.setState({ [field]: e && e.target ? e.target.value : e })
-    if (field === 'selectType') {
-      this.handleSearch(this.state.value)
-    }
+    this.setState({ [field]: e && e.target ? e.target.value : e }, () => {
+      if (field === 'selectType') {
+        this.handleSearch(this.state.value)
+      }
+    })
   }
 
   handleSearch (value) {
@@ -360,7 +361,7 @@ class ContractList extends Component {
     const { activeTabKey, selectType } = this.state
     let condition = {
       type: +activeTabKey,
-      status: selectType === 'all' ? null : +selectType,
+      status: selectType === 'all' ? '' : +selectType,
       title: value
     }
     this.search(condition)
