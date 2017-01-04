@@ -29,6 +29,7 @@ class CustomerManage extends Component {
     const { location: { query: { handleType, id } }, queryContractDetail } = this.props
     if (id && handleType === 'edit') {
       const hide = message.loading('', 0)
+      this.setState({ contractId: null })
       queryContractDetail(id).then(() => {
         setTimeout(hide, 0)
       }, () => {
