@@ -8,9 +8,7 @@ export function queryContractList4key1 (condition) {
         constname: QUERY_CONTRACT_LIST_4_KEY_1,
         url: `${__API_BASE__}contract/list`,
         request: {
-          contractStatus: {
-            contractStatus: condition.type
-          }
+          contractStatus: condition.type
         }
       }
     })
@@ -25,10 +23,8 @@ export function queryContractList4key2 (condition) {
         constname: QUERY_CONTRACT_LIST_4_KEY_2,
         url: `${__API_BASE__}contract/list`,
         request: {
-          contractStatus: {
-            contractStatus: condition.status,
-            repaymentStatus: condition.status
-          },
+          contractStatus: condition.type,
+          repaymentStatus: condition.status,
           key: condition.title
         }
       }
@@ -44,10 +40,8 @@ export function queryContractList4key3 (condition) {
         constname: QUERY_CONTRACT_LIST_4_KEY_3,
         url: `${__API_BASE__}contract/list`,
         request: {
-          contractStatus: {
-            contractStatus: condition.status,
-            endReason: condition.status
-          },
+          contractStatus: condition.type,
+          endReason: condition.status,
           key: condition.title
         }
       }

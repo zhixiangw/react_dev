@@ -99,7 +99,7 @@ class ContractList extends Component {
           <div>
             <Link to={option}>编辑</Link>
             &nbsp;&nbsp;
-            <a onClick={this.toggleShow.bind(this, cord.customer)}>附件</a>
+            <a onClick={this.toggleShow.bind(this, cord.customer, id)}>附件</a>
             &nbsp;&nbsp;
             { type !== 'salesman' ?
             <Popover
@@ -205,7 +205,7 @@ class ContractList extends Component {
           <div>
             <Link to={option}>编辑</Link>
             &nbsp;&nbsp;
-            <a onClick={this.toggleShow.bind(this, cord.customer)}>附件</a>
+            <a onClick={this.toggleShow.bind(this, cord.customer, contractAttachmentId)}>附件</a>
             &nbsp;&nbsp;
             { type !== 'salesman' ?
             <Popover
@@ -275,12 +275,12 @@ class ContractList extends Component {
     }))
   }
 
-  toggleShow (name) {
-    this.setState({ isShow: !this.state.isShow, currentName: name || this.state.currentName })
+  toggleShow (name, contractAttachmentId) {
+    this.setState({ isShow: !this.state.isShow, currentName: name || this.state.currentName, contractAttachmentId })
   }
 
   handleMore (contractId, customer, listIndex, name, type) {
-    let isNeedConfirm = false
+    let isNeedConfirm = true
     // 请求接口，获取是否需要确认的字段
     if (!isNeedConfirm && type <= 3) {
       notification.warning({
@@ -423,7 +423,7 @@ class ContractList extends Component {
   }
 
   render() {
-    const { activeTabKey, isShow, isModalShow, currentName, type } = this.state
+    const { activeTabKey, isShow, isModalShow, currentName, type, contractAttachmentId } = this.state
     const { list4key1, list4key2, list4key3 } = this.props
     return (
       <div className="contract-list">
@@ -462,6 +462,7 @@ class ContractList extends Component {
 
         <Attachment
           isShow={isShow}
+          contractId={contractAttachmentId}
           cancel={this.toggleShow.bind(this, null)}
           title={`${currentName}附件资料下载`} />
 
