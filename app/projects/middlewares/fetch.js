@@ -27,7 +27,9 @@ function packFetch(url, condition) {
         body: condition.formData.data
       }
     } else {
-      condition.JSESSIONID = window.localStorage.getItem('jsessionid')
+      if (window.localStorage.getItem('jsessionid')) {
+        condition.JSESSIONID = window.localStorage.getItem('jsessionid')
+      }
       option = {
         method: 'post',
         // credentials: 'include',

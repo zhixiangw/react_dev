@@ -60,9 +60,13 @@ class CustomerManage extends Component {
   }
 
   saveCarsInfo (values) {
-    const { saveCarsInfoFunc, location: { query: { id } } } = this.props
+    const { saveCarsInfoFunc, location: { query: { handleType, id } } } = this.props
     const hide = message.loading('', 0)
-    values.id = this.state.contractId || id
+    if (handleType === 'edit') {
+      values.id = id
+    } else {
+      values.contractId = this.state.contractId
+    }
     saveCarsInfoFunc(values).then(() => {
       setTimeout(hide, 0)
     }, () => {
@@ -71,9 +75,13 @@ class CustomerManage extends Component {
   }
 
   saveExecutiveInfo (values) {
-    const { saveExecutiveInfoFunc, location: { query: { id } } } = this.props
+    const { saveExecutiveInfoFunc, location: { query: { handleType, id } } } = this.props
     const hide = message.loading('', 0)
-    values.id = this.state.contractId || id
+    if (handleType === 'edit') {
+      values.id = id
+    } else {
+      values.contractId = this.state.contractId
+    }
     saveExecutiveInfoFunc(values).then(() => {
       setTimeout(hide, 0)
     }, () => {

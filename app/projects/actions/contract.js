@@ -6,8 +6,12 @@ export function queryContractList4key1 (condition) {
     return dispatch({
       [FETCH_API]: {
         constname: QUERY_CONTRACT_LIST_4_KEY_1,
-        url: '//jsonplaceholder.typicode.com/posts/',
-        request: condition
+        url: `${__API_BASE__}contract/list`,
+        request: {
+          contractStatus: {
+            contractStatus: condition.type
+          }
+        }
       }
     })
   }
@@ -19,8 +23,14 @@ export function queryContractList4key2 (condition) {
     return dispatch({
       [FETCH_API]: {
         constname: QUERY_CONTRACT_LIST_4_KEY_2,
-        url: '//jsonplaceholder.typicode.com/posts/',
-        request: condition
+        url: `${__API_BASE__}contract/list`,
+        request: {
+          contractStatus: {
+            contractStatus: condition.status,
+            repaymentStatus: condition.status
+          },
+          key: condition.title
+        }
       }
     })
   }
@@ -32,8 +42,14 @@ export function queryContractList4key3 (condition) {
     return dispatch({
       [FETCH_API]: {
         constname: QUERY_CONTRACT_LIST_4_KEY_3,
-        url: '//jsonplaceholder.typicode.com/posts/',
-        request: condition
+        url: `${__API_BASE__}contract/list`,
+        request: {
+          contractStatus: {
+            contractStatus: condition.status,
+            endReason: condition.status
+          },
+          key: condition.title
+        }
       }
     })
   }
@@ -41,12 +57,19 @@ export function queryContractList4key3 (condition) {
 
 export const SEND_NOTIFICATION = 'SEND_NOTIFICATION'
 export function sendNotification (condition) {
+  let url
+  if (+condition.type === 1) {// 放款
+    url = `${__API_BASE__}contract/loan?contractId=${condition.contractId}`
+  } else if (+condition.type === 2) {// 还款
+    url = `${__API_BASE__}contract/repayment?contractId=${condition.contractId}`
+  } else if (+condition.type === 3) {// 扣款
+    url = `${__API_BASE__}contract/loan?contractId=${condition.contractId}`
+  }
   return (dispatch) => {
     return dispatch({
       [FETCH_API]: {
         constname: SEND_NOTIFICATION,
-        url: '//jsonplaceholder.typicode.com/posts/',
-        request: condition,
+        url,
         msg: '操作成功'
       }
     })
@@ -54,12 +77,12 @@ export function sendNotification (condition) {
 }
 
 export const DELETE_CONTRACT = 'DELETE_CONTRACT'
-export function deleteContract () {
+export function deleteContract (id) {
   return (dispatch) => {
     return dispatch({
       [FETCH_API]: {
         constname: DELETE_CONTRACT,
-        url: 'https://cnodejs.org/api/v1/user/alsotang',
+        url: `${__API_BASE__}contract/delete?id=${id}`,
         msg: '操作成功'
       }
     })
@@ -72,7 +95,7 @@ export function queryContractDetail (id) {
     return dispatch({
       [FETCH_API]: {
         constname: QUERY_CONTRACT_DETAIL,
-        url: `https://cnodejs.org/api/v1/user/alsotang?${id}`
+        url: `${__API_BASE__}contract/info?id=${id}`,
       }
     })
   }
