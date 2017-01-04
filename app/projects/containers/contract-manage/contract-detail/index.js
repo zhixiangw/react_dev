@@ -115,7 +115,7 @@ class CustomerManage extends Component {
           <TabPane tab="执行情况" key="3">
             <ExecutiveInfo
               info={handleType !== 'create' && contractDetail.get('contractStatus') && contractDetail.get('contractStatus').toJS() || {}}
-              eachChargeTime={handleType !== 'create' && contractDetail.get('periodicDay') || null}
+              periodicDay={handleType !== 'create' && contractDetail.get('periodicDay') || null}
               id={id}
               onSubmit={this.saveExecutiveInfo} />
           </TabPane>

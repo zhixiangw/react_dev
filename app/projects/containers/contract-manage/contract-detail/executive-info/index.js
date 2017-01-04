@@ -57,7 +57,7 @@ class BasicInfo extends Component {
   }
 
   render() {
-    const { form: { getFieldDecorator, getFieldValue }, info, eachChargeTime } = this.props
+    const { form: { getFieldDecorator, getFieldValue }, info, periodicDay } = this.props
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 16 },
@@ -98,7 +98,7 @@ class BasicInfo extends Component {
                   {...formItemLayout}
                   label="是否放款"
                   hasFeedback >
-                  <p>{'未放款'}</p>
+                  <p>{+info.isLoan === 2 ? '已放款' : '未放款'}</p>
                 </FormItem>
 
                 <FormItem
@@ -144,7 +144,7 @@ class BasicInfo extends Component {
           <Col span="14">
             <section className="logic-status">
               <p className="logic-status-title" style={{ margin: 0 }}>执行记录</p>
-              <p className="logic-status-content">{eachChargeTime && `每月${eachChargeTime}号发送扣款指令，并提前两天短信通知客户` || null}</p>
+              <p className="logic-status-content">{periodicDay && `每月${periodicDay}号发送扣款指令，并提前两天短信通知客户` || null}</p>
               <Row>
                 <Col span="20" offset="4">
                   <Timeline>

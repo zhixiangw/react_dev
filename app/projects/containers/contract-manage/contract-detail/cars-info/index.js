@@ -24,6 +24,7 @@ class CarsInfo extends Component {
     info.insuranceAttachmentPath = this.normalizeObj(info.insuranceAttachmentPath)
     info.otherAttachmentPath = this.normalizeObj(info.otherAttachmentPath)
     info.driverLicensePath = this.normalizeObj(info.driverLicensePath)
+    info.premium = info.premium && info.premium.toString()
     setFieldsValue(info)
   }
 
@@ -33,6 +34,7 @@ class CarsInfo extends Component {
       info.insuranceAttachmentPath = this.normalizeObj(info.insuranceAttachmentPath)
       info.otherAttachmentPath = this.normalizeObj(info.otherAttachmentPath)
       info.driverLicensePath = this.normalizeObj(info.driverLicensePath)
+      info.premium = info.premium && info.premium.toString()
       setFieldsValue(info)
     }
   }
