@@ -59,7 +59,7 @@ class ContractList extends Component {
     }
     if (+key > 1) {
       condition.title = title
-      condition.status = selectType === 'all' ? null : +selectType
+      condition.status = selectType === 'all' ? '' : +selectType
     }
     this.setState({ activeTabKey: key, selectType: 'all' }, () => {
       this.search(condition)

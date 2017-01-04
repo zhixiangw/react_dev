@@ -27,6 +27,7 @@ class CarsInfo extends Component {
     info.loantime = info.loantime && moment(info.loantime) || null
     info.attachmentPath = this.normalizeObj(info.attachmentPath)
     info.businessLicencePath = this.normalizeObj(info.businessLicencePath)
+    info.loanMoney = info.loanMoney && info.loanMoney.toString()
     info.periodicDay = info.periodicDay && info.periodicDay.toString()
     info.repaymentPeriod = info.repaymentPeriod && info.repaymentPeriod.toString()
     setFieldsValue(info)
@@ -38,6 +39,7 @@ class CarsInfo extends Component {
       info.loantime = info.loantime && moment(info.loantime) || null
       info.attachmentPath = this.normalizeObj(info.attachmentPath)
       info.businessLicencePath = this.normalizeObj(info.businessLicencePath)
+      info.loanMoney = info.loanMoney && info.loanMoney.toString()
       info.periodicDay = info.periodicDay && info.periodicDay.toString()
       info.repaymentPeriod = info.repaymentPeriod && info.repaymentPeriod.toString()
       setFieldsValue(info)

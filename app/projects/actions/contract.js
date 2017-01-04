@@ -8,7 +8,7 @@ export function queryContractList4key1 (condition) {
         constname: QUERY_CONTRACT_LIST_4_KEY_1,
         url: `${__API_BASE__}contract/list`,
         request: {
-          contractStatus: condition.type
+          'contractStatus.contractStatus': condition.type
         }
       }
     })
@@ -23,8 +23,8 @@ export function queryContractList4key2 (condition) {
         constname: QUERY_CONTRACT_LIST_4_KEY_2,
         url: `${__API_BASE__}contract/list`,
         request: {
-          contractStatus: condition.type,
-          repaymentStatus: condition.status,
+          'contractStatus.contractStatus': condition.type,
+          'contractStatus.repaymentStatus': condition.status,
           key: condition.title
         }
       }
@@ -40,8 +40,8 @@ export function queryContractList4key3 (condition) {
         constname: QUERY_CONTRACT_LIST_4_KEY_3,
         url: `${__API_BASE__}contract/list`,
         request: {
-          contractStatus: condition.type,
-          endReason: condition.status,
+          'contractStatus.contractStatus': condition.type,
+          'contractStatus.endReason': condition.status,
           key: condition.title
         }
       }
@@ -57,7 +57,7 @@ export function sendNotification (condition) {
   } else if (+condition.type === 2) {// 还款
     url = `${__API_BASE__}contract/repayment?contractId=${condition.contractId}`
   } else if (+condition.type === 3) {// 扣款
-    url = `${__API_BASE__}contract/loan?contractId=${condition.contractId}`
+    url = `${__API_BASE__}contract/notify?contractId=${condition.contractId}`
   }
   return (dispatch) => {
     return dispatch({

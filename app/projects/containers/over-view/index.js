@@ -106,11 +106,11 @@ class OverView extends Component {
     list.get('dataList').forEach(item => {
       xData.push(item.get('date'))
       if (+activeId === 1) {
-        yData.push(item.get('newContract'))
+        yData.push(item.get('newContracts'))
       } else if (+activeId === 2) {
-        yData.push(item.get('loanContract'))
+        yData.push(item.get('onloanContracts'))
       } else if (+activeId === 3) {
-        yData.push(item.get('unpaidContract'))
+        yData.push(item.get('notPaidContracts'))
       }
     })
     return {
