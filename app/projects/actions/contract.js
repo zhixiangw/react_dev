@@ -53,11 +53,11 @@ export const SEND_NOTIFICATION = 'SEND_NOTIFICATION'
 export function sendNotification (condition) {
   let url
   if (+condition.type === 1) {// 放款
-    url = `${__API_BASE__}contract/loan?contractId=${condition.contractId}&JSESSIONID=${window.localStorage.getItem('jsessionid')}`
+    url = `${__API_BASE__}contract/loan?contractId=${condition.contractId}&token=${window.localStorage.getItem('token')}`
   } else if (+condition.type === 2) {// 还款
-    url = `${__API_BASE__}contract/repayment?contractId=${condition.contractId}&JSESSIONID=${window.localStorage.getItem('jsessionid')}`
+    url = `${__API_BASE__}contract/repayment?contractId=${condition.contractId}&token=${window.localStorage.getItem('token')}`
   } else if (+condition.type === 3) {// 扣款
-    url = `${__API_BASE__}contract/notify?contractId=${condition.contractId}&JSESSIONID=${window.localStorage.getItem('jsessionid')}`
+    url = `${__API_BASE__}contract/notify?contractId=${condition.contractId}&token=${window.localStorage.getItem('token')}`
   }
   return (dispatch) => {
     return dispatch({
@@ -76,7 +76,7 @@ export function deleteContract (id) {
     return dispatch({
       [FETCH_API]: {
         constname: DELETE_CONTRACT,
-        url: `${__API_BASE__}contract/delete?id=${id}&JSESSIONID=${window.localStorage.getItem('jsessionid')}`,
+        url: `${__API_BASE__}contract/delete?id=${id}&token=${window.localStorage.getItem('token')}`,
         msg: '操作成功'
       }
     })
@@ -89,7 +89,7 @@ export function queryContractDetail (id) {
     return dispatch({
       [FETCH_API]: {
         constname: QUERY_CONTRACT_DETAIL,
-        url: `${__API_BASE__}contract/info?id=${id}&JSESSIONID=${window.localStorage.getItem('jsessionid')}`,
+        url: `${__API_BASE__}contract/info?id=${id}&token=${window.localStorage.getItem('token')}`,
       }
     })
   }

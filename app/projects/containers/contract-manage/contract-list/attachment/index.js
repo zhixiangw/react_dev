@@ -5,7 +5,14 @@ import './index.less'
 
 class Attachment extends Component {
   render () {
-    const { isShow, cancel, title, contractId } = this.props
+    const { isShow,
+            cancel,
+            title,
+            businessLicencePath,
+            driverLicensePath,
+            attachmentPath,
+            insuranceAttachmentPath,
+            otherAttachmentPath } = this.props
 
     return (
         <Modal
@@ -17,31 +24,31 @@ class Attachment extends Component {
             <Row>
               <Col span="8">营业执照：</Col>
               <Col span="14">
-                <a href={`${__API_BASE__}contract/download?id=${contractId}`} target="_blank">下载</a>
+                <a href={businessLicencePath} target="_blank">下载</a>
               </Col>
             </Row>
             <Row>
               <Col span="8">行驶证附件：</Col>
               <Col span="14">
-                <a href={`${__API_BASE__}contract/download?id=${contractId}`} target="_blank">下载</a>
+                <a href={driverLicensePath} target="_blank">下载</a>
               </Col>
             </Row>
             <Row>
               <Col span="8">合同附件：</Col>
               <Col span="14">
-                <a href={`${__API_BASE__}contract/download?id=${contractId}`} target="_blank">下载</a>
+                <a href={attachmentPath} target="_blank">下载</a>
               </Col>
             </Row>
             <Row>
               <Col span="8">保单附件：</Col>
               <Col span="14">
-                <a href={`${__API_BASE__}contract/download?id=${contractId}`} target="_blank">下载</a>
+                <a href={insuranceAttachmentPath} target="_blank">下载</a>
               </Col>
             </Row>
             <Row>
               <Col span="8">其他附件：</Col>
               <Col span="14">
-                <a href={`${__API_BASE__}contract/download?id=${contractId}`} target="_blank">下载</a>
+                <a href={otherAttachmentPath} target="_blank">下载</a>
               </Col>
             </Row>
           </div>

@@ -6,7 +6,7 @@ export function queryOverView () {
     return dispatch({
       [FETCH_API]: {
         constname: QUERY_OVER_VIEW,
-        url: `${__API_BASE__}home/statistics?JSESSIONID=${window.localStorage.getItem('jsessionid')}`
+        url: `${__API_BASE__}home/statistics?token=${window.localStorage.getItem('token')}`
       }
     })
   }

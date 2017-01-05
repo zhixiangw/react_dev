@@ -6,7 +6,7 @@ export function queryUserList4key1 (id) {
     return dispatch({
       [FETCH_API]: {
         constname: QUERY_USER_LIST_4_KEY_1,
-        url: `${__API_BASE__}/user/list?role=${id}&JSESSIONID=${window.localStorage.getItem('jsessionid')}`,
+        url: `${__API_BASE__}/user/list?role=${id}&token=${window.localStorage.getItem('token')}`,
       }
     })
   }
@@ -18,7 +18,7 @@ export function queryUserList4key2 (id) {
     return dispatch({
       [FETCH_API]: {
         constname: QUERY_USER_LIST_4_KEY_2,
-        url: `${__API_BASE__}/user/list?role=${id}&JSESSIONID=${window.localStorage.getItem('jsessionid')}`,
+        url: `${__API_BASE__}/user/list?role=${id}&token=${window.localStorage.getItem('token')}`,
       }
     })
   }
@@ -44,7 +44,7 @@ export function resetPassword (id) {
     return dispatch({
       [FETCH_API]: {
         constname: RESET_PASSWORD,
-        url: `${__API_BASE__}user/resetPassword?id=${id}&JSESSIONID=${window.localStorage.getItem('jsessionid')}`,
+        url: `${__API_BASE__}user/resetPassword?id=${id}&token=${window.localStorage.getItem('token')}`,
         msg: '操作成功'
       }
     })

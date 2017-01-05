@@ -22,7 +22,12 @@ class ContractList extends Component {
       type: 1,
       currentName: '',
       selectType: 'all',
-      title: ''
+      title: '',
+      businessLicencePath: '',
+      driverLicensePath: '',
+      attachmentPath: '',
+      insuranceAttachmentPath: '',
+      otherAttachmentPath: ''
     }
 
     this.tabChange = this.tabChange.bind(this)
@@ -99,7 +104,13 @@ class ContractList extends Component {
           <div>
             <Link to={option}>编辑</Link>
             &nbsp;&nbsp;
-            <a onClick={this.toggleShow.bind(this, cord.customer, id)}>附件</a>
+            <a onClick={this.toggleShow.bind(this,
+              cord.customer,
+              cord.businessLicencePath,
+              cord.driverLicensePath,
+              cord.attachmentPath,
+              cord.insuranceAttachmentPath,
+              cord.otherAttachmentPath)}>附件</a>
             &nbsp;&nbsp;
             { type !== 'salesman' ?
             <Popover
@@ -157,7 +168,13 @@ class ContractList extends Component {
           <div>
             <Link to={option}>编辑</Link>
             &nbsp;&nbsp;
-            <a onClick={this.toggleShow.bind(this, cord.customer, id)}>附件</a>
+            <a onClick={this.toggleShow.bind(this,
+              cord.customer,
+              cord.businessLicencePath,
+              cord.driverLicensePath,
+              cord.attachmentPath,
+              cord.insuranceAttachmentPath,
+              cord.otherAttachmentPath)}>附件</a>
             &nbsp;&nbsp;
             { type !== 'salesman' ?
             <Popover
@@ -205,7 +222,13 @@ class ContractList extends Component {
           <div>
             <Link to={option}>编辑</Link>
             &nbsp;&nbsp;
-            <a onClick={this.toggleShow.bind(this, cord.customer, id)}>附件</a>
+            <a onClick={this.toggleShow.bind(this,
+              cord.customer,
+              cord.businessLicencePath,
+              cord.driverLicensePath,
+              cord.attachmentPath,
+              cord.insuranceAttachmentPath,
+              cord.otherAttachmentPath)}>附件</a>
             &nbsp;&nbsp;
             { type !== 'salesman' ?
             <Popover
@@ -234,6 +257,11 @@ class ContractList extends Component {
       customer: item.customer,
       serviceCharge: obj[+item.contractStatus.serviceCharge] || '--',
       initialPremium: obj[+item.contractStatus.initialPremium] || '--',
+      businessLicencePath: item.businessLicencePath,
+      driverLicensePath: item.insurancePolicyList && item.insurancePolicyList[0].driverLicensePath,
+      attachmentPath: item.attachmentPath,
+      insuranceAttachmentPath: item.insurancePolicyList && item.insurancePolicyList[0].insuranceAttachmentPath,
+      otherAttachmentPath: item.insurancePolicyList && item.insurancePolicyList[0].otherAttachmentPath,
       handle: item.id
     }))
   }
@@ -254,6 +282,11 @@ class ContractList extends Component {
       loanMoney: item.loanMoney,
       periodicDay: item.periodicDay,
       repaymentStatus: repaymentStatusObj[+item.contractStatus.repaymentStatus] || '--',
+      businessLicencePath: item.businessLicencePath,
+      driverLicensePath: item.insurancePolicyList && item.insurancePolicyList[0].driverLicensePath,
+      attachmentPath: item.attachmentPath,
+      insuranceAttachmentPath: item.insurancePolicyList && item.insurancePolicyList[0].insuranceAttachmentPath,
+      otherAttachmentPath: item.insurancePolicyList && item.insurancePolicyList[0].otherAttachmentPath,
       handle: item.id
     }))
   }
@@ -271,12 +304,24 @@ class ContractList extends Component {
       no: item.no,
       customer: item.customer,
       endReason: endReasonObj[+item.contractStatus.endReason] || '--',
+      businessLicencePath: item.businessLicencePath,
+      driverLicensePath: item.insurancePolicyList && item.insurancePolicyList[0].driverLicensePath,
+      attachmentPath: item.attachmentPath,
+      insuranceAttachmentPath: item.insurancePolicyList && item.insurancePolicyList[0].insuranceAttachmentPath,
+      otherAttachmentPath: item.insurancePolicyList && item.insurancePolicyList[0].otherAttachmentPath,
       handle: item.id
     }))
   }
 
-  toggleShow (name, contractAttachmentId) {
-    this.setState({ isShow: !this.state.isShow, currentName: name || this.state.currentName, contractAttachmentId })
+  toggleShow (name, ...rest) {
+    this.setState({ isShow: !this.state.isShow,
+      currentName: name || this.state.currentName,
+      businessLicencePath: rest[0],
+      driverLicensePath: rest[1],
+      attachmentPath: rest[2],
+      insuranceAttachmentPath: rest[3],
+      otherAttachmentPath: rest[4],
+    })
   }
 
   handleMore (contractId, customer, listIndex, name, type) {
@@ -426,7 +471,16 @@ class ContractList extends Component {
   }
 
   render() {
-    const { activeTabKey, isShow, isModalShow, currentName, type, contractAttachmentId } = this.state
+    const { activeTabKey,
+            isShow,
+            isModalShow,
+            currentName,
+            type,
+            businessLicencePath,
+            driverLicensePath,
+            attachmentPath,
+            insuranceAttachmentPath,
+            otherAttachmentPath } = this.state
     const { list4key1, list4key2, list4key3 } = this.props
     return (
       <div className="contract-list">
@@ -465,8 +519,12 @@ class ContractList extends Component {
 
         <Attachment
           isShow={isShow}
-          contractId={contractAttachmentId}
           cancel={this.toggleShow.bind(this, null)}
+          businessLicencePath={businessLicencePath}
+          driverLicensePath={driverLicensePath}
+          attachmentPath={attachmentPath}
+          insuranceAttachmentPath={insuranceAttachmentPath}
+          otherAttachmentPath={otherAttachmentPath}
           title={`${currentName}附件资料下载`} />
 
         <ConfirmModal

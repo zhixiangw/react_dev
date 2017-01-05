@@ -28,7 +28,7 @@ const loginInfo = (state = Map({
   hasLogin: ls && ls.getItem('hasLogin'),
   name: ls && ls.getItem('name'),
   contact: ls && ls.getItem('contact'),
-  jsessionid: ls && ls.getItem('jsessionid')
+  token: ls && ls.getItem('token')
 }), { type, constname, request, response }) => {
   let loginType = '' // 此处自定义登录角色 admin = 管理员， salesman = 业务员， verify = 审核员
   switch (response && +response.role) {
@@ -55,7 +55,7 @@ const loginInfo = (state = Map({
         ls.setItem('hasLogin', true)
         ls.setItem('name', response.name)
         ls.setItem('contact', response.contact)
-        ls.setItem('jsessionid', response.jsessionid)
+        ls.setItem('token', response.token)
         return response && Immutable.fromJS({
           id: response.id,
           username: request.username,
@@ -64,7 +64,7 @@ const loginInfo = (state = Map({
           name: response.name,
           contact: response.contact,
           hasLogin: true,
-          jsessionid: response.jsessionid
+          token: response.token
         })
       }
 
@@ -75,7 +75,7 @@ const loginInfo = (state = Map({
         ls.removeItem('password')
         ls.removeItem('type')
         ls.removeItem('contact')
-        ls.removeItem('jsessionid')
+        ls.removeItem('token')
         return response && Immutable.fromJS({
           hasLogin: false
         })

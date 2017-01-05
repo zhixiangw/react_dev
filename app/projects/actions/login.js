@@ -20,7 +20,7 @@ export function logout () {
     return dispatch({
       [FETCH_API]: {
         constname: LOGOUT,
-        url: `${__API_BASE__}logout.json?JSESSIONID=${window.localStorage.getItem('jsessionid')}`
+        url: `${__API_BASE__}logout.json?token=${window.localStorage.getItem('token')}`
       }
     })
   }
