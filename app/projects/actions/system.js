@@ -37,7 +37,7 @@ export function querySystemSetting () {
     return dispatch({
       [FETCH_API]: {
         constname: QUERY_SYSTEM_SETTING,
-        url: 'https://cnodejs.org/api/v1/user/alsotang'
+        url: `${__API_BASE__}/config/list?token=${window.localStorage.getItem('token')}`
       }
     })
   }
@@ -49,7 +49,7 @@ export function submitSystemSetting (condition) {
     return dispatch({
       [FETCH_API]: {
         constname: SUBMIT_SYSTEM_SETTING,
-        url: '//jsonplaceholder.typicode.com/posts/',
+        url: `${__API_BASE__}config/save`,
         request: condition,
         msg: '操作成功'
       }

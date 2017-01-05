@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { Map } from 'immutable'
+import Immutable, { Map, List } from 'immutable'
 import { system as systemAction } from '../actions'
 import { API_SUCCESS, API_FAILURE } from '../middlewares/fetch'
 
@@ -45,20 +45,11 @@ const systemMsg = (state = Map(), { type, msg }) => {
   }
 }
 
-const systemSettingInfo = (state = Map(), { type, constname, response }) => {
-  const dataObj = {
-    eachChargeTime: '2',
-    expWarning: '2',
-    contractTemplate: [{
-      url: 'http://10.0.60.44:4100/api/file/Dv9FqRllP76E47t9uhA2vPQCmjvw87Pv6uz+GatTT1lvSmuKIol0+QuGco/Fzo4p3zWCInFOckDyHJUWzYtUGQ==.pdf',
-      name: 'xxx.doc',
-      uid: -1,
-    }]
-  }
+const systemSettingInfo = (state = List(), { type, constname, response }) => {
   switch (type) {
     case API_SUCCESS:
       if (constname === systemAction.QUERY_SYSTEM_SETTING) {
-        return state.merge({}, dataObj)
+        return Immutable.fromJS(response)
       }
       return state
 

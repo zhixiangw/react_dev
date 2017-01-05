@@ -45,12 +45,14 @@ class BasicInfo extends Component {
     })
   }
 
-  getTimelineItem (record) {
-    return record && record.map((item, index) => {
+  getTimelineItem () {
+    const { executionRecordList } = this.props
+    return executionRecordList && executionRecordList.map((item, index) => {
       return (
         <Timeline.Item key={index}>
-          { item.title ? <p className="time-line-title" >{item.title}</p> : null }
-          { item.content.map((list, cindex) => <p key={`p${cindex}`}>{`${list.time}  ${list.desc}`}</p>) }
+          { item.rname ? <p className="time-line-title" >{item.rname}</p> : null }
+          { <p>{`${item.modifyTime}  ${item.content}`}</p> }
+          {/* item.content.map((list, cindex) => <p key={`p${cindex}`}>{`${list.time}  ${list.desc}`}</p>) */}
         </Timeline.Item>
       )
     }) || []
@@ -134,7 +136,7 @@ class BasicInfo extends Component {
             </section>
             <section className="logic-status">
               <p className="logic-status-title" style={{ margin: 0 }}>还款完成度</p>
-              <p className="logic-status-content">{info.surplusAmount ? `剩余${Number(info.surplusAmount).toFixed(2)}未结清` : null}</p>
+              <p className="logic-status-content">{info.notPaid ? `剩余${Number(info.notPaid).toFixed(2)}未结清` : null}</p>
               <div className="logic-progress">
                 <Progress type="circle" percent={+info.repaymentSchedule || 0} />
               </div>
@@ -148,7 +150,7 @@ class BasicInfo extends Component {
               <Row>
                 <Col span="20" offset="4">
                   <Timeline>
-                    {this.getTimelineItem(info.repaymentRecord)}
+                    {this.getTimelineItem()}
                   </Timeline>
                 </Col>
               </Row>

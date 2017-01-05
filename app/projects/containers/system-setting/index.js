@@ -27,10 +27,20 @@ class SystemSetting extends Component {
   componentDidUpdate (prevProps) {
     const { systemSettingInfo, form: { setFieldsValue } } = this.props
     if (systemSettingInfo !== prevProps.systemSettingInfo) {
-      systemSettingInfo.eachChargeTime = systemSettingInfo.eachChargeTime && systemSettingInfo.eachChargeTime.toString()
-      systemSettingInfo.expWarning = systemSettingInfo.expWarning && systemSettingInfo.expWarning.toString()
-      setFieldsValue(systemSettingInfo.toJS())
+      setFieldsValue(this.transferSystemConf(systemSettingInfo))
     }
+  }
+
+  transferSystemConf (configArr) {
+    let infoObj = {}
+    configArr.toJS().forEach(item => {
+      if (item.ctype === '通知') {
+        infoObj.periodicDay = String(item.cvalue)
+      } else if (item.ctype === '警告') {
+        infoObj.expWarning = String(item.cvalue)
+      }
+    })
+    return infoObj
   }
 
   getNameFromUrl (url) {
@@ -70,7 +80,6 @@ class SystemSetting extends Component {
       if (!!errors) {
         return
       }
-      values.contractTemplate = this.normalize(values.contractTemplate)[0].url
       const hide = message.loading('', 0)
       submitSystemSetting(values).then(() => {
         setTimeout(hide, 0)
@@ -109,7 +118,7 @@ class SystemSetting extends Component {
             </Col>
             <Col span="2">
               <FormItem>
-                {fieldValidate.eachChargeTime()(<Input />)}
+                {fieldValidate.periodicDay()(<Input />)}
               </FormItem>
             </Col>
             <Col span="3">
@@ -134,18 +143,16 @@ class SystemSetting extends Component {
           <Row>
             <Col offset="2">
               <FormItem>
-                {fieldValidate.contractTemplate()(
-                  <Upload
-                    action={`${__API_BASE__}file/upload`}
-                    data={{ fileName: this.state.contractTemplateName }}
-                    name="contractTemplate"
-                    accept=".pdf"
-                    beforeUpload={this.handleBeforeUpload.bind(this, 'contractTemplate')} >
-                    <Button type="ghost">
-                      <Icon type="upload" /> 合同模板上传
-                    </Button>
-                  </Upload>
-                )}
+                <Upload
+                  action={`${__API_BASE__}file/upload`}
+                  data={{ fileName: this.state.contractTemplateName }}
+                  name="contractTemplate"
+                  accept=".pdf"
+                  beforeUpload={this.handleBeforeUpload.bind(this, 'contractTemplate')} >
+                  <Button type="ghost">
+                    <Icon type="upload" /> 合同模板上传
+                  </Button>
+                </Upload>
               </FormItem>
             </Col>
           </Row>
