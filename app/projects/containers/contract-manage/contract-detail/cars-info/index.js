@@ -125,7 +125,7 @@ class CarsInfo extends Component {
             hasFeedback >
             {fieldValidate.insuranceAttachmentPath()(
               <Upload
-                action={`${__API_BASE__}file/upload`}
+                action={`${__API_BASE__}file/upload?token=${window.localStorage.getItem('token')}`}
                 name="insuranceAttachmentPath"
                 data={{ fileName: this.state.insuranceAttachmentPathName }}
                 accept=".pdf"
@@ -150,7 +150,7 @@ class CarsInfo extends Component {
             hasFeedback >
             {fieldValidate.otherAttachmentPath()(
               <Upload
-                action={`${__API_BASE__}file/upload`}
+                action={`${__API_BASE__}file/upload?token=${window.localStorage.getItem('token')}`}
                 name="otherAttachmentPath"
                 data={{ fileName: this.state.otherAttachmentPathName }}
                 accept=".pdf"
@@ -211,7 +211,7 @@ class CarsInfo extends Component {
             hasFeedback >
             {fieldValidate.driverLicensePath()(
               <Upload
-                action={`${__API_BASE__}file/upload`}
+                action={`${__API_BASE__}file/upload?token=${window.localStorage.getItem('token')}`}
                 name="driverLicensePath"
                 data={{ fileName: this.state.driverLicensePathName }}
                 accept=".jpg,.png,.jpeg,.bmp,.gif"

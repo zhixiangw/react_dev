@@ -59,7 +59,7 @@ class BasicInfo extends Component {
   }
 
   render() {
-    const { form: { getFieldDecorator, getFieldValue }, info, periodicDay } = this.props
+    const { form: { getFieldDecorator, getFieldValue }, info, periodicDay, repaymentPeriod } = this.props
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 16 },
@@ -138,7 +138,9 @@ class BasicInfo extends Component {
               <p className="logic-status-title" style={{ margin: 0 }}>还款完成度</p>
               <p className="logic-status-content">{info.notPaid ? `剩余${Number(info.notPaid).toFixed(2)}未结清` : null}</p>
               <div className="logic-progress">
-                <Progress type="circle" percent={+info.repaymentSchedule || 0} />
+                <Progress
+                  type="circle"
+                  percent={Number(+info.alreadyRepaidPeriodic / +repaymentPeriod).toFixed(2) * 100 || 0} />
               </div>
             </section>
           </Col>

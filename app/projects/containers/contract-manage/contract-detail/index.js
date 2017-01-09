@@ -126,6 +126,7 @@ class CustomerManage extends Component {
             <ExecutiveInfo
               info={handleType !== 'create' && contractDetail.get('contractStatus') && contractDetail.get('contractStatus').toJS() || {}}
               periodicDay={handleType !== 'create' && contractDetail.get('periodicDay') || null}
+              repaymentPeriod={handleType !== 'create' && contractDetail.get('repaymentPeriod') || null}
               executionRecordList={handleType !== 'create' && contractDetail.get('executionRecordList') && contractDetail.get('executionRecordList').toJS() || []}
               id={id}
               onSubmit={this.saveExecutiveInfo} />

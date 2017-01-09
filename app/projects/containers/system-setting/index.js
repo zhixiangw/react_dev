@@ -144,7 +144,7 @@ class SystemSetting extends Component {
             <Col offset="2">
               <FormItem>
                 <Upload
-                  action={`${__API_BASE__}file/upload`}
+                  action={`${__API_BASE__}file/upload?token=${window.localStorage.getItem('token')}`}
                   data={{ fileName: this.state.contractTemplateName }}
                   name="contractTemplate"
                   accept=".pdf"

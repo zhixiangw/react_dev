@@ -149,7 +149,7 @@ class CarsInfo extends Component {
             hasFeedback >
             {fieldValidate.attachmentPath(handleType)(
               <Upload
-                action={`${__API_BASE__}file/upload`}
+                action={`${__API_BASE__}file/upload?token=${window.localStorage.getItem('token')}`}
                 name="attachmentPath"
                 data={{ fileName: this.state.attachmentPathName }}
                 accept=".pdf"
@@ -203,7 +203,7 @@ class CarsInfo extends Component {
             hasFeedback >
             {fieldValidate.businessLicencePath()(
               <Upload
-                action={`${__API_BASE__}file/upload`}
+                action={`${__API_BASE__}file/upload?token=${window.localStorage.getItem('token')}`}
                 name="businessLicencePath"
                 data={{ fileName: this.state.businessLicencePathName }}
                 accept=".jpg,.png,.jpeg,.bmp,.gif"

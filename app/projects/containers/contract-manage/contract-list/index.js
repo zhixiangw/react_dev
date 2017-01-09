@@ -278,7 +278,7 @@ class ContractList extends Component {
       no: item.no,
       customer: item.customer,
       status: item.status,
-      notPaidAmount: item.contractStatus.notPaid,
+      notPaidAmount: item.contractStatus.notPaid && Number(item.contractStatus.notPaid).toFixed(2) || '--',
       loanMoney: item.loanMoney,
       periodicDay: item.periodicDay,
       repaymentStatus: repaymentStatusObj[+item.contractStatus.repaymentStatus] || '--',
