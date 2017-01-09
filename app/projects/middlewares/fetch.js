@@ -95,10 +95,16 @@ export default () => next => action => {
       return Promise.resolve(response)
     },
     result => {
+      let Msg = ''
+      if (result.json && (typeof result.json.obj) === 'string' && result.response.msg === '执行失败') {
+        Msg = '登录失效，请重新登录'
+      } else {
+        Msg = result.json.msg || '网络不佳,请稍后再试'
+      }
       next(actionWith({
         type: API_FAILURE,
         constname,
-        msg: result.json && result.json.msg ? result.json.msg : '网络不佳,请稍后再试',
+        msg: Msg,
         status: result.response ? result.response.status : undefined
       }))
       return Promise.reject(result)
