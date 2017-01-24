@@ -1,29 +1,12 @@
 import { combineReducers } from 'redux'
-import Immutable, { Map, List } from 'immutable'
+import { Map, List } from 'immutable'
 import { overView as overViewAction } from '../actions'
 import { API_REQUEST, API_SUCCESS } from '../middlewares/fetch'
 
-const overViewData = (state = Map(), { type, constname, response }) => {
-  switch (type) {
-    case API_SUCCESS:
-      if (constname === overViewAction.QUERY_OVER_VIEW) {
-        return response && Immutable.fromJS({
-          contractNum: response.contractCounts,
-          unpaidContractNum: response.notPaidCounts,
-          totalLoanAmount: response.loanAmounts,
-          endContractNum: response.contractCounts
-        })
-      }
-      return state
-
-    default:
-      return state
-  }
-}
-
 const overViewList = (state = Map({
   doing: false,
-  dataList: List()
+  resultData: List(),
+  totalNum: 0
 }), { type, constname, response }) => {
   switch (type) {
     case API_REQUEST:
@@ -38,7 +21,8 @@ const overViewList = (state = Map({
       if (constname === overViewAction.QUERY_OVER_VIEW_LIST) {
         return state.merge({}, {
           doing: false,
-          dataList: response
+          resultData: response.resultData && response.resultData.users,
+          totalNum: response.resultData && response.resultData.totalNum,
         })
       }
       return state
@@ -49,7 +33,6 @@ const overViewList = (state = Map({
 }
 
 const rootReducer = combineReducers({
-  overViewData,
   overViewList
 })
 

@@ -2,10 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { replace } from 'react-router-redux'
 
-import { Input, Form, Button, message } from 'antd'
+import { Input, Form, Button } from 'antd'
 const FormItem = Form.Item
-
-import { login as loginAction } from '../../actions'
 
 import validate from './validate'
 import './index.less'
@@ -18,27 +16,13 @@ class Login extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  componentWillMount() {
-    if (window.localStorage.getItem('hasLogin')) {
-      this.props.dispatch(replace(`${__STATIC_BASE__}/overView`))
-    }
-  }
-
   handleSubmit () {
     const { form: { validateFields }, dispatch } = this.props
-    validateFields((errors, values) => {
+    validateFields((errors) => {
       if (!!errors) {
         return
       }
-      const hide = message.loading('', 0)
-      dispatch(loginAction.login(values)).then(() => {
-        dispatch(replace(`${__STATIC_BASE__}/overView`))
-        setTimeout(hide, 0)
-      }, () => {
-        message.error('登录失败', 2)
-        dispatch(replace(`${__STATIC_BASE__}/`))
-        setTimeout(hide, 0)
-      })
+      dispatch(replace(`${__STATIC_BASE__}/userList`))
     })
   }
 

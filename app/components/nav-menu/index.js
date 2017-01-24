@@ -25,10 +25,8 @@ export default class Nav extends Component {
     const defaultOpenKeys = ['sub1']
     let selectedKeys
     const menuArr = [
-      'overView',
-      'contractManage',
-      'customerManage',
-      'systemSetting'
+      'userList',
+      'cashList'
     ]
     menuArr.forEach(item => {
       if (pathname.indexOf(item) !== -1) {
@@ -44,7 +42,6 @@ export default class Nav extends Component {
 
   render () {
     const { defaultOpenKeys, selectedKeys } = this.state
-    const { type } = this.props
 
     return (
       <Menu theme="dark"
@@ -52,19 +49,11 @@ export default class Nav extends Component {
         selectedKeys={selectedKeys}
         mode="inline">
         <SubMenu key="sub1" title="UI Kits" >
-          <MenuItem key="overView" >
-            <Link to={`${__STATIC_BASE__}/overView`}>首页概览</Link>
+          <MenuItem key="userList" >
+            <Link to={`${__STATIC_BASE__}/userList`}>用户列表</Link>
           </MenuItem>
-          <MenuItem key="contractManage" >
-            <Link to={`${__STATIC_BASE__}/contractManage`}>合同列表</Link>
-          </MenuItem>
-          <MenuItem key="customerManage"
-            disabled={type !== 'admin'} >
-            <Link to={`${__STATIC_BASE__}/customerManage`}>用户管理</Link>
-          </MenuItem>
-          <MenuItem key="systemSetting"
-            disabled={type !== 'admin'} >
-            <Link to={`${__STATIC_BASE__}/systemSetting`}>系统设置</Link>
+          <MenuItem key="cashList" >
+            <Link to={`${__STATIC_BASE__}/cashList`}>提现记录</Link>
           </MenuItem>
         </SubMenu>
       </Menu>

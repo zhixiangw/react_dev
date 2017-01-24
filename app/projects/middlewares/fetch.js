@@ -1,14 +1,4 @@
 import 'isomorphic-fetch'
-// 将json对象转换为表单提交的请求字符串提交
-function parseToQueryStr(queryObj) {
-  let queryString = ''
-  Object.getOwnPropertyNames(queryObj).forEach(key => {
-    if (queryObj[key] || +queryObj[key] === 0) {
-      queryString = `${queryString}${key}=${queryObj[key]}&`
-    }
-  })
-  return queryString.substr(0, queryString.length - 1)
-}
 
 function packFetch(url, condition) {
   // Fetch 请求默认是不带 cookie 的,如果你想在fetch请求里附带cookies之类的凭证信息,需要设置 fetch(url, {credentials: 'include'})
@@ -27,17 +17,14 @@ function packFetch(url, condition) {
         body: condition.formData.data
       }
     } else {
-      if (window.localStorage.getItem('token')) {
-        condition.token = window.localStorage.getItem('token')
-      }
       option = {
         method: 'post',
         // credentials: 'include',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
         },
-        body: encodeURI(parseToQueryStr(condition))
+        body: JSON.stringify(condition)
       }
     }
   }

@@ -1,25 +1,12 @@
 import { FETCH_API } from '../middlewares/fetch'
 
-export const QUERY_OVER_VIEW = 'QUERY_OVER_VIEW'
-export function queryOverView () {
-  return (dispatch) => {
-    return dispatch({
-      [FETCH_API]: {
-        constname: QUERY_OVER_VIEW,
-        url: `${__API_BASE__}home/statistics?token=${window.localStorage.getItem('token')}`
-      }
-    })
-  }
-}
-
 export const QUERY_OVER_VIEW_LIST = 'QUERY_OVER_VIEW_LIST'
-export function queryOverViewList (condition) {
+export function queryOverViewList (pageIndex) {
   return (dispatch) => {
     return dispatch({
       [FETCH_API]: {
         constname: QUERY_OVER_VIEW_LIST,
-        url: `${__API_BASE__}home/homeDetail`,
-        request: condition
+        url: `${__API_BASE__}v1/user/list?pageNo=${pageIndex}&pageSize=10`
       }
     })
   }
