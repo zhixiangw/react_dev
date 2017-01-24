@@ -7,7 +7,7 @@ var ROOT_PATH = path.resolve(__dirname);
 var APP_PATH = path.resolve(ROOT_PATH, 'app')
 var DIST_PATH = path.resolve(ROOT_PATH, 'dist')
 
-var staticBase = '/car'
+var staticBase = '/yjb'
 
 module.exports = {
   context: path.resolve(__dirname, '.'),
@@ -49,7 +49,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       __PRODUCTION__: true,
-      __API_BASE__: '"http://120.25.68.86:8080/car-loan/"',
+      __API_BASE__: '"http://60.205.149.222/"',
       __STATIC_BASE__: `"${staticBase}"`,
       'process.env': {
         NODE_ENV: JSON.stringify('production')
