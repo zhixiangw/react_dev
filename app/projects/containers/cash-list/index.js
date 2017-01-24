@@ -1,14 +1,36 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Table, Row } from 'antd'
+import { Table, Row, Button, Modal } from 'antd'
 
 import { overView as overViewAction } from '../../actions'
 
 class OverView extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isShow: false,
+      pageIndex: 1
+    }
+    this.handClick = this.handClick.bind(this)
+    this.toggleShow = this.toggleShow.bind(this)
+  }
 
   componentWillMount() {
-    const { queryOverViewList } = this.props
-    queryOverViewList(1)
+    const { queryWithdrawsList } = this.props
+    queryWithdrawsList(1)
+  }
+
+  handClick() {
+    const { finishWithdraw, queryWithdrawsList } = this.props
+    finishWithdraw(this.state.id).then(() => {
+      this.setState({ isShow: false })
+      queryWithdrawsList(this.state.pageIndex)
+    })
+  }
+
+  toggleShow (id) {
+    this.setState({ isShow: !this.state.isShow, id })
   }
 
   getColumns () {
@@ -19,14 +41,21 @@ class OverView extends Component {
       title: '游戏ID',
       dataIndex: 'uid'
     }, {
-      title: '总收益',
-      dataIndex: 'totalIncome'
+      title: '提现金额(元)',
+      dataIndex: 'withdrawAmount',
+      render: (withdrawAmount) => <span>{withdrawAmount / 100}</span>
     }, {
-      title: '昨日收益',
-      dataIndex: 'yesterdayIncome'
+      title: '状态',
+      dataIndex: 'status'
     }, {
-      title: '推荐人',
-      dataIndex: 'inviteUser'
+      title: '操作',
+      dataIndex: 'handle',
+      render: (withdrawId, cord) => {
+        const link = cord.status === 'WAIT' ?
+        <Button type="primary" onClick={this.toggleShow.bind(this, withdrawId)}>打款</Button> :
+        '已打款'
+        return link
+      }
     }]
   }
 
@@ -34,19 +63,19 @@ class OverView extends Component {
     return list.map(item => ({
       nickname: item.nickname,
       uid: item.uid,
-      totalIncome: item.totalIncome,
-      yesterdayIncome: item.yesterdayIncome,
-      inviteUser: item.inviteUser
+      withdrawAmount: item.withdrawAmount,
+      status: item.status,
+      handle: item.withdrawId
     }))
   }
 
   getPagination() {
-    const { list, queryOverViewList } = this.props
+    const { list, queryWithdrawsList } = this.props
     return {
       total: list.get('totalNum'),
       onChange: (current) => {
         this.setState({ pageIndex: current })
-        queryOverViewList(current)
+        queryWithdrawsList(current)
       },
     }
   }
@@ -57,7 +86,7 @@ class OverView extends Component {
       <section>
         <section className="tabel">
           <Row className="title">
-            <p>用户列表</p>
+            <p>提现记录</p>
           </Row>
           <div className="tabel-box">
             <Table
@@ -67,16 +96,25 @@ class OverView extends Component {
               pagination={this.getPagination()} />
           </div>
         </section>
+
+        <Modal
+          title="提示"
+          visible={this.state.isShow}
+          onOk={this.handClick}
+          onCancel={this.toggleShow}>
+           <p>请确认是否打款？</p>
+        </Modal>
       </section>
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-  list: state.overView.overViewList
+  list: state.overView.withdrawsList
 })
 const mapDispatchToProps = (dispatch) => ({
-  queryOverViewList: (pageIndex) => dispatch(overViewAction.queryOverViewList(pageIndex))
+  queryWithdrawsList: (pageIndex) => dispatch(overViewAction.queryWithdrawsList(pageIndex)),
+  finishWithdraw: (id) => dispatch(overViewAction.finishWithdraw(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(OverView)

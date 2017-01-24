@@ -18,7 +18,7 @@ function packFetch(url, condition) {
       }
     } else {
       option = {
-        method: 'post',
+        method: 'put',
         // credentials: 'include',
         headers: {
           Accept: 'application/json',
@@ -82,16 +82,10 @@ export default () => next => action => {
       return Promise.resolve(response)
     },
     result => {
-      let Msg = ''
-      if (result.json && (typeof result.json.obj) === 'string' && result.json.msg === '执行失败') {
-        Msg = '登录失效，请重新登录'
-      } else {
-        Msg = result.json.msg || '网络不佳,请稍后再试'
-      }
       next(actionWith({
         type: API_FAILURE,
         constname,
-        msg: Msg,
+        msg: '请求失败',
         status: result.response ? result.response.status : undefined
       }))
       return Promise.reject(result)
