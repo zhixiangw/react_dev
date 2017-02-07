@@ -5,6 +5,7 @@ node_modules/
 *.log
 
 .sass-cache/
+.vscode/
 npm-debug.log*
 
 dist/
