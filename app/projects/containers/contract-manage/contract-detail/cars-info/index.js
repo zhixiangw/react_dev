@@ -53,9 +53,9 @@ class CarsInfo extends Component {
   }
 
   deleteItem (index) {
-    if (this.state.info.length === 1) return
+    if (this.state.info.filter(item => item).length === 1) return
     let oldInfo = this.state.info
-    oldInfo.splice(index, 1)
+    delete oldInfo[index]
     this.setState({
       info: oldInfo
     })
@@ -70,6 +70,7 @@ class CarsInfo extends Component {
         <div><Button type="primary" onClick={this.addItem}>新增保单</Button></div>
         <Form horizontal>
           {info.map((item, index) => {
+            if (!item) return null
             return (
               <Item
                 key={index}
