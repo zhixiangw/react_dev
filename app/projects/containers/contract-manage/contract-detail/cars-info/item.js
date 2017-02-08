@@ -17,57 +17,6 @@ class Item extends Component {
     this.handleBeforeUpload = this.handleBeforeUpload.bind(this)
   }
 
-  // componentWillMount() {
-  //   const { info, setFieldsValue } = this.props
-  //   info.insuranceAttachmentPath = this.normalizeObj(info.insuranceAttachmentPath)
-  //   info.otherAttachmentPath = this.normalizeObj(info.otherAttachmentPath)
-  //   info.driverLicensePath = this.normalizeObj(info.driverLicensePath)
-  //   info.premium = info.premium && info.premium.toString()
-  //   setFieldsValue(info)
-  // }
-
-  // componentDidUpdate (prevProps) {
-  //   const { info, setFieldsValue } = this.props
-  //   if (info !== prevProps.info) {
-  //     info.insuranceAttachmentPath = this.normalizeObj(info.insuranceAttachmentPath)
-  //     info.otherAttachmentPath = this.normalizeObj(info.otherAttachmentPath)
-  //     info.driverLicensePath = this.normalizeObj(info.driverLicensePath)
-  //     info.premium = info.premium && info.premium.toString()
-  //     setFieldsValue(info)
-  //   }
-  // }
-
-  getNameFromUrl (url) {
-    let query = url && url.split('?')[1] || ''
-    let sigleQuery = query && query.split('&')
-    let queryArr = sigleQuery && sigleQuery.map(item => item.split('=')) || []
-    let name = 'defalut'
-    queryArr.forEach(item => {
-      if (item[0] === 'filePath') {
-        name = item[1]
-      }
-    })
-    return name
-  }
-
-  normalizeObj (url) {
-    return [{
-      name: this.getNameFromUrl(url),
-      url,
-      uid: -1
-    }]
-  }
-
-  normalize (arr) {
-    return arr.map(item => {
-      return {
-        name: item.name,
-        url: `${__API_BASE__}file/${item.response && item.response.obj}?filePath=${item.response && item.response.obj}`,
-        uid: item.uid
-      }
-    })
-  }
-
   handleBeforeUpload(type, file) {
     const isPDF = file.type === 'application/pdf'
     if (type !== 'driverLicensePath' && !isPDF) {

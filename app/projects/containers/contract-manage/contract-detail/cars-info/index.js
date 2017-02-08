@@ -11,27 +11,96 @@ class CarsInfo extends Component {
     super(props)
 
     this.state = {
-      info: this.props.list || [{index:1}]
+      info: this.props.info,
+      pathArr: [
+        'insuranceAttachmentPath',
+        'otherAttachmentPath',
+        'driverLicensePath',
+        'premium'
+      ]
     }
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.reFormatValues = this.reFormatValues.bind(this)
+    this.formatValues = this.formatValues.bind(this)
     this.addItem = this.addItem.bind(this)
     this.deleteItem = this.deleteItem.bind(this)
   }
 
   componentWillMount() {
-    const { info, form: { setFieldsValue } } = this.props
-    setFieldsValue(this.formatValues(info))
+    const { form: { setFieldsValue } } = this.props
+    setFieldsValue(this.formatValues(this.state.info))
   }
 
-  componentDidUpdate (prevProps) {
-    const { info, form: { setFieldsValue } } = this.props
-    if (info !== prevProps.info) {
-      setFieldsValue(this.formatValues(info))
-    }
+  // componentDidUpdate (prevProps) {
+  //   const { form: { setFieldsValue } } = this.props
+  //   if (info !== prevProps.info) {
+  //     setFieldsValue(this.formatValues(info))
+  //   }
+  // }
+
+  getNameFromUrl (url) {
+    let query = url && url.split('?')[1] || ''
+    let sigleQuery = query && query.split('&')
+    let queryArr = sigleQuery && sigleQuery.map(item => item.split('=')) || []
+    let name = 'defalut'
+    queryArr.forEach(item => {
+      if (item[0] === 'filePath') {
+        name = item[1]
+      }
+    })
+    return name
+  }
+
+  normalizeObj (url) {
+    return [{
+      name: this.getNameFromUrl(url),
+      url,
+      uid: -1
+    }]
+  }
+
+  normalize (arr) {
+    return arr.map(item => {
+      return {
+        name: item.name,
+        url: `${__API_BASE__}file/${item.response && item.response.obj}?filePath=${item.response && item.response.obj}`,
+        uid: item.uid
+      }
+    })
   }
 
   formatValues (info) {
-    return info
+    let result = {}
+    info.forEach((item, index) => {
+      Object.getOwnPropertyNames(item).forEach(itemKey => {
+        if (this.state.pathArr.indexOf(itemKey) !== -1) {
+          if (itemKey === 'premium') {
+            result[`[${index}].${itemKey}`] = item[itemKey].toString()
+          } else {
+            result[`[${index}].${itemKey}`] = this.normalizeObj(item[itemKey])
+          }
+        } else {
+          result[`[${index}].${itemKey}`] = item[itemKey]
+        }
+      })
+    })
+    console.log(result)
+    return result
+  }
+
+  reFormatValues (values) {
+    let result = []
+    Object.getOwnPropertyNames(values).forEach(key => {
+      Object.getOwnPropertyNames(values[key]).forEach(itemKey => {
+        if (this.state.pathArr.indexOf(itemKey) !== -1) {
+          if (itemKey !== 'premium') {
+            values[key][itemKey] = this.normalize(values[key][itemKey])[0].url
+          }
+        }
+      })
+      result.push(values[key])
+    })
+    return result
   }
 
   handleSubmit () {
@@ -40,9 +109,7 @@ class CarsInfo extends Component {
       if (!!errors) {
         return
       }
-      console.log(values)
-      return
-      onSubmit(values)
+      onSubmit(this.reFormatValues(values))
     })
   }
 
@@ -64,7 +131,6 @@ class CarsInfo extends Component {
   render() {
     const { info } = this.state
     const { form: { setFieldsValue, getFieldDecorator } } = this.props
-    console.info(info)
     return (
       <div className="cars-info-form-box">
         <div><Button type="primary" onClick={this.addItem}>新增保单</Button></div>

@@ -117,7 +117,7 @@ class CustomerManage extends Component {
           </TabPane>
           <TabPane tab="车辆信息" key="2">
             <CarsInfo
-              info={handleType !== 'create' && contractDetail.getIn(['insurancePolicyList', '0']) && contractDetail.getIn(['insurancePolicyList', '0']).toJS() || {}}
+              info={handleType !== 'create' && contractDetail.get('insurancePolicyList') && contractDetail.get('insurancePolicyList').toJS() || {}}
               handleType={handleType}
               id={id}
               onSubmit={this.saveCarsInfo} />
