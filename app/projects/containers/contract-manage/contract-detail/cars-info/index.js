@@ -1,42 +1,34 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Input, Form, Button, Upload, Icon, Row, Col, message } from 'antd'
+import { Form, Button, Row, Col } from 'antd'
 const FormItem = Form.Item
 
-import validate from './validate'
-import './index.less'
+import Item from './item'
 
 class CarsInfo extends Component {
   constructor (props) {
     super(props)
+
     this.state = {
-      insuranceAttachmentPathName: 'default',
-      otherAttachmentPathName: 'default',
-      driverLicensePathName: 'default'
+      info: this.props.info,
+      pathArr: [
+        'insuranceAttachmentPath',
+        'otherAttachmentPath',
+        'driverLicensePath',
+        'premium'
+      ]
     }
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleBeforeUpload = this.handleBeforeUpload.bind(this)
+    this.reFormatValues = this.reFormatValues.bind(this)
+    this.formatValues = this.formatValues.bind(this)
+    this.addItem = this.addItem.bind(this)
+    this.deleteItem = this.deleteItem.bind(this)
   }
 
   componentWillMount() {
-    const { info, form: { setFieldsValue } } = this.props
-    info.insuranceAttachmentPath = this.normalizeObj(info.insuranceAttachmentPath)
-    info.otherAttachmentPath = this.normalizeObj(info.otherAttachmentPath)
-    info.driverLicensePath = this.normalizeObj(info.driverLicensePath)
-    info.premium = info.premium && info.premium.toString()
-    setFieldsValue(info)
-  }
-
-  componentDidUpdate (prevProps) {
-    const { info, form: { setFieldsValue } } = this.props
-    if (info !== prevProps.info) {
-      info.insuranceAttachmentPath = this.normalizeObj(info.insuranceAttachmentPath)
-      info.otherAttachmentPath = this.normalizeObj(info.otherAttachmentPath)
-      info.driverLicensePath = this.normalizeObj(info.driverLicensePath)
-      info.premium = info.premium && info.premium.toString()
-      setFieldsValue(info)
-    }
+    const { form: { setFieldsValue } } = this.props
+    setFieldsValue(this.formatValues(this.state.info))
   }
 
   getNameFromUrl (url) {
@@ -70,158 +62,85 @@ class CarsInfo extends Component {
     })
   }
 
+  formatValues (info) {
+    let result = {}
+    info.forEach((item, index) => {
+      Object.getOwnPropertyNames(item).forEach(itemKey => {
+        if (this.state.pathArr.indexOf(itemKey) !== -1) {
+          if (itemKey === 'premium') {
+            result[`[${index}].${itemKey}`] = item[itemKey].toString()
+          } else {
+            result[`[${index}].${itemKey}`] = this.normalizeObj(item[itemKey])
+          }
+        } else {
+          result[`[${index}].${itemKey}`] = item[itemKey]
+        }
+      })
+    })
+    return result
+  }
+
+  reFormatValues (values) {
+    let result = []
+    Object.getOwnPropertyNames(values).forEach(key => {
+      Object.getOwnPropertyNames(values[key]).forEach(itemKey => {
+        if (this.state.pathArr.indexOf(itemKey) !== -1) {
+          if (itemKey !== 'premium') {
+            values[key][itemKey] = this.normalize(values[key][itemKey])[0].url
+          }
+        }
+      })
+      result.push(values[key])
+    })
+    return result
+  }
+
   handleSubmit () {
     const { form: { validateFields }, onSubmit } = this.props
     validateFields((errors, values) => {
       if (!!errors) {
         return
       }
-      values.insuranceAttachmentPath = this.normalize(values.insuranceAttachmentPath)[0].url
-      values.otherAttachmentPath = this.normalize(values.otherAttachmentPath)[0].url
-      values.driverLicensePath = this.normalize(values.driverLicensePath)[0].url
-      onSubmit(values)
+      onSubmit(this.reFormatValues(values))
     })
   }
 
-  handleBeforeUpload(type, file) {
-    const isPDF = file.type === 'application/pdf'
-    if (type !== 'driverLicensePath' && !isPDF) {
-      message.error('必须上传PDF格式的文件')
-      return false
-    }
+  addItem () {
+    this.setState({
+      info: this.state.info.concat({})
+    })
+  }
 
-    if (file.size > 2 * 1024 * 1024) {
-      message.error('文件大小必须小于2M')
-      return false
-    }
-    this.setState({ [type === 'insuranceAttachmentPath' && 'insuranceAttachmentPathName'
-     || type === 'otherAttachmentPath' && 'otherAttachmentPathName' || 'driverLicensePathName']: file.name.toString().replace(/.pdf|.png|.jpg|.jpeg|.bmp|.gif/, '') })
-    return true
+  deleteItem (index) {
+    if (this.state.info.filter(item => item).length === 1) return
+    let oldInfo = this.state.info
+    delete oldInfo[index]
+    this.setState({
+      info: oldInfo
+    })
   }
 
   render() {
-    const { form: { getFieldDecorator } } = this.props
-    const formItemLayout = {
-      labelCol: { span: 6 },
-      wrapperCol: { span: 10 },
-    }
-    const fieldValidate = validate(getFieldDecorator)
+    const { info } = this.state
+    const { form: { setFieldsValue, getFieldDecorator }, type } = this.props
+    const readOnly = type === 'salesman'
     return (
       <div className="cars-info-form-box">
-        <Row className="cars-info-title">
-          <Col span="6">保单信息</Col>
-        </Row>
+        <div><Button type="primary" disabled={readOnly} onClick={this.addItem}>新增保单</Button></div>
         <Form horizontal>
-          <FormItem
-            {...formItemLayout}
-            label="保单号"
-            hasFeedback >
-            {fieldValidate.no()(<Input />)}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="保单附件上传"
-            hasFeedback >
-            {fieldValidate.insuranceAttachmentPath()(
-              <Upload
-                action={`${__API_BASE__}file/upload?token=${window.localStorage.getItem('token')}`}
-                name="insuranceAttachmentPath"
-                data={{ fileName: this.state.insuranceAttachmentPathName }}
-                accept=".pdf"
-                beforeUpload={this.handleBeforeUpload.bind(this, 'insuranceAttachmentPath')} >
-              <Button type="ghost">
-                <Icon type="upload" /> 点击上传保单附件
-              </Button>
-              </Upload>
-            )}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="商业保险费"
-            hasFeedback >
-            {fieldValidate.premium()(<Input />)}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="其他文档上传"
-            hasFeedback >
-            {fieldValidate.otherAttachmentPath()(
-              <Upload
-                action={`${__API_BASE__}file/upload?token=${window.localStorage.getItem('token')}`}
-                name="otherAttachmentPath"
-                data={{ fileName: this.state.otherAttachmentPathName }}
-                accept=".pdf"
-                beforeUpload={this.handleBeforeUpload.bind(this, 'otherAttachmentPath')} >
-              <Button type="ghost">
-                <Icon type="upload" /> 点击上传其他文档
-              </Button>
-              </Upload>
-            )}
-          </FormItem>
-
-          <Row className="cars-info-title">
-            <Col span="6">车辆信息</Col>
-          </Row>
-          <FormItem
-            {...formItemLayout}
-            label="车牌号码"
-            hasFeedback >
-            {fieldValidate.plateNumber()(<Input />)}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="车辆品牌"
-            hasFeedback >
-            {fieldValidate.carBrand()(<Input />)}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="车辆型号"
-            hasFeedback >
-            {fieldValidate.carModel()(<Input />)}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="车辆识别号"
-            hasFeedback >
-            {fieldValidate.carIdentifyNumber()(<Input />)}
-          </FormItem>
-
-          <Row className="cars-info-title">
-            <Col span="6">行驶证信息</Col>
-          </Row>
-           <FormItem
-             {...formItemLayout}
-             label="行驶证号"
-             hasFeedback >
-            {fieldValidate.driverLicense()(<Input />)}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="行驶证副本扫描件"
-            extra={`请上传行驶证清晰彩色原件扫描件或者数码照，支持jpg、jpeg、bmp、png、gif格式照片，
-              大小不超过2M`}
-            hasFeedback >
-            {fieldValidate.driverLicensePath()(
-              <Upload
-                action={`${__API_BASE__}file/upload?token=${window.localStorage.getItem('token')}`}
-                name="driverLicensePath"
-                data={{ fileName: this.state.driverLicensePathName }}
-                accept=".jpg,.png,.jpeg,.bmp,.gif"
-                beforeUpload={this.handleBeforeUpload.bind(this, 'driverLicensePath')} >
-              <Button type="ghost">
-                <Icon type="upload" /> 点击上传行驶证副本扫描件
-              </Button>
-              </Upload>
-            )}
-          </FormItem>
+          {info.map((item, index) => {
+            if (!item) return null
+            return (
+              <Item
+                key={index}
+                index={index}
+                readOnly={readOnly}
+                data={item}
+                setFieldsValue={setFieldsValue}
+                getFieldDecorator={getFieldDecorator}
+                deleteItem={this.deleteItem} />
+            )
+          })}
 
           <FormItem>
             <p style={{ textAlign: 'center' }}>

@@ -59,12 +59,13 @@ class BasicInfo extends Component {
   }
 
   render() {
-    const { form: { getFieldDecorator, getFieldValue }, info, periodicDay, repaymentPeriod } = this.props
+    const { form: { getFieldDecorator, getFieldValue }, info, periodicDay, repaymentPeriod, type } = this.props
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 16 },
     }
     const fieldValidate = validate(getFieldDecorator)
+    const readOnly = type === 'salesman'
     return (
       <div className="executive-info-form-box">
         <Row type="flex">
@@ -77,7 +78,7 @@ class BasicInfo extends Component {
                   label="手续费状态"
                   hasFeedback >
                   {fieldValidate.serviceCharge()(
-                    <Select placeholder="请选择">
+                    <Select placeholder="请选择" disabled={readOnly}>
                       <Option value={'1'}>未缴费</Option>
                       <Option value={'2'}>已缴费</Option>
                     </Select>
@@ -89,7 +90,7 @@ class BasicInfo extends Component {
                   label="首期保费"
                   hasFeedback >
                   {fieldValidate.initialPremium()(
-                    <Select placeholder="请选择">
+                    <Select placeholder="请选择" disabled={readOnly}>
                       <Option value={'1'}>未缴费</Option>
                       <Option value={'2'}>已缴费</Option>
                     </Select>
@@ -108,7 +109,7 @@ class BasicInfo extends Component {
                   label="合同状态"
                   hasFeedback >
                   {fieldValidate.contractStatus()(
-                    <Select placeholder="请选择">
+                    <Select placeholder="请选择" disabled={readOnly}>
                       <Option value={'1'}>签约中</Option>
                       <Option value={'2'}>还款中</Option>
                       <Option value={'3'}>已结束</Option>
@@ -122,7 +123,7 @@ class BasicInfo extends Component {
                     label="合同结束原因"
                     hasFeedback >
                     {fieldValidate.endReason()(
-                      <Select placeholder="请选择">
+                      <Select placeholder="请选择" disabled={readOnly}>
                         <Option value={'1'}>正常还款完成</Option>
                         <Option value={'2'}>提前还款已结束</Option>
                         <Option value={'3'}>已退保</Option>
@@ -162,7 +163,7 @@ class BasicInfo extends Component {
         </Row>
 
         <Row style={{ textAlign: 'center' }}>
-          <Button type="primary" onClick={this.handleSubmit}>保存</Button>
+          <Button type="primary" onClick={this.handleSubmit} disabled={readOnly}>保存</Button>
         </Row>
       </div>
     )

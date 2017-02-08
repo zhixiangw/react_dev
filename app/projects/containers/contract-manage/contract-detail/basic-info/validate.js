@@ -5,6 +5,13 @@ export default function (getFieldDecorator) {
         required: true,
         whitespace: true,
         message: '请输入合同编号'
+      }, {
+        validator: (rule, value, callback) => {
+          if (value && !/^\CX\d{12}$/.test(value)) {
+            callback('请输入正确的合同编号')
+          }
+          callback()
+        }
       }]
     }),
 
@@ -26,7 +33,10 @@ export default function (getFieldDecorator) {
         if (!e || !e.fileList) {
           return e
         }
-        return e && e.fileList.slice(-1)
+        if (e && e.fileList.length > 2) {
+          return e.fileList.slice(-2)
+        }
+        return e && e.fileList
       }
     }),
 
@@ -62,11 +72,19 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    businessLicence: () => getFieldDecorator('businessLicence', {
+    corporateName: () => getFieldDecorator('corporateName', {
       rules: [{
         required: true,
         whitespace: true,
-        message: '请输入营业执照注册号'
+        message: '请输入法人姓名'
+      }]
+    }),
+
+    address: () => getFieldDecorator('address', {
+      rules: [{
+        required: true,
+        whitespace: true,
+        message: '请输入地址'
       }]
     }),
 
@@ -113,7 +131,7 @@ export default function (getFieldDecorator) {
       rules: [{
         required: true,
         whitespace: true,
-        message: '请选择每期扣款时间'
+        message: '请选择每期还款时间'
       }]
     }),
 

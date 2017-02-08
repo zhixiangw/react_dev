@@ -24,31 +24,35 @@ class Attachment extends Component {
             <Row>
               <Col span="8">营业执照：</Col>
               <Col span="14">
-                <a href={businessLicencePath} target="_blank">下载</a>
+                <a href={`${businessLicencePath}&token=${window.localStorage.getItem('token')}`} target="_blank">下载</a>
               </Col>
             </Row>
             <Row>
               <Col span="8">行驶证附件：</Col>
               <Col span="14">
-                <a href={driverLicensePath} target="_blank">下载</a>
+                <a href={`${driverLicensePath}&token=${window.localStorage.getItem('token')}`} target="_blank">下载</a>
               </Col>
             </Row>
             <Row>
               <Col span="8">合同附件：</Col>
               <Col span="14">
-                <a href={attachmentPath} target="_blank">下载</a>
+                {
+                  attachmentPath && attachmentPath.split(',').map((item, index) => {
+                    return <a key={index + 1} href={`${item}&token=${window.localStorage.getItem('token')}`} target="_blank">{`下载${index + 1}   `}</a>
+                  })
+                }
               </Col>
             </Row>
             <Row>
               <Col span="8">保单附件：</Col>
               <Col span="14">
-                <a href={insuranceAttachmentPath} target="_blank">下载</a>
+                <a href={`${insuranceAttachmentPath}&token=${window.localStorage.getItem('token')}`} target="_blank">下载</a>
               </Col>
             </Row>
             <Row>
               <Col span="8">其他附件：</Col>
               <Col span="14">
-                <a href={otherAttachmentPath} target="_blank">下载</a>
+                <a href={`${otherAttachmentPath}&token=${window.localStorage.getItem('token')}`} target="_blank">下载</a>
               </Col>
             </Row>
           </div>

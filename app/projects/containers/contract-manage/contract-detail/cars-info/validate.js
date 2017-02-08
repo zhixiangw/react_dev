@@ -1,6 +1,6 @@
 export default function (getFieldDecorator) {
   return {
-    no: () => getFieldDecorator('no', {
+    no: (index) => getFieldDecorator(`[${index}].no`, {
       rules: [{
         required: true,
         whitespace: true,
@@ -8,7 +8,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    insuranceAttachmentPath: () => getFieldDecorator('insuranceAttachmentPath', {
+    insuranceAttachmentPath: (index) => getFieldDecorator(`[${index}].insuranceAttachmentPath`, {
       rules: [{
         required: true,
         whitespace: true,
@@ -30,7 +30,7 @@ export default function (getFieldDecorator) {
       }
     }),
 
-    premium: () => getFieldDecorator('premium', {
+    premium: (index) => getFieldDecorator(`[${index}].premium`, {
       rules: [{
         required: true,
         whitespace: true,
@@ -38,7 +38,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    otherAttachmentPath: () => getFieldDecorator('otherAttachmentPath', {
+    otherAttachmentPath: (index) => getFieldDecorator(`[${index}].otherAttachmentPath`, {
       rules: [{
         required: true,
         whitespace: true,
@@ -60,7 +60,7 @@ export default function (getFieldDecorator) {
       }
     }),
 
-    plateNumber: () => getFieldDecorator('plateNumber', {
+    plateNumber: (index) => getFieldDecorator(`[${index}].plateNumber`, {
       rules: [{
         required: true,
         whitespace: true,
@@ -68,7 +68,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    carBrand: () => getFieldDecorator('carBrand', {
+    carBrand: (index) => getFieldDecorator(`[${index}].carBrand`, {
       rules: [{
         required: true,
         whitespace: true,
@@ -76,7 +76,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    carModel: () => getFieldDecorator('carModel', {
+    carModel: (index) => getFieldDecorator(`[${index}].carModel`, {
       rules: [{
         required: true,
         whitespace: true,
@@ -84,7 +84,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    carIdentifyNumber: () => getFieldDecorator('carIdentifyNumber', {
+    carIdentifyNumber: (index) => getFieldDecorator(`[${index}].carIdentifyNumber`, {
       rules: [{
         required: true,
         whitespace: true,
@@ -92,7 +92,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    driverLicense: () => getFieldDecorator('driverLicense', {
+    driverLicense: (index) => getFieldDecorator(`[${index}].driverLicense`, {
       rules: [{
         required: true,
         whitespace: true,
@@ -100,7 +100,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    driverLicensePath: () => getFieldDecorator('driverLicensePath', {
+    driverLicensePath: (index) => getFieldDecorator(`[${index}].driverLicensePath`, {
       rules: [{
         required: true,
         whitespace: true,
