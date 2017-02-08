@@ -34,7 +34,7 @@ class Item extends Component {
   }
 
   render() {
-    const { getFieldDecorator, index, deleteItem } = this.props
+    const { getFieldDecorator, index, deleteItem, readOnly } = this.props
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 10 },
@@ -44,13 +44,13 @@ class Item extends Component {
       <div className="cars-info-form-box">
         <Row className="cars-info-title">
           <Col span="6">保单信息</Col>
-          <Col offset="20"><Button type="primary" onClick={deleteItem.bind(this, index)}>删除</Button></Col>
+          <Col offset="20"><Button type="primary" disabled={readOnly} onClick={deleteItem.bind(this, index)}>删除</Button></Col>
         </Row>
           <FormItem
             {...formItemLayout}
             label="保单号"
             hasFeedback >
-            {fieldValidate.no(index)(<Input />)}
+            {fieldValidate.no(index)(<Input disabled={readOnly} />)}
           </FormItem>
 
           <FormItem
@@ -75,7 +75,7 @@ class Item extends Component {
             {...formItemLayout}
             label="商业保险费"
             hasFeedback >
-            {fieldValidate.premium(index)(<Input />)}
+            {fieldValidate.premium(index)(<Input disabled={readOnly} />)}
           </FormItem>
 
           <FormItem
@@ -103,28 +103,28 @@ class Item extends Component {
             {...formItemLayout}
             label="车牌号码"
             hasFeedback >
-            {fieldValidate.plateNumber(index)(<Input />)}
+            {fieldValidate.plateNumber(index)(<Input disabled={readOnly} />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="车辆品牌"
             hasFeedback >
-            {fieldValidate.carBrand(index)(<Input />)}
+            {fieldValidate.carBrand(index)(<Input disabled={readOnly} />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="车辆型号"
             hasFeedback >
-            {fieldValidate.carModel(index)(<Input />)}
+            {fieldValidate.carModel(index)(<Input disabled={readOnly} />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="车辆识别号"
             hasFeedback >
-            {fieldValidate.carIdentifyNumber(index)(<Input />)}
+            {fieldValidate.carIdentifyNumber(index)(<Input disabled={readOnly} />)}
           </FormItem>
 
           <Row className="cars-info-title">
@@ -134,7 +134,7 @@ class Item extends Component {
              {...formItemLayout}
              label="行驶证号"
              hasFeedback >
-            {fieldValidate.driverLicense(index)(<Input />)}
+            {fieldValidate.driverLicense(index)(<Input disabled={readOnly} />)}
           </FormItem>
 
           <FormItem

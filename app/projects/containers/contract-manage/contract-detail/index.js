@@ -101,7 +101,8 @@ class CustomerManage extends Component {
 
   render() {
     const { activeTabKey } = this.state
-    const { contractDetail, location: { query: { handleType, id } }, salesManList } = this.props
+    const { contractDetail, location: { query: { handleType, id } }, salesManList, loginInfo } = this.props
+    const type = loginInfo.get('type')
     return (
       <div className="customer-manage">
         <Tabs
@@ -111,6 +112,7 @@ class CustomerManage extends Component {
             <BasicInfo
               info={handleType !== 'create' && contractDetail.toJS() || {}}
               handleType={handleType}
+              type={type}
               id={id}
               salesManList={salesManList.get('dataList').toJS()}
               onSubmit={this.saveBasicInfo} />
@@ -119,11 +121,13 @@ class CustomerManage extends Component {
             <CarsInfo
               info={handleType !== 'create' && contractDetail.get('insurancePolicyList') && contractDetail.get('insurancePolicyList').toJS() || {}}
               handleType={handleType}
+              type={type}
               id={id}
               onSubmit={this.saveCarsInfo} />
           </TabPane>
           <TabPane tab="执行情况" key="3">
             <ExecutiveInfo
+              type={type}
               info={handleType !== 'create' && contractDetail.get('contractStatus') && contractDetail.get('contractStatus').toJS() || {}}
               periodicDay={handleType !== 'create' && contractDetail.get('periodicDay') || null}
               repaymentPeriod={handleType !== 'create' && contractDetail.get('repaymentPeriod') || null}

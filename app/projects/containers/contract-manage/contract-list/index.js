@@ -458,7 +458,7 @@ class ContractList extends Component {
   createContractButton () {
     const { loginInfo } = this.props
     const type = loginInfo.get('type')
-    if (type === 'admin') {
+    if (type !== 'salesman') {
       const option = {
         pathname: `${__STATIC_BASE__}/contractManage/detail`,
         query: {

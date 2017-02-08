@@ -60,11 +60,15 @@ class CarsInfo extends Component {
   }
 
   normalizeObj (url) {
-    return [{
-      name: this.getNameFromUrl(url),
-      url,
-      uid: -1
-    }]
+    if (url && url.split(',')) {
+      return url.split(',').map((item, index) => {
+        return {
+          name: this.getNameFromUrl(item),
+          url,
+          uid: `-1${index}`
+        }
+      })
+    }
   }
 
   normalize (arr) {
@@ -83,8 +87,9 @@ class CarsInfo extends Component {
       if (!!errors) {
         return
       }
+
       values.loantime = values.loantime.format('YYYY-MM-DD')
-      values.attachmentPath = this.normalize(values.attachmentPath)[0].url
+      values.attachmentPath = this.normalize(values.attachmentPath).map(item => item.url)
       values.businessLicencePath = this.normalize(values.businessLicencePath)[0].url
       onSubmit(values)
     })
@@ -123,7 +128,7 @@ class CarsInfo extends Component {
   }
 
   render() {
-    const { form: { getFieldDecorator, getFieldValue }, handleType } = this.props
+    const { form: { getFieldDecorator, getFieldValue }, handleType, type } = this.props
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 10 },
@@ -132,6 +137,7 @@ class CarsInfo extends Component {
       labelCol: { span: 9 },
       wrapperCol: { span: 15 },
     }
+    const readOnly = type === 'salesman'
     const fieldValidate = validate(getFieldDecorator)
     return (
       <div className="basic-info-form-box">
@@ -139,8 +145,9 @@ class CarsInfo extends Component {
           <FormItem
             {...formItemLayout}
             label="合同编号"
+            extra="格式统一为CXyyyymmdd1234(年月日+4位数字)"
             hasFeedback >
-            {fieldValidate.no()(<Input />)}
+            {fieldValidate.no()(<Input disabled={readOnly} />)}
           </FormItem>
 
           <FormItem
@@ -165,14 +172,14 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="借款时间"
             hasFeedback >
-            {fieldValidate.loantime()(<DatePicker disabledDate={this.disabledDate} />)}
+            {fieldValidate.loantime()(<DatePicker disabled={readOnly} disabledDate={this.disabledDate} />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="客户姓名"
             hasFeedback >
-            {fieldValidate.customer()(<Input />)}
+            {fieldValidate.customer()(<Input disabled={readOnly} />)}
           </FormItem>
 
           <Row>
@@ -181,7 +188,7 @@ class CarsInfo extends Component {
                 {...afterFormItemLayout}
                 label="客户联系方式"
                 hasFeedback >
-                {fieldValidate.customerContact()(<Input maxLength="11" />)}
+                {fieldValidate.customerContact()(<Input disabled={readOnly} maxLength="11" />)}
               </FormItem>
             </Col>
             <Col span="6" offset="1"><Alert message="扣款前两天，将短信通知客户还款" type="info" /></Col>
@@ -189,9 +196,16 @@ class CarsInfo extends Component {
 
           <FormItem
             {...formItemLayout}
-            label="营业执照注册号"
+            label="法人姓名"
             hasFeedback >
-            {fieldValidate.businessLicence()(<Input />)}
+            {fieldValidate.corporateName()(<Input disabled={readOnly} />)}
+          </FormItem>
+
+          <FormItem
+            {...formItemLayout}
+            label="地址"
+            hasFeedback >
+            {fieldValidate.address()(<Input disabled={readOnly} />)}
           </FormItem>
 
           <FormItem
@@ -219,7 +233,7 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="借款金额"
             hasFeedback >
-            {fieldValidate.loanMoney()(<Input />)}
+            {fieldValidate.loanMoney()(<Input disabled={readOnly} />)}
           </FormItem>
 
           <Row>
@@ -229,7 +243,7 @@ class CarsInfo extends Component {
               label="借款期限"
               hasFeedback >
               {fieldValidate.repaymentPeriod()(
-                <Select placeholder="请选择">
+                <Select placeholder="请选择" disabled={readOnly}>
                   <Option value={'11'}>11期</Option>
                 </Select>
               )}
@@ -246,16 +260,16 @@ class CarsInfo extends Component {
             <Col span="16">
             <FormItem
               {...afterFormItemLayout}
-              label="每期扣款时间"
+              label="每期还款时间"
               hasFeedback >
               {fieldValidate.periodicDay()(
-                <Select>
+                <Select disabled={readOnly}>
                   {this.getChargeTimeOptions()}
                 </Select>
               )}
             </FormItem>
             </Col>
-            <Col span="6" offset="1"><Alert message="扣款时间将通知第三方机构扣款，以及提前两天将通知客户还款" type="info" /></Col>
+            <Col span="6" offset="1"><Alert message="还款时间将通知第三方机构扣款，以及提前两天将通知客户还款" type="info" /></Col>
           </Row>
 
           <FormItem
@@ -263,7 +277,7 @@ class CarsInfo extends Component {
             label="所属诺亚信业务员"
             hasFeedback >
             {fieldValidate.salesName()(
-              <Select>
+              <Select disabled={readOnly}>
                 {this.getSalesManOptions()}
               </Select>
             )}
@@ -273,21 +287,21 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="所属诺亚信业务员联系方式"
             hasFeedback >
-            {fieldValidate.salesContact()(<Input maxLength="11" />)}
+            {fieldValidate.salesContact()(<Input disabled={readOnly} maxLength="11" />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="所属保险业务员"
             hasFeedback >
-            {fieldValidate.insuranceSales()(<Input />)}
+            {fieldValidate.insuranceSales()(<Input disabled={readOnly} />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="所属保险业务员联系方式"
             hasFeedback >
-            {fieldValidate.insuranceSalesContact()(<Input maxLength="11" />)}
+            {fieldValidate.insuranceSalesContact()(<Input disabled={readOnly} maxLength="11" />)}
           </FormItem>
 
           <FormItem>

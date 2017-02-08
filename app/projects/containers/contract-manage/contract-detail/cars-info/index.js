@@ -31,13 +31,6 @@ class CarsInfo extends Component {
     setFieldsValue(this.formatValues(this.state.info))
   }
 
-  // componentDidUpdate (prevProps) {
-  //   const { form: { setFieldsValue } } = this.props
-  //   if (info !== prevProps.info) {
-  //     setFieldsValue(this.formatValues(info))
-  //   }
-  // }
-
   getNameFromUrl (url) {
     let query = url && url.split('?')[1] || ''
     let sigleQuery = query && query.split('&')
@@ -84,7 +77,6 @@ class CarsInfo extends Component {
         }
       })
     })
-    console.log(result)
     return result
   }
 
@@ -130,10 +122,11 @@ class CarsInfo extends Component {
 
   render() {
     const { info } = this.state
-    const { form: { setFieldsValue, getFieldDecorator } } = this.props
+    const { form: { setFieldsValue, getFieldDecorator }, type } = this.props
+    const readOnly = type === 'salesman'
     return (
       <div className="cars-info-form-box">
-        <div><Button type="primary" onClick={this.addItem}>新增保单</Button></div>
+        <div><Button type="primary" disabled={readOnly} onClick={this.addItem}>新增保单</Button></div>
         <Form horizontal>
           {info.map((item, index) => {
             if (!item) return null
@@ -141,6 +134,7 @@ class CarsInfo extends Component {
               <Item
                 key={index}
                 index={index}
+                readOnly={readOnly}
                 data={item}
                 setFieldsValue={setFieldsValue}
                 getFieldDecorator={getFieldDecorator}
