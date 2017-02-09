@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
+import { push } from 'react-router-redux'
 import { Tabs, Table, Row, Col, notification, Popover, Select, Input, message, Button } from 'antd'
 const TabPane = Tabs.TabPane
 const Search = Input.Search
@@ -470,6 +471,11 @@ class ContractList extends Component {
     return null
   }
 
+  onRowClick (record) {
+    const { rowClick } = this.props
+    rowClick(`${__STATIC_BASE__}/contractManage/detail?id=${record.handle}&handleType=edit`)
+  }
+
   render() {
     const { activeTabKey,
             isShow,
@@ -492,6 +498,7 @@ class ContractList extends Component {
             <div className="tabel-box">
               <Table
                 columns={this.getKey1Columns()}
+                onRowClick={this.onRowClick.bind(this)}
                 loading={list4key1.get('doing')}
                 dataSource={this.parseKey1Data(list4key1.get('dataList').toJS() || [])}
                 pagination={false} />
@@ -501,6 +508,7 @@ class ContractList extends Component {
             <div className="tabel-box">
               <Table
                 columns={this.getKey2Columns()}
+                onRowClick={this.onRowClick.bind(this)}
                 loading={list4key2.get('doing')}
                 dataSource={this.parseKey2Data(list4key2.get('dataList').toJS() || [])}
                 pagination={false} />
@@ -510,6 +518,7 @@ class ContractList extends Component {
             <div className="tabel-box">
               <Table
                 columns={this.getKey3Columns()}
+                onRowClick={this.onRowClick.bind(this)}
                 loading={list4key3.get('doing')}
                 dataSource={this.parseKey3Data(list4key3.get('dataList').toJS() || [])}
                 pagination={false} />
@@ -555,7 +564,8 @@ const mapDispatchToProps = (dispatch) => ({
   queryContractList4key2: (condition) => dispatch(contractAction.queryContractList4key2(condition)),
   queryContractList4key3: (condition) => dispatch(contractAction.queryContractList4key3(condition)),
   sendNotification: (condition) => dispatch(contractAction.sendNotification(condition)),
-  deleteContract: (contractId) => dispatch(contractAction.deleteContract(contractId))
+  deleteContract: (contractId) => dispatch(contractAction.deleteContract(contractId)),
+  rowClick: (url) => dispatch(push(url)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContractList)
