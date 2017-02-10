@@ -198,14 +198,14 @@ class CarsInfo extends Component {
             {...formItemLayout}
             label="法人姓名"
             hasFeedback >
-            {fieldValidate.corporateName()(<Input disabled={readOnly} />)}
+            {fieldValidate.legalPerson()(<Input disabled={readOnly} />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="地址"
             hasFeedback >
-            {fieldValidate.address()(<Input disabled={readOnly} />)}
+            {fieldValidate.corporateAddress()(<Input disabled={readOnly} />)}
           </FormItem>
 
           <FormItem

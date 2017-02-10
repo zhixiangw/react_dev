@@ -72,7 +72,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    corporateName: () => getFieldDecorator('corporateName', {
+    legalPerson: () => getFieldDecorator('legalPerson', {
       rules: [{
         required: true,
         whitespace: true,
@@ -80,7 +80,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    address: () => getFieldDecorator('address', {
+    corporateAddress: () => getFieldDecorator('corporateAddress', {
       rules: [{
         required: true,
         whitespace: true,
