@@ -93,6 +93,7 @@ class ContractList extends Component {
     }, {
       title: '操作',
       dataIndex: 'handle',
+      onCellClick: (reocrd, e) => e.stopPropagation(),
       render: (id, cord) => {
         const option = {
           pathname: `${__STATIC_BASE__}/contractManage/detail`,
@@ -157,6 +158,7 @@ class ContractList extends Component {
     }, {
       title: '操作',
       dataIndex: 'handle',
+      onCellClick: (reocrd, e) => e.stopPropagation(),
       render: (id, cord) => {
         const option = {
           pathname: `${__STATIC_BASE__}/contractManage/detail`,
@@ -211,6 +213,7 @@ class ContractList extends Component {
     }, {
       title: '操作',
       dataIndex: 'handle',
+      onCellClick: (reocrd, e) => e.stopPropagation(),
       render: (id, cord) => {
         const option = {
           pathname: `${__STATIC_BASE__}/contractManage/detail`,
