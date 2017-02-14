@@ -12,8 +12,8 @@ class Attachment extends Component {
             driverLicensePath,
             attachmentPath,
             insuranceAttachmentPath,
-            otherAttachmentPath } = this.props
-
+            otherAttachmentPath,
+            id } = this.props
     return (
         <Modal
           title={title}
@@ -53,6 +53,25 @@ class Attachment extends Component {
               <Col span="8">其他附件：</Col>
               <Col span="14">
                 <a href={`${otherAttachmentPath}&token=${window.localStorage.getItem('token')}`} target="_blank">下载</a>
+              </Col>
+            </Row>
+            <div style={{ border: '1px solid' }}></div>
+            <Row>
+              <Col span="8">服务合同：</Col>
+              <Col span="14">
+                <a href={`${__API_BASE__}contract/serviceContract?id=${id}&token=${window.localStorage.getItem('token')}`} target="_blank">下载</a>
+              </Col>
+            </Row>
+            <Row>
+              <Col span="8">借款合同：</Col>
+              <Col span="14">
+                <a href={`${__API_BASE__}contract/loanContract?id=${id}&token=${window.localStorage.getItem('token')}`} target="_blank">下载</a>
+              </Col>
+            </Row>
+            <Row>
+              <Col span="8">还款计划表：</Col>
+              <Col span="14">
+                <a href={`${__API_BASE__}contract/repaymentSchedule?id=${id}&token=${window.localStorage.getItem('token')}`} target="_blank">下载</a>
               </Col>
             </Row>
           </div>

@@ -112,7 +112,8 @@ class ContractList extends Component {
               cord.driverLicensePath,
               cord.attachmentPath,
               cord.insuranceAttachmentPath,
-              cord.otherAttachmentPath)}>附件</a>
+              cord.otherAttachmentPath,
+              cord.handle)}>附件</a>
             &nbsp;&nbsp;
             { type !== 'salesman' ?
             <Popover
@@ -177,7 +178,8 @@ class ContractList extends Component {
               cord.driverLicensePath,
               cord.attachmentPath,
               cord.insuranceAttachmentPath,
-              cord.otherAttachmentPath)}>附件</a>
+              cord.otherAttachmentPath,
+              cord.handle)}>附件</a>
             &nbsp;&nbsp;
             { type !== 'salesman' ?
             <Popover
@@ -232,7 +234,8 @@ class ContractList extends Component {
               cord.driverLicensePath,
               cord.attachmentPath,
               cord.insuranceAttachmentPath,
-              cord.otherAttachmentPath)}>附件</a>
+              cord.otherAttachmentPath,
+              cord.handle)}>附件</a>
             &nbsp;&nbsp;
             { type !== 'salesman' ?
             <Popover
@@ -325,6 +328,7 @@ class ContractList extends Component {
       attachmentPath: rest[2],
       insuranceAttachmentPath: rest[3],
       otherAttachmentPath: rest[4],
+      id: rest[5]
     })
   }
 
@@ -489,7 +493,8 @@ class ContractList extends Component {
             driverLicensePath,
             attachmentPath,
             insuranceAttachmentPath,
-            otherAttachmentPath } = this.state
+            otherAttachmentPath,
+            id } = this.state
     const { list4key1, list4key2, list4key3 } = this.props
     return (
       <div className="contract-list">
@@ -537,6 +542,7 @@ class ContractList extends Component {
           attachmentPath={attachmentPath}
           insuranceAttachmentPath={insuranceAttachmentPath}
           otherAttachmentPath={otherAttachmentPath}
+          id={id}
           title={`${currentName}附件资料下载`} />
 
         <ConfirmModal
