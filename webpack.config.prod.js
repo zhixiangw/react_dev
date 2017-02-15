@@ -49,7 +49,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       __PRODUCTION__: true,
-      __API_BASE__: '"http://60.205.149.222/"',
+      __API_BASE__: '"http://yjb.gucangsoyo.com/"',
       __STATIC_BASE__: `"${staticBase}"`,
       'process.env': {
         NODE_ENV: JSON.stringify('production')
