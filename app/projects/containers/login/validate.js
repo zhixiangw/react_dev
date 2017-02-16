@@ -7,7 +7,7 @@ export default function (getFieldDecorator) {
         message: '请输入账户名'
       }, {
         validator: (rule, value, callback) => {
-          if (value && value !== 'admin') {
+          if (value && value !== 'yjbadmin') {
             callback('请输入正确的账号')
           }
           callback()
@@ -22,7 +22,7 @@ export default function (getFieldDecorator) {
         message: '请输入密码'
       }, {
         validator: (rule, value, callback) => {
-          if (value && value !== 'admin') {
+          if (value && value !== 'Yjb@2017') {
             callback('请输入正确的密码')
           }
           callback()

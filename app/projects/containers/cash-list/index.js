@@ -45,6 +45,9 @@ class OverView extends Component {
       dataIndex: 'withdrawAmount',
       render: (withdrawAmount) => <span>{withdrawAmount / 100}</span>
     }, {
+      title: '提现者微信号',
+      dataIndex: 'withdrawWeChat'
+    }, {
       title: '状态',
       dataIndex: 'status'
     }, {
@@ -64,6 +67,7 @@ class OverView extends Component {
       nickname: item.nickname,
       uid: item.uid,
       withdrawAmount: item.withdrawAmount,
+      withdrawWeChat: item.wechat,
       status: item.status,
       handle: item.withdrawId
     }))
