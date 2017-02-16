@@ -33,6 +33,7 @@ class OverView extends Component {
 
   parseData (list) {
     return list.map(item => ({
+      key: item.uid,
       nickname: item.nickname,
       uid: item.uid,
       totalIncome: item.totalIncome,
