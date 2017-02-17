@@ -36,6 +36,7 @@ class PageContainer extends Component {
 
 
   render () {
+    const { loginInfo } = this.props
     return (
       <div className="contain">
         <Row className="top-nav">
@@ -45,13 +46,13 @@ class PageContainer extends Component {
             <Icon type="down-circle-o" />
           </Col>
           <Col span="20" className="right-metro">
-            <p>ADMIN</p>
+            <p>{loginInfo.get('username')}</p>
             <Icon type="user" />
           </Col>
         </Row>
         <Row type="flex" className="layout">
           <Col span="4" className="side-nav">
-            <NavMenu location={this.props.location} type={'admin'} />
+            <NavMenu location={this.props.location} type={loginInfo.get('type')} />
           </Col>
 
           <Col span="20" className="content">
@@ -64,6 +65,7 @@ class PageContainer extends Component {
 }
 
 const mapStateToProps = state => ({
+  loginInfo: state.login.loginInfo,
   location: state.routing.locationBeforeTransitions,
   systemMsg: state.system.systemMsg
 })

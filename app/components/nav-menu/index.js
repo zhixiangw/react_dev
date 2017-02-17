@@ -43,7 +43,8 @@ export default class Nav extends Component {
 
   render () {
     const { defaultOpenKeys, selectedKeys } = this.state
-
+    const { type } = this.props
+    console.log(type)
     return (
       <Menu theme="dark"
         defaultOpenKeys={defaultOpenKeys}
@@ -56,8 +57,8 @@ export default class Nav extends Component {
           <MenuItem key="cashList" >
             <Link to={`${__STATIC_BASE__}/cashList`}>提现记录</Link>
           </MenuItem>
-          <MenuItem key="operationList" >
-            <Link to={`${__STATIC_BASE__}/operationList`}>打款操作员</Link>
+          <MenuItem key="operationList" disabled={type !== 'ADMIN'} >
+            <Link to={`${__STATIC_BASE__}/operationList`}>管理操作员</Link>
           </MenuItem>
         </SubMenu>
       </Menu>
