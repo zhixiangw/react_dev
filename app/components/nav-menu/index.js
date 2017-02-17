@@ -58,7 +58,7 @@ export default class Nav extends Component {
             <Link to={`${__STATIC_BASE__}/cashList`}>提现记录</Link>
           </MenuItem>
           <MenuItem key="operationList" disabled={type !== 'ADMIN'} >
-            <Link to={`${__STATIC_BASE__}/operationList`}>管理操作员</Link>
+            <Link to={`${__STATIC_BASE__}/operationList`}>管理员列表</Link>
           </MenuItem>
         </SubMenu>
       </Menu>
