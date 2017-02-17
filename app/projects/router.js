@@ -4,7 +4,8 @@ import { Router, Route, IndexRoute } from 'react-router'
 import PageContainer from '../components/page-container'
 import Login from './containers/login'
 import UserList from './containers/user-list'
-import cashList from './containers/cash-list'
+import CashList from './containers/cash-list'
+import OperationList from './containers/operation-list'
 
 export default function (history) {
   return (
@@ -14,7 +15,10 @@ export default function (history) {
         <IndexRoute component={UserList} />
       </Route>
       <Route path={`${__STATIC_BASE__}/cashList`} component={PageContainer}>
-        <IndexRoute component={cashList} />
+        <IndexRoute component={CashList} />
+      </Route>
+      <Route path={`${__STATIC_BASE__}/operationList`} component={PageContainer}>
+        <IndexRoute component={OperationList} />
       </Route>
     </Router>
   )

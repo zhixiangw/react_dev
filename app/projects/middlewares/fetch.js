@@ -1,15 +1,16 @@
 import 'isomorphic-fetch'
 
-function packFetch(url, condition) {
+function packFetch(url, condition, method) {
   // Fetch 请求默认是不带 cookie 的,如果你想在fetch请求里附带cookies之类的凭证信息,需要设置 fetch(url, {credentials: 'include'})
   // 此处需要注意，携带cookie的话，是不允许跨域请求的，所以本地调试的跨域接口的时候，需要注释掉
   let option = {
     // credentials: 'include'
+    method: method || 'get'
   }
   if (condition) {
     if (condition.formData) { // 文件上传必须字段
       option = {
-        method: 'post',
+        method: method || 'post',
         // credentials: 'include',
         headers: {
           Accept: 'application/json'
@@ -18,7 +19,7 @@ function packFetch(url, condition) {
       }
     } else {
       option = {
-        method: 'put',
+        method: method || 'post',
         // credentials: 'include',
         headers: {
           Accept: 'application/json',
@@ -56,7 +57,7 @@ export default () => next => action => {
     return next(action)
   }
 
-  let { url, request, msg, constname } = fethAPI
+  let { url, request, msg, constname, method } = fethAPI
 
   function actionWith (result) {
     const finalAction = Object.assign({}, action, result)
@@ -70,7 +71,7 @@ export default () => next => action => {
     request
   }))
 
-  return packFetch(url, request).then(
+  return packFetch(url, request, method).then(
     response => {
       next(actionWith({
         type: API_SUCCESS,

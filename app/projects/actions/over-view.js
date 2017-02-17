@@ -31,7 +31,8 @@ export function finishWithdraw (id) {
       [FETCH_API]: {
         constname: FINISH_WITH_DRAW,
         url: `${__API_BASE__}v1/withdraw/finished`,
-        request: { withdrawId: id }
+        request: { withdrawId: id },
+        method: 'put'
       }
     })
   }

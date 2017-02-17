@@ -26,7 +26,8 @@ export default class Nav extends Component {
     let selectedKeys
     const menuArr = [
       'userList',
-      'cashList'
+      'cashList',
+      'operationList'
     ]
     menuArr.forEach(item => {
       if (pathname.indexOf(item) !== -1) {
@@ -54,6 +55,9 @@ export default class Nav extends Component {
           </MenuItem>
           <MenuItem key="cashList" >
             <Link to={`${__STATIC_BASE__}/cashList`}>提现记录</Link>
+          </MenuItem>
+          <MenuItem key="operationList" >
+            <Link to={`${__STATIC_BASE__}/operationList`}>打款操作员</Link>
           </MenuItem>
         </SubMenu>
       </Menu>
