@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { replace } from 'react-router-redux'
 
-import { Input, Form, Button } from 'antd'
+import { login as loginAction } from '../../actions'
+import { Input, Form, Button, message  } from 'antd'
 const FormItem = Form.Item
 
 import validate from './validate'
@@ -18,11 +19,18 @@ class Login extends Component {
 
   handleSubmit () {
     const { form: { validateFields }, dispatch } = this.props
-    validateFields((errors) => {
+    validateFields((errors, values) => {
       if (!!errors) {
         return
       }
-      dispatch(replace(`${__STATIC_BASE__}/userList`))
+      const hide = message.loading('', 0)
+      dispatch(loginAction.login(values)).then(() => {
+        dispatch(replace(`${__STATIC_BASE__}/userList`))
+        setTimeout(hide, 0)
+      }, () => {
+        message.error('登录失败', 2)
+        setTimeout(hide, 0)
+      })
     })
   }
 

@@ -22,8 +22,13 @@ class OverView extends Component {
   }
 
   handClick() {
-    const { finishWithdraw, queryWithdrawsList } = this.props
-    finishWithdraw(this.state.id).then(() => {
+    const { finishWithdraw, queryWithdrawsList, loginInfo } = this.props
+    const { id } = this.state
+    const condition = {
+      withdrawId: id,
+      adminId: loginInfo.get('adminId')
+    }
+    finishWithdraw(condition).then(() => {
       this.setState({ isShow: false })
       queryWithdrawsList(this.state.pageIndex)
     })
@@ -48,6 +53,15 @@ class OverView extends Component {
       title: '提现者微信号',
       dataIndex: 'withdrawWeChat'
     }, {
+      title: '打款操作员',
+      dataIndex: 'operator'
+    }, {
+      title: '提现时间',
+      dataIndex: 'applyTime'
+    }, {
+      title: '打款时间',
+      dataIndex: 'finishTime'
+    }, {
       title: '状态',
       dataIndex: 'status'
     }, {
@@ -68,6 +82,9 @@ class OverView extends Component {
       uid: item.uid,
       withdrawAmount: item.withdrawAmount,
       withdrawWeChat: item.wechat,
+      operator: item.operator,
+      applyTime: item.applyTime,
+      finishTime: item.finishTime,
       status: item.status,
       handle: item.withdrawId
     }))
