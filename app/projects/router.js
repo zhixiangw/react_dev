@@ -6,6 +6,7 @@ import Login from './containers/login'
 import UserList from './containers/user-list'
 import CashList from './containers/cash-list'
 import OperationList from './containers/operation-list'
+import VerifyList from './containers/verify-list'
 
 export default function (history) {
   return (
@@ -19,6 +20,9 @@ export default function (history) {
       </Route>
       <Route path={`${__STATIC_BASE__}/operationList`} component={PageContainer}>
         <IndexRoute component={OperationList} />
+      </Route>
+      <Route path={`${__STATIC_BASE__}/verifyList`} component={PageContainer}>
+        <IndexRoute component={VerifyList} />
       </Route>
     </Router>
   )

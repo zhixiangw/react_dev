@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Table, message, Button } from 'antd'
+import { Table, message, Button, Modal } from 'antd'
 
 import { operation as operationAction } from '../../actions'
 
@@ -11,14 +11,17 @@ class UserList extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      isShow: false
+      isShow: false,
+      isShowDelete: false
     }
 
     this.getColumns = this.getColumns.bind(this)
     this.parseData = this.parseData.bind(this)
     this.toggleShow = this.toggleShow.bind(this)
+    this.toggleShowDelete = this.toggleShowDelete.bind(this)
     this.sendConfirm = this.sendConfirm.bind(this)
     this.search = this.search.bind(this)
+    this.delete = this.delete.bind(this)
   }
 
   componentWillMount() {
@@ -45,7 +48,7 @@ class UserList extends Component {
         return (<div>
           <a onClick={this.toggleShow.bind(this, 'edit', cord)}>编辑</a>
           &nbsp;&nbsp;
-          <a onClick={this.delete.bind(this, id)}>删除</a>
+          <a onClick={this.toggleShowDelete.bind(this, id)}>删除</a>
         </div>)
       }
     }]
@@ -63,6 +66,10 @@ class UserList extends Component {
 
   toggleShow (type, cord) {
     this.setState({ isShow: !this.state.isShow, type, cord })
+  }
+
+  toggleShowDelete (id) {
+    this.setState({ isShowDelete: !this.state.isShowDelete, id })
   }
 
   sendConfirm (condition) {
@@ -85,10 +92,11 @@ class UserList extends Component {
     }
   }
 
-  delete (id) {
+  delete () {
     const { deleteUser } = this.props
+    const { id } = this.state
     deleteUser(id).then(() => {
-      this.search()
+      this.setState({ isShowDelete: false }, () => this.search())
     })
   }
 
@@ -98,7 +106,7 @@ class UserList extends Component {
   }
 
   render() {
-    const { isShow, cord, type } = this.state
+    const { isShow, cord, type, isShowDelete } = this.state
     const { list } = this.props
     return (
       <div className="user-list">
@@ -120,6 +128,14 @@ class UserList extends Component {
           type={type}
           confirm={this.sendConfirm}
           cancel={this.toggleShow} />
+
+        <Modal
+          title="删除提示"
+          visible={isShowDelete}
+          onOk={this.delete}
+          onCancel={this.toggleShowDelete} >
+          <p>您确定要删除吗？</p>
+        </Modal>
       </div>
     )
   }

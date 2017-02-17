@@ -27,7 +27,8 @@ export default class Nav extends Component {
     const menuArr = [
       'userList',
       'cashList',
-      'operationList'
+      'operationList',
+      'verifyList'
     ]
     menuArr.forEach(item => {
       if (pathname.indexOf(item) !== -1) {
@@ -56,6 +57,9 @@ export default class Nav extends Component {
           </MenuItem>
           <MenuItem key="cashList" >
             <Link to={`${__STATIC_BASE__}/cashList`}>提现记录</Link>
+          </MenuItem>
+          <MenuItem key="verifyList">
+            <Link to={`${__STATIC_BASE__}/verifyList`}>待审核微信号</Link>
           </MenuItem>
           <MenuItem key="operationList" disabled={type !== 'ADMIN'} >
             <Link to={`${__STATIC_BASE__}/operationList`}>管理员列表</Link>
