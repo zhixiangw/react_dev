@@ -18,7 +18,7 @@ export function createUser (condition) {
     return dispatch({
       [FETCH_API]: {
         constname: CREATE_USER,
-        url: `${__API_BASE__}v1/admin/create`,
+        url: `${__API_BASE__}v1/admin/edit`,
         request: condition
       }
     })

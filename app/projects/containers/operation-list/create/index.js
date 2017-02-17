@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 
-import { Input, Form, Modal, Radio } from 'antd'
+import { Input, Form, Modal } from 'antd'
 const FormItem = Form.Item
-const RadioGroup = Radio.Group
 
 import validate from './validate'
 
@@ -14,9 +13,14 @@ class CreateUser extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { isShow, form: { resetFields } } = this.props
+    const { form: { setFieldsValue, resetFields }, isShow } = this.props
+    const { type, cord } = nextProps
     if (!isShow && nextProps.isShow) {
-      resetFields()
+      if (type === 'edit') {
+        setFieldsValue(cord)
+      } else {
+        resetFields()
+      }
     }
   }
 
@@ -47,35 +51,30 @@ class CreateUser extends Component {
         <Form horizontal>
           <FormItem
             {...formItemLayout}
-            label="角色"
+            label="姓名"
             hasFeedback >
-            {fieldValidate.type()(
-              <RadioGroup>
-                <Radio value="1">业务员</Radio>
-                <Radio value="2">审核员</Radio>
-              </RadioGroup>
-            )}
+            {fieldValidate.username()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="账号"
             hasFeedback >
-            {fieldValidate.account()(<Input />)}
-          </FormItem>
-
-          <FormItem
-            {...formItemLayout}
-            label="账号名称"
-            hasFeedback >
             {fieldValidate.accountName()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
-            label="联系方式"
+            label="登录密码"
             hasFeedback >
-            {fieldValidate.mobile()(<Input />)}
+            {fieldValidate.password()(<Input />)}
+          </FormItem>
+
+          <FormItem
+            {...formItemLayout}
+            label="手机"
+            hasFeedback >
+            {fieldValidate.phoneNumber()(<Input />)}
           </FormItem>
         </Form>
       </div>

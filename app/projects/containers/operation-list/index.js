@@ -28,22 +28,22 @@ class UserList extends Component {
   getColumns () {
     return [{
       title: '姓名',
-      dataIndex: 'name'
+      dataIndex: 'username'
     }, {
       title: '账号',
-      dataIndex: 'account'
+      dataIndex: 'accountName'
     }, {
       title: '登录密码',
       dataIndex: 'password'
     }, {
       title: '手机',
-      dataIndex: 'mobile'
+      dataIndex: 'phoneNumber'
     }, {
       title: '操作',
       dataIndex: 'handle',
-      render: (id) => {
+      render: (id, cord) => {
         return (<div>
-          <a onClick={this.toggleShow.bind(this, 'edit')}>编辑</a>
+          <a onClick={this.toggleShow.bind(this, 'edit', cord)}>编辑</a>
           &nbsp;&nbsp;
           <a onClick={this.delete.bind(this, id)}>删除</a>
         </div>)
@@ -53,16 +53,16 @@ class UserList extends Component {
 
   parseData (list) {
     return list.map(item => ({
-      name: item.accountName,
-      account: item.username,
+      username: item.username,
+      accountName: item.accountName,
       password: item.password,
-      mobile: item.phoneNumber,
+      phoneNumber: item.phoneNumber,
       handle: item.adminId
     }))
   }
 
-  toggleShow (type) {
-    this.setState({ isShow: !this.state.isShow, type })
+  toggleShow (type, cord) {
+    this.setState({ isShow: !this.state.isShow, type, cord })
   }
 
   sendConfirm (condition) {
@@ -70,21 +70,26 @@ class UserList extends Component {
     const { type } = this.state
     const hide = message.loading('', 0)
     if (type === 'edit') {
+      condition.adminId = this.state.cord.handle
       editUser(condition).then(() => {
-        this.setState({ isShow: false, type: null })
+        this.setState({ isShow: false, type: null, cord: null })
+        this.search()
         setTimeout(hide, 0)
       }, () => setTimeout(hide, 0))
     } else if (type === 'create') {
       createUser(condition).then(() => {
-        this.setState({ isShow: false, type: null })
+        this.setState({ isShow: false, type: null, cord: null })
         setTimeout(hide, 0)
+        this.search()
       }, () => setTimeout(hide, 0))
     }
   }
 
   delete (id) {
     const { deleteUser } = this.props
-    deleteUser(id)
+    deleteUser(id).then(() => {
+      this.search()
+    })
   }
 
   search () {
@@ -93,12 +98,12 @@ class UserList extends Component {
   }
 
   render() {
-    const { isShow } = this.state
+    const { isShow, cord, type } = this.state
     const { list } = this.props
     return (
       <div className="user-list">
         <div className="create-user">
-            <Button type="primary" onClick={this.toggleShow}>新建账号</Button>
+            <Button type="primary" onClick={this.toggleShow.bind(this, 'create')}>新建账号</Button>
         </div>
         <div className="tabel-box">
           <Table
@@ -111,6 +116,8 @@ class UserList extends Component {
         <CreateUser
           title="新建账号"
           isShow={isShow}
+          cord={cord}
+          type={type}
           confirm={this.sendConfirm}
           cancel={this.toggleShow} />
       </div>
