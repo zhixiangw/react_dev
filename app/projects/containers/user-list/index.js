@@ -21,10 +21,12 @@ class OverView extends Component {
       dataIndex: 'uid'
     }, {
       title: '总收益',
-      dataIndex: 'totalIncome'
+      dataIndex: 'totalIncome',
+      render: (totalIncome) => <span>{totalIncome / 100}</span>
     }, {
       title: '昨日收益',
-      dataIndex: 'yesterdayIncome'
+      dataIndex: 'yesterdayIncome',
+      render: (yesterdayIncome) => <span>{yesterdayIncome / 100}</span>
     }, {
       title: '推荐人',
       dataIndex: 'inviteUser'
