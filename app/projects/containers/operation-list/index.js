@@ -48,6 +48,9 @@ class UserList extends Component {
       title: '操作',
       dataIndex: 'handle',
       render: (id, cord) => {
+        if (cord.type === 'ADMIN') {
+          return '--'
+        }
         return (<div>
           <a onClick={this.toggleShow.bind(this, 'edit', cord)}>编辑</a>
           &nbsp;&nbsp;
