@@ -14,6 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "md5": "^2.2.1",
     "webpack-dev-server": "^1.15.0"
   },
   "devDependencies": {

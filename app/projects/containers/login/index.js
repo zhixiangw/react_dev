@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { replace } from 'react-router-redux'
+import MD5 from 'md5'
 
 import { login as loginAction } from '../../actions'
 import { Input, Form, Button, message  } from 'antd'
@@ -24,6 +25,7 @@ class Login extends Component {
         return
       }
       const hide = message.loading('', 0)
+      values.password = MD5(values.password)
       dispatch(loginAction.login(values)).then(() => {
         dispatch(replace(`${__STATIC_BASE__}/userList`))
         setTimeout(hide, 0)

@@ -33,7 +33,10 @@ class PageContainer extends Component {
     }
   }
 
-
+  logoutFunc () {
+    const { logout } = this.props
+    logout()
+  }
 
   render () {
     const { loginInfo } = this.props
@@ -47,7 +50,7 @@ class PageContainer extends Component {
           </Col>
           <Col span="20" className="right-metro">
             <p>{loginInfo.get('username')}</p>
-            <Icon type="user" />
+            <Icon type="logout" onClick={this.logoutFunc.bind(this)} />
           </Col>
         </Row>
         <Row type="flex" className="layout">
@@ -71,7 +74,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  cleanMsg: () => dispatch(systemAction.clean())
+  cleanMsg: () => dispatch(systemAction.clean()),
+  logout: () => dispatch(replace(`${__STATIC_BASE__}/`))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageContainer)

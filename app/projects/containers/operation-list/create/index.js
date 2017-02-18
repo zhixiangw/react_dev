@@ -18,6 +18,7 @@ class CreateUser extends Component {
     if (!isShow && nextProps.isShow) {
       if (type === 'edit') {
         setFieldsValue(cord)
+        resetFields(['password'])
       } else {
         resetFields()
       }

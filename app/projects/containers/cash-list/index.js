@@ -131,11 +131,12 @@ class OverView extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  list: state.overView.withdrawsList
+  list: state.overView.withdrawsList,
+  loginInfo: state.login.loginInfo
 })
 const mapDispatchToProps = (dispatch) => ({
   queryWithdrawsList: (pageIndex) => dispatch(overViewAction.queryWithdrawsList(pageIndex)),
-  finishWithdraw: (id) => dispatch(overViewAction.finishWithdraw(id))
+  finishWithdraw: (condition) => dispatch(overViewAction.finishWithdraw(condition))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(OverView)

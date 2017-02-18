@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Table, message, Button, Modal } from 'antd'
-
+import MD5 from 'md5'
 import { operation as operationAction } from '../../actions'
 
 import CreateUser from './create'
@@ -42,6 +42,9 @@ class UserList extends Component {
       title: '手机',
       dataIndex: 'phoneNumber'
     }, {
+      title: '类型',
+      dataIndex: 'type'
+    }, {
       title: '操作',
       dataIndex: 'handle',
       render: (id, cord) => {
@@ -58,8 +61,9 @@ class UserList extends Component {
     return list.map(item => ({
       username: item.username,
       accountName: item.accountName,
-      password: item.password,
+      password: '*********',
       phoneNumber: item.phoneNumber,
+      type: item.type,
       handle: item.adminId
     }))
   }
@@ -76,6 +80,7 @@ class UserList extends Component {
     const { createUser, editUser } = this.props
     const { type } = this.state
     const hide = message.loading('', 0)
+    condition.password = MD5(condition.password)
     if (type === 'edit') {
       condition.adminId = this.state.cord.handle
       editUser(condition).then(() => {
