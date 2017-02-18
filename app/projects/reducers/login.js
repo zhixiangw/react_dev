@@ -7,6 +7,7 @@ const loginInfo = (state = Map(), { type, constname, response }) => {
   switch (type) {
     case API_SUCCESS:
       if (constname === loginAction.LOGIN) {
+        window.localStorage.setItem('loginInfo', JSON.stringify(response.resultData.result))
         return state.merge({}, response.resultData.result)
       }
       return state

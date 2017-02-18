@@ -26,7 +26,7 @@ class OverView extends Component {
     const { id } = this.state
     const condition = {
       withdrawId: id,
-      adminId: loginInfo.get('adminId')
+      adminId: loginInfo.get('adminId') || JSON.parse(window.localStorage.getItem('loginInfo')).adminId
     }
     finishWithdraw(condition).then(() => {
       this.setState({ isShow: false })

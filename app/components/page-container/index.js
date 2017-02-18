@@ -49,13 +49,13 @@ class PageContainer extends Component {
             <Icon type="down-circle-o" />
           </Col>
           <Col span="20" className="right-metro">
-            <p>{loginInfo.get('username')}</p>
+            <p>{loginInfo.get('username') || JSON.parse(window.localStorage.getItem('loginInfo')).username}</p>
             <Icon type="logout" onClick={this.logoutFunc.bind(this)} />
           </Col>
         </Row>
         <Row type="flex" className="layout">
           <Col span="4" className="side-nav">
-            <NavMenu location={this.props.location} type={loginInfo.get('type')} />
+            <NavMenu location={this.props.location} type={loginInfo.get('type') || JSON.parse(window.localStorage.getItem('loginInfo')).type} />
           </Col>
 
           <Col span="20" className="content">

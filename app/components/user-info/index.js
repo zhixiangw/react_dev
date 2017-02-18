@@ -30,7 +30,7 @@ class UserInfo extends Component {
       if (!!errors) {
         return
       }
-      values.id = loginInfo.get('id')
+      values.id = loginInfo.get('id') || JSON.parse(window.localStorage.getItem('loginInfo')).id
       confirm(values)
     })
   }
