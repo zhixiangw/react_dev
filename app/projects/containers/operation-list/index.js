@@ -31,10 +31,10 @@ class UserList extends Component {
   getColumns () {
     return [{
       title: '姓名',
-      dataIndex: 'username'
+      dataIndex: 'accountName'
     }, {
       title: '账号',
-      dataIndex: 'accountName'
+      dataIndex: 'username'
     }, {
       title: '登录密码',
       dataIndex: 'password'
@@ -49,7 +49,7 @@ class UserList extends Component {
       dataIndex: 'handle',
       render: (id, cord) => {
         if (cord.type === 'ADMIN') {
-          return '--'
+          return <a onClick={this.toggleShow.bind(this, 'edit', cord)}>编辑</a>
         }
         return (<div>
           <a onClick={this.toggleShow.bind(this, 'edit', cord)}>编辑</a>

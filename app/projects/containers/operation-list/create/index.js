@@ -36,7 +36,7 @@ class CreateUser extends Component {
   }
 
   render() {
-    const { form: { getFieldDecorator }, title, isShow, cancel } = this.props
+    const { form: { getFieldDecorator }, title, isShow, cancel, cord } = this.props
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
@@ -54,14 +54,14 @@ class CreateUser extends Component {
             {...formItemLayout}
             label="姓名"
             hasFeedback >
-            {fieldValidate.username()(<Input />)}
+            {fieldValidate.accountName()(<Input />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="账号"
             hasFeedback >
-            {fieldValidate.accountName()(<Input />)}
+            {fieldValidate.username()(<Input disabled={cord && cord.type === 'ADMIN'} />)}
           </FormItem>
 
           <FormItem
