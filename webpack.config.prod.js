@@ -1,13 +1,14 @@
-var path = require('path');
-var webpack = require('webpack')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
+'use strict'
+let path = require('path');
+let webpack = require('webpack')
+let HtmlWebpackPlugin = require('html-webpack-plugin')
+let ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-var ROOT_PATH = path.resolve(__dirname);
-var APP_PATH = path.resolve(ROOT_PATH, 'app')
-var DIST_PATH = path.resolve(ROOT_PATH, 'dist')
+let ROOT_PATH = path.resolve(__dirname);
+let APP_PATH = path.resolve(ROOT_PATH, 'app')
+let DIST_PATH = path.resolve(ROOT_PATH, 'dist')
 
-var staticBase = '/car'
+let staticBase = '/car'
 
 module.exports = {
   context: path.resolve(__dirname, '.'),

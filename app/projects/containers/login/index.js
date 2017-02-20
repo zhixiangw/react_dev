@@ -9,7 +9,7 @@ import { login as loginAction } from '../../actions'
 
 import validate from './validate'
 import './index.less'
-import logoImg from './logo.png'
+import logoImg from './logo.jpg'
 
 class Login extends Component {
   constructor (props) {
