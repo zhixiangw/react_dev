@@ -56,7 +56,7 @@ export default class Nav extends Component {
             <Link to={`${__STATIC_BASE__}/overView`}>首页概览</Link>
           </MenuItem>
           <MenuItem key="contractManage" >
-            <Link to={`${__STATIC_BASE__}/contractManage`}>合同列表</Link>
+            <Link to={`${__STATIC_BASE__}/contractManage`}>单身狗列表</Link>
           </MenuItem>
           <MenuItem key="customerManage"
             disabled={type !== 'admin'} >

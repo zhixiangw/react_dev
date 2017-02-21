@@ -26,7 +26,7 @@ const overViewList = (state = Map({
   dataList: List()
 }), { type, constname, response }) => {
   const dataList = [{
-    date: '2016-12-01',
+    date: '2016-12-02',
     newContract: Math.ceil(Math.random() * 100),
     loanContract: Math.ceil(Math.random() * 100),
     loanAmount: Math.ceil(Math.random() * 10000),
@@ -38,7 +38,7 @@ const overViewList = (state = Map({
     loanAmount: Math.ceil(Math.random() * 10000),
     unpaidContract: Math.ceil(Math.random() * 100),
   }, {
-    date: '2016-12-03',
+    date: '2016-12-02',
     newContract: Math.ceil(Math.random() * 100),
     loanContract: Math.ceil(Math.random() * 100),
     loanAmount: Math.ceil(Math.random() * 10000),

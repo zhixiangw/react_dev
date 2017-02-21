@@ -75,16 +75,16 @@ class OverView extends Component {
       title: '日期',
       dataIndex: 'date'
     }, {
-      title: '新增合同',
+      title: '新增单身狗',
       dataIndex: 'newContract'
     }, {
-      title: '放款合同数',
+      title: '审核通过单身狗',
       dataIndex: 'loanContract'
     }, {
-      title: '放款金额',
+      title: '自我评估总价格',
       dataIndex: 'loanAmount'
     }, {
-      title: '欠缴合同数',
+      title: '会员单身狗',
       dataIndex: 'unpaidContract'
     }]
   }
@@ -122,32 +122,32 @@ class OverView extends Component {
   render() {
     const { overViewData, list } = this.props
     const { activeId } = this.state
-    const tablinkArr = ['新增合同数', '已放款合同数', '欠款合同数']
+    const tablinkArr = ['新增单身狗', '审核通过单身狗', '会员单身狗']
     return (
       <section>
         <Row gutter={32} className="index-over-view">
           <Col span="6">
-            <div className="index-over-view-box">
-              <p>{overViewData.get('contractNum')}</p>
-              <p>合同总数</p>
+            <div className="index-over-view-box success">
+              <p>{overViewData.get('contractNum')}<small> 个</small></p>
+              <p>单身狗总数量</p>
             </div>
           </Col>
           <Col span="6">
-            <div className="index-over-view-box">
-              <p>{overViewData.get('unpaidContractNum')}</p>
-              <p>欠缴合同数量</p>
+            <div className="index-over-view-box warning">
+              <p>{overViewData.get('unpaidContractNum')}<small> 个</small></p>
+              <p>潜在单身狗数量</p>
             </div>
           </Col>
           <Col span="6">
-            <div className="index-over-view-box">
-              <p>{Number(overViewData.get('totalLoanAmount')).toFixed(2)}</p>
-              <p>借款总金额</p>
+            <div className="index-over-view-box primary">
+              <p>{Number(overViewData.get('totalLoanAmount')).toFixed(2)}<small> 元</small></p>
+              <p>单身狗自我评估总价格</p>
             </div>
           </Col>
           <Col span="6">
-            <div className="index-over-view-box">
-              <p>{overViewData.get('endContractNum')}</p>
-              <p>已结束/已退保合同数</p>
+            <div className="index-over-view-box error">
+              <p>{overViewData.get('endContractNum')}<small> 个</small></p>
+              <p>单身狗Club会员数</p>
             </div>
           </Col>
         </Row>
