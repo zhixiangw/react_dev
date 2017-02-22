@@ -39,9 +39,9 @@ class SdDetail extends Component {
   }
 
   saveSdInfo (values) {
-    const { saveSdInfoFunc } = this.props
+    const { location: { query: { id } }, saveSdInfoFunc } = this.props
     const hide = message.loading('', 0)
-    saveSdInfoFunc(values).then(() => {
+    saveSdInfoFunc({ id, info: values }).then(() => {
       setTimeout(hide, 0)
     }, () => {
       setTimeout(hide, 0)

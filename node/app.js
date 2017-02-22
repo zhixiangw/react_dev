@@ -2,6 +2,7 @@
 const koa = require('koa')
 const logger = require('koa-logger')
 const bodyParser = require('koa-bodyparser')
+const formidable = require('koa-formidable')
 const koaCors = require('koa-cors')
 const router = require('koa-router')()
 
@@ -20,6 +21,7 @@ const app = koa()
 app.use(koaCors())
 app.use(bodyParser())
 app.use(logger())
+app.use(formidable())
 app.use(router.routes())
    .use(router.allowedMethods())
 

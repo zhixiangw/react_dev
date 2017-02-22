@@ -60,6 +60,7 @@ class BasicInfo extends Component {
       }
       values.age = +values.age
       values.self_price = +values.self_price
+      values.image = values.image[0].response && values.image[0].response.url
       onSubmit(values)
     })
   }
