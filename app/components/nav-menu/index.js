@@ -26,7 +26,7 @@ export default class Nav extends Component {
     let selectedKeys
     const menuArr = [
       'overView',
-      'contractManage',
+      'sdManage',
       'customerManage',
       'systemSetting'
     ]
@@ -55,8 +55,8 @@ export default class Nav extends Component {
           <MenuItem key="overView" >
             <Link to={`${__STATIC_BASE__}/overView`}>首页概览</Link>
           </MenuItem>
-          <MenuItem key="contractManage" >
-            <Link to={`${__STATIC_BASE__}/contractManage`}>单身狗列表</Link>
+          <MenuItem key="sdManage" >
+            <Link to={`${__STATIC_BASE__}/sdManage`}>单身狗列表</Link>
           </MenuItem>
           <MenuItem key="customerManage"
             disabled={type !== 'admin'} >

@@ -1,28 +1,28 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { Tabs, Table, Row, Col, notification, Popover, Select, Input, message, Button } from 'antd'
+import moment from 'moment'
+import 'moment/locale/zh-cn'
+moment.locale('zh-cn')
+import { Tabs, Table, Row, Col, Select, Input, Button } from 'antd'
 const TabPane = Tabs.TabPane
 const Search = Input.Search
 const Option = Select.Option
 
-import { contract as contractAction } from '../../../actions'
+import { sd as sdAction } from '../../../actions'
 
-import Attachment from './attachment'
-import ConfirmModal from './confirm-modal'
+
 import './index.less'
 
-class ContractList extends Component {
+class SdList extends Component {
   constructor (props) {
     super(props)
     this.state = {
       activeTabKey: '1',
-      isShow: false,
-      isModalShow: false,
-      type: 1,
+      status: 1,
       currentName: '',
       selectType: 'all',
-      title: ''
+      name: null
     }
 
     this.tabChange = this.tabChange.bind(this)
@@ -37,20 +37,20 @@ class ContractList extends Component {
 
   componentWillMount() {
     const condition = {
-      type: 1,
-      title: null
+      status: 0,
+      name: null
     }
     this.search(condition)
   }
 
   tabChange(key) {
-    const { title, activeTabKey } = this.state
+    const { name, activeTabKey } = this.state
     if (+key === +activeTabKey) {
       return
     }
     let condition = {
-      type: +key,
-      title
+      status: +key - 1,
+      name
     }
     this.setState({ activeTabKey: key }, () => {
       this.search(condition)
@@ -71,7 +71,7 @@ class ContractList extends Component {
       title: '单身狗狗龄',
       dataIndex: 'age'
     }, {
-      title: '单身狗自我估价',
+      title: '单身狗自我估价(元)',
       dataIndex: 'selfPrice'
     }, {
       title: '提交日期',
@@ -81,7 +81,7 @@ class ContractList extends Component {
       dataIndex: 'handle',
       render: (id, cord) => {
         const option = {
-          pathname: `${__STATIC_BASE__}/contractManage/detail`,
+          pathname: `${__STATIC_BASE__}/sdManage/detail`,
           query: {
             id,
             handleType: 'edit'
@@ -115,7 +115,7 @@ class ContractList extends Component {
       title: '单身狗个性签名',
       dataIndex: 'personalSign'
     }, {
-      title: '单身狗自我估价',
+      title: '单身狗自我估价(元)',
       dataIndex: 'selfPrice'
     }, {
       title: '提交日期',
@@ -131,7 +131,7 @@ class ContractList extends Component {
       dataIndex: 'handle',
       render: (id, cord) => {
         const option = {
-          pathname: `${__STATIC_BASE__}/contractManage/detail`,
+          pathname: `${__STATIC_BASE__}/sdManage/detail`,
           query: {
             id,
             handleType: 'edit'
@@ -151,10 +151,11 @@ class ContractList extends Component {
   parseKey1Data (list) {
     return list.map((item, index) => ({
       index: index + 1,
-      contractCode: item.contractCode,
-      customerName: item.customerName,
-      poundageStatus: item.poundageStatus,
-      initialPremium: item.initialPremium,
+      name: item.name,
+      sex: +item.sex === 1 ? '男' : '女',
+      age: item.age,
+      selfPrice: item.self_price,
+      createTime: moment(item.create_time).format('YYYY-MM-DD'),
       handle: item.id
     }))
   }
@@ -162,19 +163,21 @@ class ContractList extends Component {
   parseKey2Data (list) {
     return list.map((item, index) => ({
       index: index + 1,
-      contractCode: item.contractCode,
-      customerName: item.customerName,
-      status: item.status,
-      surplusLoanAmount: item.surplusLoanAmount,
-      totalLoanAmount: item.totalLoanAmount,
-      eachChargeTime: item.eachChargeTime,
-      currentRepaymentStatus: item.currentRepaymentStatus,
+      name: item.name,
+      sex: +item.sex === 1 ? '男' : '女',
+      age: item.age,
+      mobile: item.mobile,
+      personalSign: item.personal_sign,
+      selfPrice: item.self_price,
+      createTime: moment(item.create_time).format('YYYY-MM-DD'),
+      isMember: item.is_member ? '是' : '否',
+      isPotential: item.is_potential ? '是' : '否',
       handle: item.id
     }))
   }
 
-  toggleShow (name) {
-    this.setState({ isShow: !this.state.isShow, currentName: name || this.state.currentName })
+  toggleShow () {
+    this.setState({ isShow: !this.state.isShow })
   }
 
   handleChange (field, e) {
@@ -185,7 +188,7 @@ class ContractList extends Component {
     this.setState({ name: value })
     const { activeTabKey, selectType } = this.state
     let condition = {
-      status: +activeTabKey,
+      status: +activeTabKey - 1,
       isPotential: selectType === 'all' ? null : +selectType,
       name: value
     }
@@ -193,12 +196,8 @@ class ContractList extends Component {
   }
 
   search (condition) {
-    const { queryContractList4key1, queryContractList4key2 } = this.props
-    if (condition.status === 1) {
-      queryContractList4key1(condition)
-    } else if (condition.status === 2) {
-      queryContractList4key2(condition)
-    }
+    const { querySdList } = this.props
+    querySdList(condition)
   }
 
   operations () {
@@ -221,12 +220,12 @@ class ContractList extends Component {
     )
   }
 
-  createContractButton () {
+  createSDButton () {
     const { loginInfo } = this.props
     const type = loginInfo.get('type')
     if (type === 'admin') {
       const option = {
-        pathname: `${__STATIC_BASE__}/contractManage/detail`,
+        pathname: `${__STATIC_BASE__}/sdManage/detail`,
         query: {
           handleType: 'create'
         }
@@ -238,19 +237,19 @@ class ContractList extends Component {
 
   render() {
     const { activeTabKey } = this.state
-    const { list4key1, list4key2 } = this.props
+    const { list } = this.props
     return (
-      <div className="contract-list">
+      <div className="sd-list">
         <Tabs
           defaultActiveKey={ activeTabKey }
           onChange={this.tabChange}
-          tabBarExtraContent={activeTabKey !== '1' && this.operations() || this.createContractButton()}>
+          tabBarExtraContent={activeTabKey !== '1' && this.operations() || this.createSDButton()}>
           <TabPane tab="待审核" key="1">
             <div className="tabel-box">
               <Table
                 columns={this.getKey1Columns()}
-                loading={list4key1.get('doing')}
-                dataSource={this.parseKey1Data(list4key1.get('dataList').toJS() || [])}
+                loading={list.get('doing')}
+                dataSource={this.parseKey1Data(list.get('dataList').toJS() || [])}
                 pagination={false} />
             </div>
           </TabPane>
@@ -258,8 +257,8 @@ class ContractList extends Component {
             <div className="tabel-box">
               <Table
                 columns={this.getKey2Columns()}
-                loading={list4key2.get('doing')}
-                dataSource={this.parseKey2Data(list4key2.get('dataList').toJS() || [])}
+                loading={list.get('doing')}
+                dataSource={this.parseKey2Data(list.get('dataList').toJS() || [])}
                 pagination={false} />
             </div>
           </TabPane>
@@ -270,15 +269,11 @@ class ContractList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  list4key1: state.contract.contractList4key1,
-  list4key2: state.contract.contractList4key2,
+  list: state.sd.sdList,
   loginInfo: state.login.loginInfo
 })
 const mapDispatchToProps = (dispatch) => ({
-  queryContractList4key1: (condition) => dispatch(contractAction.queryContractList4key1(condition)),
-  queryContractList4key2: (condition) => dispatch(contractAction.queryContractList4key2(condition)),
-  sendNotification: (condition) => dispatch(contractAction.sendNotification(condition)),
-  deleteContract: () => dispatch(contractAction.deleteContract())
+  querySdList: (condition) => dispatch(sdAction.querySdList(condition))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContractList)
+export default connect(mapStateToProps, mapDispatchToProps)(SdList)

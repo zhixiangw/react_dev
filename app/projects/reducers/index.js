@@ -4,16 +4,14 @@ import { routerReducer as routing } from 'react-router-redux'
 import system from './system'
 import login from './login'
 import overView from './over-view'
-import contract from './contract'
+import sd from './sd'
 import user from './user'
-import test from './test'
 
 export default combineReducers({
   routing,
   system,
   login,
   overView,
-  contract,
-  user,
-  test
+  sd,
+  user
 })
