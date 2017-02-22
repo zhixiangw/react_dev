@@ -6,7 +6,7 @@ export function queryOverView () {
     return dispatch({
       [FETCH_API]: {
         constname: QUERY_OVER_VIEW,
-        url: 'https://cnodejs.org/api/v1/user/alsotang'
+        url: `${__API_BASE__}over_view/view`
       }
     })
   }
@@ -18,7 +18,7 @@ export function queryOverViewList (condition) {
     return dispatch({
       [FETCH_API]: {
         constname: QUERY_OVER_VIEW_LIST,
-        url: '//jsonplaceholder.typicode.com/posts/',
+        url: `${__API_BASE__}over_view/info`,
         request: condition
       }
     })

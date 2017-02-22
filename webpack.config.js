@@ -9,6 +9,7 @@ let APP_PATH = path.resolve(ROOT_PATH, 'app')
 let BUILD_PATH = path.resolve(ROOT_PATH, 'build')
 
 let staticBase = ''
+let apiBase = 'http://localhost:3100/'
 
 module.exports = {
   entry: {
@@ -54,6 +55,7 @@ module.exports = {
     new webpack.DefinePlugin({
       __PRODUCTION__: false,
       __STATIC_BASE__: `"${staticBase}"`,
+      __API_BASE__: `"${apiBase}"`,
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }

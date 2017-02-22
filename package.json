@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "prod": "set NODE_ENV=production & webpack --config webpack.config.prod.js",
-    "dev": "node ./webpack-dev-server"
+    "dev": "node --harmony_destructuring ./webpack-dev-server",
+    "node": "node --harmony_destructuring ./node/app.js"
   },
   "repository": {
     "type": "git",
@@ -14,6 +15,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "koa": "^1.2.5",
+    "koa-bodyparser": "^2.3.0",
+    "koa-cors": "^0.0.16",
+    "koa-logger": "^1.3.1",
+    "koa-router": "^5.4.0",
+    "mysql": "^2.13.0",
     "webpack-dev-server": "^1.15.0"
   },
   "devDependencies": {

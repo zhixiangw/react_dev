@@ -28,8 +28,8 @@ class OverView extends Component {
   componentWillMount() {
     const { queryOverView } = this.props
     const condition = {
-      startDate: moment().format('YYYY-MM-DD'),
-      endDate: moment().subtract(7, 'days').format('YYYY-MM-DD'),
+      startDate: moment().subtract(7, 'days').format('YYYY-MM-DD'),
+      endDate: moment().format('YYYY-MM-DD'),
     }
     this.search(condition)
     queryOverView()
@@ -57,6 +57,7 @@ class OverView extends Component {
   }
 
   handleRangePickerChange (dates, dateStrings) {
+    if (!dates.length) return
     this.setState({
       startDate: dateStrings[0],
       endDate: dateStrings[1]
@@ -64,7 +65,6 @@ class OverView extends Component {
       const condition = {
         startDate: dateStrings[0],
         endDate: dateStrings[1],
-        type: this.state.activeId
       }
       this.search(condition)
     })
@@ -73,29 +73,29 @@ class OverView extends Component {
   getColumns () {
     return [{
       title: '日期',
-      dataIndex: 'date'
+      dataIndex: 'createTime'
     }, {
       title: '新增单身狗',
-      dataIndex: 'newContract'
+      dataIndex: 'newAdded'
     }, {
       title: '审核通过单身狗',
-      dataIndex: 'loanContract'
+      dataIndex: 'verified'
     }, {
       title: '自我评估总价格',
-      dataIndex: 'loanAmount'
+      dataIndex: 'totalSelfPrice'
     }, {
       title: '会员单身狗',
-      dataIndex: 'unpaidContract'
+      dataIndex: 'members'
     }]
   }
 
   parseData (list) {
     return list.map(item => ({
-      date: item.date,
-      newContract: item.newContract,
-      loanContract: item.loanContract,
-      loanAmount: Number(item.loanAmount).toFixed(2),
-      unpaidContract: item.unpaidContract
+      createTime: moment(item.create_time).format('YYYY-MM-DD'),
+      newAdded: item.newAdded,
+      verified: item.verified,
+      totalSelfPrice: Number(item.totalSelfPrice).toFixed(2),
+      members: item.members
     }))
   }
 
@@ -104,13 +104,13 @@ class OverView extends Component {
     let xData = []
     let yData = []
     dataList.forEach(item => {
-      xData.push(item.date)
+      xData.push(moment(item.create_time).format('YYYY-MM-DD'))
       if (+activeId === 1) {
-        yData.push(item.newContract)
+        yData.push(item.newAdded)
       } else if (+activeId === 2) {
-        yData.push(item.loanContract)
+        yData.push(item.verified)
       } else {
-        yData.push(item.unpaidContract)
+        yData.push(item.members)
       }
     })
     return {
@@ -128,25 +128,25 @@ class OverView extends Component {
         <Row gutter={32} className="index-over-view">
           <Col span="6">
             <div className="index-over-view-box success">
-              <p>{overViewData.get('contractNum')}<small> 个</small></p>
+              <p>{overViewData.get('count')}<small> 个</small></p>
               <p>单身狗总数量</p>
             </div>
           </Col>
           <Col span="6">
             <div className="index-over-view-box warning">
-              <p>{overViewData.get('unpaidContractNum')}<small> 个</small></p>
+              <p>{overViewData.get('potential')}<small> 个</small></p>
               <p>潜在单身狗数量</p>
             </div>
           </Col>
           <Col span="6">
             <div className="index-over-view-box primary">
-              <p>{Number(overViewData.get('totalLoanAmount')).toFixed(2)}<small> 元</small></p>
+              <p>{Number(overViewData.get('price')).toFixed(2)}<small> 元</small></p>
               <p>单身狗自我评估总价格</p>
             </div>
           </Col>
           <Col span="6">
             <div className="index-over-view-box error">
-              <p>{overViewData.get('endContractNum')}<small> 个</small></p>
+              <p>{overViewData.get('member')}<small> 个</small></p>
               <p>单身狗Club会员数</p>
             </div>
           </Col>
@@ -175,13 +175,13 @@ class OverView extends Component {
                 size="large"
                 ranges={
                   { 今天: [moment(), moment()],
-                    昨天: [moment(), moment().subtract(1, 'days')],
-                    '7天': [moment(), moment().subtract(7, 'days')],
-                    '14天': [moment(), moment().subtract(14, 'days')],
-                    '30天': [moment(), moment().subtract(30, 'days')]
+                    昨天: [moment().subtract(1, 'days'), moment()],
+                    '7天': [moment().subtract(7, 'days'), moment()],
+                    '14天': [moment().subtract(14, 'days'), moment()],
+                    '30天': [moment().subtract(30, 'days'), moment()]
                   }}
                 disabledDate={this.disabledDate}
-                defaultValue={[moment(), moment().subtract(7, 'days')]}
+                defaultValue={[moment().subtract(7, 'days'), moment()]}
                 format="YYYY-MM-DD"
                 onChange={this.handleRangePickerChange} />
             </Col>
