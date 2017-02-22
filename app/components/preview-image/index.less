@@ -1,0 +1,89 @@
+.preview-image-box{
+  &.ant-modal-wrap {
+    overflow: hidden;
+    background-color: rgba(55,55,55,.6);
+    pointer-events: none;
+  }
+  .flat-modal.ant-modal{
+    height: 100%;
+    top: 0;
+    padding: 0;
+    .ant-modal-content{
+      background: none;
+      height: 100%;
+      .ant-modal-close{
+        height: 50px;
+        width: 50px;
+        background: #333;
+        pointer-events: auto;
+      }
+    }
+    .ant-modal-body{
+      height: 100%;
+      .image-box{
+        position: relative;
+        margin: 0 auto;
+        height: 100%;
+        img{
+          position: absolute;
+          cursor: move;
+          margin: auto;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          pointer-events: auto;
+        }
+      }
+    }
+    .ant-modal-footer{
+      position: fixed;
+      width: 450px;
+      padding: 0;
+      left: 50%;
+      margin-left: -150px;
+      a{
+        position: absolute;
+        bottom: 40px;
+        display: inline-block;
+        width: 35px;
+        height: 35px;
+        background-color: #333;
+        border-radius: 50%;
+        line-height: 35px;
+        font-size: 13px;
+        pointer-events: auto;
+        &:nth-child(1){
+          left: 20px;
+        }
+        &:nth-child(2){
+          left: 95px;
+        }
+        &:nth-child(3){
+          left: 170px;
+        }
+        &:nth-child(4){
+          left: 245px;
+        }
+        &:nth-child(5){
+          left: 320px;
+        }
+        &:nth-child(6){
+          left: 395px;
+        }
+        &.rotate-left{
+          i{
+            transform: rotateY(180deg);
+          }
+        }
+      }
+    }
+
+    .ant-modal-close-x{
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+      font-size: 24px;
+    }
+  }
+}

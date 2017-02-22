@@ -12,3 +12,18 @@ export function querySdList (condition) {
     })
   }
 }
+
+export const VERIFY_SINGLE_DOG = 'VERIFY_SINGLE_DOG'
+export function verifySingleDog (id) {
+  return (dispatch) => {
+    return dispatch({
+      [FETCH_API]: {
+        constname: VERIFY_SINGLE_DOG,
+        url: `${__API_BASE__}sd_manage/verify`,
+        request: {
+          id
+        }
+      }
+    })
+  }
+}

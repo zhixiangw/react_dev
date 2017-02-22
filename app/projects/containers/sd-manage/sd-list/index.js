@@ -4,14 +4,14 @@ import { Link } from 'react-router'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
 moment.locale('zh-cn')
-import { Tabs, Table, Row, Col, Select, Input, Button } from 'antd'
+import { Tabs, Table, Row, Col, Select, Input, Button, Popconfirm } from 'antd'
 const TabPane = Tabs.TabPane
 const Search = Input.Search
 const Option = Select.Option
 
 import { sd as sdAction } from '../../../actions'
 
-
+import PreviewImage from '../../../../components/preview-image'
 import './index.less'
 
 class SdList extends Component {
@@ -22,7 +22,9 @@ class SdList extends Component {
       status: 1,
       currentName: '',
       selectType: 'all',
-      name: null
+      name: null,
+      isImgModalShow: false,
+
     }
 
     this.tabChange = this.tabChange.bind(this)
@@ -30,9 +32,9 @@ class SdList extends Component {
     this.getKey2Columns = this.getKey2Columns.bind(this)
     this.parseKey1Data = this.parseKey1Data.bind(this)
     this.parseKey2Data = this.parseKey2Data.bind(this)
-    this.toggleShow = this.toggleShow.bind(this)
     this.handleSearch = this.handleSearch.bind(this)
     this.search = this.search.bind(this)
+    this.previewImage = this.previewImage.bind(this)
   }
 
   componentWillMount() {
@@ -79,7 +81,7 @@ class SdList extends Component {
     }, {
       title: '操作',
       dataIndex: 'handle',
-      render: (id, cord) => {
+      render: (id) => {
         const option = {
           pathname: `${__STATIC_BASE__}/sdManage/detail`,
           query: {
@@ -91,7 +93,11 @@ class SdList extends Component {
           <div>
             <Link to={option}>编辑</Link>
             &nbsp;&nbsp;
-            <a onClick={this.toggleShow.bind(this, cord.customerName)}>审核</a>
+            <Popconfirm
+              title="您确定要审核通过此条单身狗嘛？"
+              onConfirm={this.verifySD.bind(this, id)}>
+              <a href="#">审核</a>
+            </Popconfirm>
           </div>
         )
       }
@@ -141,7 +147,12 @@ class SdList extends Component {
           <div>
             <Link to={option}>编辑</Link>
             &nbsp;&nbsp;
-            <a onClick={this.toggleShow.bind(this, cord.customerName)}>查看头像</a>
+            {
+              cord.image ?
+              <a href="#" onClick={this.previewImage.bind(this, cord.image)}>查看头像</a> :
+              null
+            }
+
           </div>
         )
       }
@@ -172,12 +183,20 @@ class SdList extends Component {
       createTime: moment(item.create_time).format('YYYY-MM-DD'),
       isMember: item.is_member ? '是' : '否',
       isPotential: item.is_potential ? '是' : '否',
+      image: item.image,
       handle: item.id
     }))
   }
 
-  toggleShow () {
-    this.setState({ isShow: !this.state.isShow })
+  verifySD (id) {
+    const { verifySingleDog } = this.props
+    verifySingleDog(id).then(() => {
+      this.search({ status: 0 })
+    })
+  }
+
+  previewImage(previewUrl, imageIndex, imageArr) {
+    this.setState({ isImgModalShow: !this.state.isImgModalShow, previewUrl, imageIndex, imageArr })
   }
 
   handleChange (field, e) {
@@ -236,7 +255,7 @@ class SdList extends Component {
   }
 
   render() {
-    const { activeTabKey } = this.state
+    const { activeTabKey, isImgModalShow, previewUrl, imageArr, imageIndex } = this.state
     const { list } = this.props
     return (
       <div className="sd-list">
@@ -263,6 +282,13 @@ class SdList extends Component {
             </div>
           </TabPane>
         </Tabs>
+
+        <PreviewImage
+          isShow={isImgModalShow}
+          onCancel={() => { this.setState({ isImgModalShow: false }) } }
+          imageUrl={previewUrl}
+          imageArr={imageArr}
+          imageIndex={imageIndex} />
       </div>
     )
   }
@@ -273,7 +299,8 @@ const mapStateToProps = (state) => ({
   loginInfo: state.login.loginInfo
 })
 const mapDispatchToProps = (dispatch) => ({
-  querySdList: (condition) => dispatch(sdAction.querySdList(condition))
+  querySdList: (condition) => dispatch(sdAction.querySdList(condition)),
+  verifySingleDog: (id) => dispatch(sdAction.verifySingleDog(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SdList)
