@@ -152,7 +152,6 @@ class SdList extends Component {
               <a href="#" onClick={this.previewImage.bind(this, cord.image)}>查看头像</a> :
               null
             }
-
           </div>
         )
       }

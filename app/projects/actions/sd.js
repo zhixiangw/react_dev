@@ -27,3 +27,29 @@ export function verifySingleDog (id) {
     })
   }
 }
+
+export const QUERY_SD_DETAIL = 'QUERY_SD_DETAIL'
+export function querySdDetail (id) {
+  return (dispatch) => {
+    return dispatch({
+      [FETCH_API]: {
+        constname: QUERY_SD_DETAIL,
+        url: `${__API_BASE__}sd_manage/detail/${id}`
+      }
+    })
+  }
+}
+
+export const SAVE_SD_INFO = 'SAVE_SD_INFO'
+export function saveSdInfo (condition) {
+  return (dispatch) => {
+    return dispatch({
+      [FETCH_API]: {
+        constname: SAVE_SD_INFO,
+        url: `${__API_BASE__}sd_manage/detail/save`,
+        request: condition,
+        msg: '操作成功'
+      }
+    })
+  }
+}

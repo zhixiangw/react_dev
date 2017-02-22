@@ -20,4 +20,15 @@ module.exports = (router, db) => {
       })
     })
   })
+
+  router.get('/sd_manage/detail/:id', function *() {
+    const { id } = this.params
+    this.body = yield new Promise((resolve, reject) => {
+      db.query(`select * from zhixiang.sd where id = "${id}"`,
+      (err, res) => {
+        if (err) reject(err)
+        resolve(res[0])
+      })
+    })
+  })
 }

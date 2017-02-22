@@ -34,8 +34,22 @@ const sdList = (state = Map({
   }
 }
 
+const sdDetail = (state = Map(), { type, constname, response }) => {
+  switch (type) {
+    case API_SUCCESS:
+      if (constname === sdAction.QUERY_SD_DETAIL) {
+        return response && Immutable.fromJS(response) || Map()
+      }
+      return state
+
+    default:
+      return state
+  }
+}
+
 const rootReducer = combineReducers({
-  sdList
+  sdList,
+  sdDetail
 })
 
 export default rootReducer
