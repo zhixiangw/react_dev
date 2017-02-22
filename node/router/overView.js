@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = (router, db) => {
   router.get('/over_view/view', function *() {
     const p1 = new Promise((resolve, reject) => {
