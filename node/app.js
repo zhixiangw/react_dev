@@ -19,9 +19,9 @@ db.connect()
 
 const app = koa()
 app.use(koaCors())
+app.use(formidable())
 app.use(bodyParser())
 app.use(logger())
-app.use(formidable())
 app.use(router.routes())
    .use(router.allowedMethods())
 
