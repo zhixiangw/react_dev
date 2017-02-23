@@ -1,5 +1,5 @@
 module.exports = (router, db) => {
-  router.get('api/v1/user_manage/list/:type', function *() {
+  router.get('/api/v1/user_manage/list/:type', function *() {
     const { type } = this.params
     this.body = yield new Promise((resolve, reject) => {
       db.query(`select * from zhixiang.user where type = "${type}"`,
@@ -10,7 +10,7 @@ module.exports = (router, db) => {
     })
   })
 
-  router.post('api/v1/user_manage/edit_password', function *() {
+  router.post('/api/v1/user_manage/edit_password', function *() {
     const { id, password } = this.request.body
     this.body = yield new Promise((resolve, reject) => {
       db.query(`update zhixiang.user set password = md5("${password || '123456'}") where id = "${id}"`,
@@ -21,7 +21,7 @@ module.exports = (router, db) => {
     })
   })
 
-  router.post('api/v1/user_manage/create', function *() {
+  router.post('/api/v1/user_manage/create', function *() {
     const {
       account,
       name,
