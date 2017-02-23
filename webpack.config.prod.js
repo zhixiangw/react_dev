@@ -9,7 +9,7 @@ let APP_PATH = path.resolve(ROOT_PATH, 'app')
 let DIST_PATH = path.resolve(ROOT_PATH, 'dist')
 
 let staticBase = ''
-let apiBase = 'api/v1/'
+let apiBase = '/api/v1/'
 
 module.exports = {
   context: path.resolve(__dirname, '.'),
