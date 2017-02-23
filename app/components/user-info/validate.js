@@ -1,13 +1,13 @@
 export default function (getFieldProps) {
   return {
-    oldPassword: (password) => getFieldProps('oldPassword', {
+    oldPassword: (password, md5) => getFieldProps('oldPassword', {
       rules: [{
         required: true,
         whitespace: true,
         message: '请输入修改前密码'
       }, {
         validator: (rule, value, callback) => {
-          if (value && value !== password) {
+          if (value && md5(value) !== password) {
             callback('当期密码错误')
           }
           callback()
@@ -15,7 +15,7 @@ export default function (getFieldProps) {
       }]
     }),
 
-    newPassword: () => getFieldProps('newPassword', {
+    password: () => getFieldProps('password', {
       rules: [{
         required: true,
         whitespace: true,

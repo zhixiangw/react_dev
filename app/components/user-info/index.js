@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import md5 from 'md5'
 import { Col, Row, Modal, Input, Form } from 'antd'
 const FormItem = Form.Item
 
@@ -74,14 +75,14 @@ class UserInfo extends Component {
                   {...formItemLayout}
                   label="修改前密码"
                   hasFeedback >
-                  {fieldValidate.oldPassword(password)(<Input type="password" />)}
+                  {fieldValidate.oldPassword(password, md5)(<Input type="password" />)}
                 </FormItem>
 
                 <FormItem
                   {...formItemLayout}
                   label="修改后密码"
                   hasFeedback >
-                  {fieldValidate.newPassword()(<Input type="password" />)}
+                  {fieldValidate.password()(<Input type="password" />)}
                 </FormItem>
               </section> :
               <Row>

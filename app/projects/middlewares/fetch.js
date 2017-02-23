@@ -65,13 +65,16 @@ export default () => next => action => {
         response,
         msg
       }))
+      if (response.status === 0) {
+        return Promise.reject(response)
+      }
       return Promise.resolve(response)
     },
     result => {
       next(actionWith({
         type: API_FAILURE,
         constname,
-        msg: result.json && result.json.message ? result.json.message : '网络不佳,请稍后再试',
+        msg: result.json && result.json.msg ? result.json.msg : '网络不佳,请稍后再试',
         status: result.response ? result.response.status : undefined
       }))
       return Promise.reject(result)

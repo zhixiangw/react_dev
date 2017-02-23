@@ -21,26 +21,19 @@ const ls = (typeof window.localStorage !== 'undefined' && window.localStorage) |
   }
 
 const loginInfo = (state = Map({
-  memberId: ls && ls.getItem('memberId'),
   account: ls && ls.getItem('account'),
-  password: ls && ls.getItem('password'),
   type: ls && ls.getItem('type'),
   hasLogin: ls && ls.getItem('hasLogin')
-}), { type, constname, request, response }) => {
-  const loginType = 'admin' // 此处自定义登录角色 admin = 管理员， salesman = 业务员， verify = 审核员
+}), { type, constname, response }) => {
   switch (type) {
     case API_SUCCESS:
       if (constname === loginAction.LOGIN) {
-        ls.setItem('memberId', 1)
-        ls.setItem('account', request.account)
-        ls.setItem('password', request.password)
-        ls.setItem('type', loginType)
+        ls.setItem('account', response.account)
+        ls.setItem('type', response.type)
         ls.setItem('hasLogin', true)
         return response && Immutable.fromJS({
-          memberId: 1,
-          account: request.account,
-          password: request.password,
-          type: loginType,
+          account: response.account,
+          type: response.type,
           hasLogin: true
         })
       }

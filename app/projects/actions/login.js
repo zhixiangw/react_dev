@@ -6,7 +6,7 @@ export function login (condition) {
     return dispatch({
       [FETCH_API]: {
         constname: LOGIN,
-        url: '//jsonplaceholder.typicode.com/posts/',
+        url: `${__API_BASE__}login`,
         request: condition,
         msg: '登录成功'
       }
@@ -20,7 +20,7 @@ export function logout () {
     return dispatch({
       [FETCH_API]: {
         constname: LOGOUT,
-        url: 'https://cnodejs.org/api/v1/user/alsotang'
+        url: `${__API_BASE__}logout`
       }
     })
   }
@@ -32,7 +32,7 @@ export function modifyPassword (condition) {
     return dispatch({
       [FETCH_API]: {
         constname: MODIFY_PASSWORD,
-        url: '//jsonplaceholder.typicode.com/posts/',
+        url: `${__API_BASE__}user_manage/edit_password`,
         request: condition,
         msg: '修改成功'
       }

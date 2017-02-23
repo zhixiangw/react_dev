@@ -13,7 +13,7 @@ module.exports = (router, db) => {
   router.post('/user_manage/edit_password', function *() {
     const { id, password } = this.request.body
     this.body = yield new Promise((resolve, reject) => {
-      db.query(`update zhixiang.user set password = "${password || '123456'}" where id = "${id}"`,
+      db.query(`update zhixiang.user set password = md5("${password || '123456'}") where id = "${id}"`,
       (err, res) => {
         if (err) reject(err)
         resolve({ success: 1 })

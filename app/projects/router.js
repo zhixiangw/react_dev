@@ -7,7 +7,6 @@ import OverView from './containers/over-view'
 import SdList from './containers/sd-manage/sd-list'
 import SdDetail from './containers/sd-manage/sd-detail'
 import UserList from './containers/user-manage'
-import SystemSetting from './containers/system-setting'
 
 export default function (history) {
   return (
@@ -22,9 +21,6 @@ export default function (history) {
       </Route>
       <Route path={`${__STATIC_BASE__}/customerManage`} component={PageContainer}>
         <IndexRoute component={UserList} />
-      </Route>
-      <Route path={`${__STATIC_BASE__}/systemSetting`} component={PageContainer}>
-        <IndexRoute component={SystemSetting} />
       </Route>
     </Router>
   )
