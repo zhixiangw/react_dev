@@ -16,7 +16,7 @@ module.exports = (router, db) => {
       db.query(`update zhixiang.user set password = md5("${password || '123456'}") where id = "${id}"`,
       (err, res) => {
         if (err) reject(err)
-        resolve({ success: 1 })
+        resolve({ msg: '操作成功', status: 200 })
       })
     })
   })
@@ -32,7 +32,7 @@ module.exports = (router, db) => {
       db.query(`insert into zhixiang.user (account, name, mobile, type) values("${account}", "${name}", "${mobile}", "${type}")`,
       (err, res) => {
         if (err) reject(err)
-        resolve({ success: 1 })
+        resolve({ msg: '操作成功', status: 200 })
       })
     })
   })

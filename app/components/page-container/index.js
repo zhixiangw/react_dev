@@ -63,9 +63,9 @@ class PageContainer extends Component {
     this.setState({ isShow: !this.state.isShow, isPopShow: false })
   }
 
-  modifyPasswordFunc (params) {
-    const { modifyPassWord, logout } = this.props
-    modifyPassWord(params).then(() => {
+  modifyPasswordFunc ({ password }) {
+    const { modifyPassWord, logout, loginInfo } = this.props
+    modifyPassWord({ id: loginInfo.get('id'), password }).then(() => {
       this.toggleShow()
       logout()
     })
@@ -93,11 +93,11 @@ class PageContainer extends Component {
         <Row className="top-nav">
           <Col span="4" className="left-metro">
             <Icon type="appstore-o" />
-            <span>HeyMetro 1.3</span>
+            <span>SingleDog 1.0</span>
             <Icon type="down-circle-o" />
           </Col>
           <Col span="20" className="right-metro">
-            <p>David M.</p>
+            <p>{loginInfo.get('name')}</p>
             <Popover
               visible={isPopShow}
               placement="bottomRight"
@@ -110,7 +110,7 @@ class PageContainer extends Component {
         </Row>
         <Row type="flex" className="layout">
           <Col span="4" className="side-nav">
-            <NavMenu location={this.props.location} type={loginInfo.get('type')} />
+            <NavMenu location={this.props.location} />
           </Col>
 
           <Col span="20" className="content">

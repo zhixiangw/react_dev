@@ -9,7 +9,7 @@ module.exports = (router, db) => {
       })
     })
     if (response.length) {
-      this.body = response
+      this.body = response[0]
     } else {
       this.body = {
         msg: '登录失败',

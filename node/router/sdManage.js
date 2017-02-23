@@ -51,14 +51,14 @@ module.exports = (router, db) => {
           self_price = "${+self_price}", sex = "${sex}" where id = "${id}"`,
         (err, res) => {
           if (err) reject(err)
-          resolve({ success: 1 })
+          resolve({ msg: '操作成功', status: 200 })
         })
       } else {
         db.query(`insert into zhixiang.sd (age, image, is_member, is_potential, mobile, name, personal_sign, self_price, sex, create_time ) values
         ("${age}", "${image}", "${is_member}", "${is_potential}", "${mobile}", "${name}", "${personal_sign}", "${self_price}", "${sex}", CURDATE())`,
         (err, res) => {
           if (err) reject(err)
-          resolve({ success: 1 })
+          resolve({ msg: '操作成功', status: 200 })
         })
       }
     })

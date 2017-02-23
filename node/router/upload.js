@@ -29,7 +29,9 @@ module.exports = (router) => {
     })
     this.body = {
       uid: -1,
-      url: response
+      url: response,
+      status: 200,
+      msg: '操作成功'
     }
   })
 }

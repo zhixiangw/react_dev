@@ -21,19 +21,28 @@ const ls = (typeof window.localStorage !== 'undefined' && window.localStorage) |
   }
 
 const loginInfo = (state = Map({
+  id: ls && ls.getItem('id'),
   account: ls && ls.getItem('account'),
   type: ls && ls.getItem('type'),
+  name: ls && ls.getItem('name'),
+  password: ls && ls.getItem('password'),
   hasLogin: ls && ls.getItem('hasLogin')
 }), { type, constname, response }) => {
   switch (type) {
     case API_SUCCESS:
       if (constname === loginAction.LOGIN) {
+        ls.setItem('id', response.id)
         ls.setItem('account', response.account)
         ls.setItem('type', response.type)
+        ls.setItem('name', response.name)
+        ls.setItem('password', response.password)
         ls.setItem('hasLogin', true)
         return response && Immutable.fromJS({
+          id: response.id,
           account: response.account,
           type: response.type,
+          name: response.name,
+          password: response.password,
           hasLogin: true
         })
       }
