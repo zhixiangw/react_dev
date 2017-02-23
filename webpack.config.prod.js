@@ -9,6 +9,7 @@ let APP_PATH = path.resolve(ROOT_PATH, 'app')
 let DIST_PATH = path.resolve(ROOT_PATH, 'dist')
 
 let staticBase = '/car'
+let apiBase = 'api/v1/'
 
 module.exports = {
   context: path.resolve(__dirname, '.'),
@@ -51,6 +52,7 @@ module.exports = {
     new webpack.DefinePlugin({
       __PRODUCTION__: true,
       __STATIC_BASE__: `"${staticBase}"`,
+      __API_BASE__: `"${apiBase}"`,
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
