@@ -27,8 +27,7 @@ export default class Nav extends Component {
     const menuArr = [
       'overView',
       'sdManage',
-      'customerManage',
-      'systemSetting'
+      'customerManage'
     ]
     menuArr.forEach(item => {
       if (pathname.indexOf(item) !== -1) {
@@ -61,10 +60,6 @@ export default class Nav extends Component {
           <MenuItem key="customerManage"
             disabled={type !== 'admin'} >
             <Link to={`${__STATIC_BASE__}/customerManage`}>用户管理</Link>
-          </MenuItem>
-          <MenuItem key="systemSetting"
-            disabled={type !== 'admin'} >
-            <Link to={`${__STATIC_BASE__}/systemSetting`}>系统设置</Link>
           </MenuItem>
         </SubMenu>
       </Menu>
