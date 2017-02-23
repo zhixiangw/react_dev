@@ -43,22 +43,20 @@ export default class Nav extends Component {
 
   render () {
     const { defaultOpenKeys, selectedKeys } = this.state
-    const { type } = this.props
 
     return (
       <Menu theme="dark"
         defaultOpenKeys={defaultOpenKeys}
         selectedKeys={selectedKeys}
         mode="inline">
-        <SubMenu key="sub1" title="UI Kits" >
+        <SubMenu key="sub1" title="单身狗管理" >
           <MenuItem key="overView" >
             <Link to={`${__STATIC_BASE__}/overView`}>首页概览</Link>
           </MenuItem>
           <MenuItem key="sdManage" >
             <Link to={`${__STATIC_BASE__}/sdManage`}>单身狗列表</Link>
           </MenuItem>
-          <MenuItem key="customerManage"
-            disabled={type !== 'admin'} >
+          <MenuItem key="customerManage" >
             <Link to={`${__STATIC_BASE__}/customerManage`}>用户管理</Link>
           </MenuItem>
         </SubMenu>

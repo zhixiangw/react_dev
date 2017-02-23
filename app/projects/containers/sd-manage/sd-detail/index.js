@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Tabs, message } from 'antd'
+import { Link } from 'react-router'
+import { Tabs, message, Button } from 'antd'
 const TabPane = Tabs.TabPane
 
 import { sd as sdAction } from '../../../actions'
@@ -21,7 +22,7 @@ class SdDetail extends Component {
 
   componentWillMount() {
     const { location: { query: { handleType, id } }, querySdDetail } = this.props
-    if (id && handleType === 'edit') {
+    if (id && handleType !== 'create') {
       const hide = message.loading('', 0)
       querySdDetail(id).then(() => {
         setTimeout(hide, 0)
@@ -50,16 +51,21 @@ class SdDetail extends Component {
 
   render() {
     const { activeTabKey } = this.state
-    const { sdDetail, location: { query: { handleType } } } = this.props
+    const { sdDetail, location: { query: { handleType } }, loginInfo } = this.props
     return (
       <div className="customer-manage">
         <Tabs
           defaultActiveKey={ activeTabKey }
-          onChange={this.tabChange} >
+          onChange={this.tabChange}
+          tabBarExtraContent={
+          <Link to={`${__STATIC_BASE__}/sdManage`}>
+            <Button type="primary">返回</Button>
+          </Link>} >
           <TabPane tab="基础信息" key="1">
             <BasicInfo
               info={handleType !== 'create' && sdDetail && sdDetail.toJS() || {}}
               handleType={handleType}
+              loginInfo={loginInfo}
               onSubmit={this.saveSdInfo} />
           </TabPane>
         </Tabs>

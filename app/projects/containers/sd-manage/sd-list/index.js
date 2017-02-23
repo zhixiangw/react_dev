@@ -82,22 +82,27 @@ class SdList extends Component {
       title: '操作',
       dataIndex: 'handle',
       render: (id) => {
+        const { loginInfo } = this.props
         const option = {
           pathname: `${__STATIC_BASE__}/sdManage/detail`,
           query: {
             id,
-            handleType: 'edit'
+            handleType: +loginInfo.get('type') === 1 && 'edit' || 'view'
           }
         }
         return (
           <div>
-            <Link to={option}>编辑</Link>
+            <Link to={option}>{+loginInfo.get('type') === 1 && '编辑' || '查看'}</Link>
             &nbsp;&nbsp;
-            <Popconfirm
-              title="您确定要审核通过此条单身狗嘛？"
-              onConfirm={this.verifySD.bind(this, id)}>
-              <a href="#">审核</a>
-            </Popconfirm>
+            {
+              +loginInfo.get('type') === 1 && (
+                <Popconfirm
+                  title="您确定要审核通过此条单身狗嘛？"
+                  onConfirm={this.verifySD.bind(this, id)}>
+                  <a href="#">审核</a>
+                </Popconfirm>
+              ) || null
+            }
           </div>
         )
       }
@@ -136,16 +141,17 @@ class SdList extends Component {
       title: '操作',
       dataIndex: 'handle',
       render: (id, cord) => {
+        const { loginInfo } = this.props
         const option = {
           pathname: `${__STATIC_BASE__}/sdManage/detail`,
           query: {
             id,
-            handleType: 'edit'
+            handleType: +loginInfo.get('type') === 1 && 'edit' || 'view'
           }
         }
         return (
           <div>
-            <Link to={option}>编辑</Link>
+            <Link to={option}>{+loginInfo.get('type') === 1 && '编辑' || '查看'}</Link>
             &nbsp;&nbsp;
             {
               cord.image ?
@@ -241,7 +247,7 @@ class SdList extends Component {
   createSDButton () {
     const { loginInfo } = this.props
     const type = loginInfo.get('type')
-    if (type === 'admin') {
+    if (+type === 1) {
       const option = {
         pathname: `${__STATIC_BASE__}/sdManage/detail`,
         query: {

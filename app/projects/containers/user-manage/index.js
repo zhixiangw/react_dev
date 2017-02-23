@@ -63,7 +63,9 @@ class UserList extends Component {
       title: '操作',
       dataIndex: 'handle',
       render: (id) => {
-        return (<div>
+        const { loginInfo } = this.props
+        const readOnly = +loginInfo.get('type') !== 1
+        return (!readOnly && <div>
           <Popconfirm
             title="确定要重置密码吗？"
             onConfirm={this.resetPassword.bind(this, id)}
@@ -71,7 +73,7 @@ class UserList extends Component {
             cancelText="取消">
               <a>重置密码</a>
           </Popconfirm>
-        </div>)
+        </div> || '--')
       }
     }]
   }
@@ -108,12 +110,17 @@ class UserList extends Component {
 
   render() {
     const { activeTabKey, isShow } = this.state
-    const { list } = this.props
+    const { list, loginInfo } = this.props
+    const readOnly = +loginInfo.get('type') !== 1
     return (
       <div className="user-list">
-        <div className="create-user">
-            <Button type="primary" onClick={this.toggleShow}>新建账号</Button>
-        </div>
+        {
+          !readOnly ? (
+            <div className="create-user">
+              <Button type="primary" onClick={this.toggleShow}>新建账号</Button>
+            </div>
+          ) : null
+        }
         <Tabs
           defaultActiveKey={ activeTabKey }
           onChange={this.tabChange} >
@@ -148,7 +155,8 @@ class UserList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  list: state.user.userList
+  list: state.user.userList,
+  loginInfo: state.login.loginInfo
 })
 const mapDispatchToProps = (dispatch) => ({
   queryUserList: (key) => dispatch(userAction.queryUserList(key)),

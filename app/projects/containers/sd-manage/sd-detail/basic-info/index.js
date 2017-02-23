@@ -81,7 +81,7 @@ class BasicInfo extends Component {
   }
 
   render() {
-    const { form: { getFieldDecorator, getFieldValue } } = this.props
+    const { form: { getFieldDecorator, getFieldValue }, loginInfo } = this.props
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 10 },
@@ -91,25 +91,26 @@ class BasicInfo extends Component {
       wrapperCol: { span: 15 },
     }
     const fieldValidate = validate(getFieldDecorator)
+    const readonly = +loginInfo.get('type') !== 1
     return (
       <div className="basic-info-form-box">
         <Form horizontal>
           <FormItem
             {...formItemLayout}
             label="单身狗名称" >
-            {fieldValidate.name()(<Input />)}
+            {fieldValidate.name()(<Input disabled={readonly} />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="单身狗性别" >
-            {fieldValidate.sex()(<RadioGroup><Radio value={1}>男</Radio><Radio value={0}>女</Radio></RadioGroup>)}
+            {fieldValidate.sex()(<RadioGroup disabled={readonly}><Radio value={1}>男</Radio><Radio value={0}>女</Radio></RadioGroup>)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="单身狗狗龄" >
-            {fieldValidate.age()(<Input />)}
+            {fieldValidate.age()(<Input disabled={readonly} />)}
           </FormItem>
 
           <Row>
@@ -117,7 +118,7 @@ class BasicInfo extends Component {
               <FormItem
                 {...afterFormItemLayout}
                 label="单身狗手机" >
-                {fieldValidate.mobile()(<Input />)}
+                {fieldValidate.mobile()(<Input disabled={readonly} />)}
               </FormItem>
             </Col>
             <Col span="6" offset="1"><Alert message="来吧，交出你的号码！" type="info" /></Col>
@@ -126,25 +127,25 @@ class BasicInfo extends Component {
           <FormItem
             {...formItemLayout}
             label="单身狗个性签名" >
-            {fieldValidate.personalSign()(<Input maxLength="50" type="textarea" />)}
+            {fieldValidate.personalSign()(<Input disabled={readonly} maxLength="50" type="textarea" />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="单身狗自我估价" >
-            {fieldValidate.selfPrice()(<Input addonAfter="元" />)}
+            {fieldValidate.selfPrice()(<Input disabled={readonly} addonAfter="元" />)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="是否潜在单身狗" >
-            {fieldValidate.isPotential()(<RadioGroup><Radio value={1}>是</Radio><Radio value={0}>否</Radio></RadioGroup>)}
+            {fieldValidate.isPotential()(<RadioGroup disabled={readonly}><Radio value={1}>是</Radio><Radio value={0}>否</Radio></RadioGroup>)}
           </FormItem>
 
           <FormItem
             {...formItemLayout}
             label="是否单身狗会员" >
-            {fieldValidate.isMember()(<RadioGroup><Radio value={1}>是</Radio><Radio value={0}>否</Radio></RadioGroup>)}
+            {fieldValidate.isMember()(<RadioGroup disabled={readonly}><Radio value={1}>是</Radio><Radio value={0}>否</Radio></RadioGroup>)}
           </FormItem>
 
           {
@@ -159,6 +160,7 @@ class BasicInfo extends Component {
                   action={`${__API_BASE__}file/upload.do`}
                   accept=".jpg,.png,.jpeg,.bmp,.gif"
                   listType="picture"
+                  disabled={readonly}
                   beforeUpload={this.handleBeforeUpload.bind(this)} >
                   <Button type="ghost">
                     <Icon type="upload" /> 点击上传单身狗头像
@@ -168,11 +170,15 @@ class BasicInfo extends Component {
             </FormItem>) : null
           }
 
-          <FormItem>
-            <p style={{ textAlign: 'center' }}>
-              <Button type="primary" onClick={this.handleSubmit}>保存</Button>
-            </p>
-          </FormItem>
+          {
+            !readonly ? (
+              <FormItem>
+                <p style={{ textAlign: 'center' }}>
+                  <Button type="primary" onClick={this.handleSubmit}>保存</Button>
+                </p>
+              </FormItem>
+            ) : null
+          }
         </Form>
       </div>
     )
