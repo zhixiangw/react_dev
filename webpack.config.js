@@ -9,7 +9,7 @@ let APP_PATH = path.resolve(ROOT_PATH, 'app')
 let BUILD_PATH = path.resolve(ROOT_PATH, 'build')
 
 let staticBase = ''
-let apiBase = 'http://localhost:3100/'
+let apiBase = 'http://localhost:3100/api/v1'
 
 module.exports = {
   entry: {

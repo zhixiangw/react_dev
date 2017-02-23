@@ -1,5 +1,5 @@
 module.exports = (router, db) => {
-  router.post('/sd_manage/list', function *() {
+  router.post('api/v1/sd_manage/list', function *() {
     const { status, name, isPotential } = this.request.body
     this.body = yield new Promise((resolve, reject) => {
       db.query(`select * from zhixiang.sd where status = "${status}"${name ? `AND name like "%${name}%"` : ''}${isPotential ? `AND is_potential = "${isPotential}"` : ''}`,
@@ -10,7 +10,7 @@ module.exports = (router, db) => {
     })
   })
 
-  router.post('/sd_manage/verify', function *() {
+  router.post('api/v1/sd_manage/verify', function *() {
     const { id } = this.request.body
     this.body = yield new Promise((resolve, reject) => {
       db.query(`update zhixiang.sd set status = 1 where id = "${id}"`,
@@ -21,7 +21,7 @@ module.exports = (router, db) => {
     })
   })
 
-  router.get('/sd_manage/detail/:id', function *() {
+  router.get('api/v1/sd_manage/detail/:id', function *() {
     const { id } = this.params
     this.body = yield new Promise((resolve, reject) => {
       db.query(`select * from zhixiang.sd where id = "${id}"`,

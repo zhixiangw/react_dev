@@ -8,7 +8,7 @@ let ROOT_PATH = path.resolve(__dirname);
 let APP_PATH = path.resolve(ROOT_PATH, 'app')
 let DIST_PATH = path.resolve(ROOT_PATH, 'dist')
 
-let staticBase = '/car'
+let staticBase = ''
 let apiBase = 'api/v1/'
 
 module.exports = {

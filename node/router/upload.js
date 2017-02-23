@@ -9,7 +9,7 @@ const uptoken = (key) => {
 }
 
 module.exports = (router) => {
-  router.post('/file/upload.do', function *() {
+  router.post('api/v1/file/upload.do', function *() {
     const key = this.request.files.file.name
     const filePath = this.request.files.file.path
     const token = uptoken(key)

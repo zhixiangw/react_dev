@@ -1,5 +1,5 @@
 module.exports = (router, db) => {
-  router.get('/over_view/view', function *() {
+  router.get('api/v1/over_view/view', function *() {
     const p1 = new Promise((resolve, reject) => {
       db.query('select count(id) as count, sum(self_price) as price from sd', (err, res) => {
         if (err) reject(err)
@@ -39,7 +39,7 @@ module.exports = (router, db) => {
     })
   })
 
-  router.post('/over_view/info', function *() {
+  router.post('api/v1/over_view/info', function *() {
     const { startDate, endDate } = this.request.body
     this.body = yield new Promise((resolve, reject) => {
       db.query(`select t.create_time as create_time, t.newAdded as newAdded,
