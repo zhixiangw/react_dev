@@ -68,7 +68,7 @@ class CreateUser extends Component {
             {...formItemLayout}
             label="账号名称"
             hasFeedback >
-            {fieldValidate.accountName()(<Input />)}
+            {fieldValidate.name()(<Input />)}
           </FormItem>
 
           <FormItem

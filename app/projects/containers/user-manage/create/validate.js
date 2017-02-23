@@ -16,7 +16,7 @@ export default function (getFieldDecorator) {
       }]
     }),
 
-    accountName: () => getFieldDecorator('accountName', {
+    name: () => getFieldDecorator('name', {
       rules: [{
         required: true,
         whitespace: true,

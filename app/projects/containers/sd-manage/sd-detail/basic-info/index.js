@@ -19,18 +19,20 @@ class BasicInfo extends Component {
   }
 
   componentWillMount() {
-    const { info, form: { setFieldsValue } } = this.props
-    info.age = `${info.age}`
-    info.self_price = `${info.self_price}`
-    if (info.image) {
-      info.image = this.normalizeObj(info.image)
+    const { info, form: { setFieldsValue }, handleType } = this.props
+    if (handleType !== 'create') {
+      info.age = `${info.age}`
+      info.self_price = `${info.self_price}`
+      if (info.image) {
+        info.image = this.normalizeObj(info.image)
+      }
+      setFieldsValue(info)
     }
-    setFieldsValue(info)
   }
 
   componentDidUpdate (prevProps) {
-    const { info, form: { setFieldsValue } } = this.props
-    if (info !== prevProps.info) {
+    const { info, form: { setFieldsValue }, handleType } = this.props
+    if (info !== prevProps.info && handleType !== 'create') {
       info.age = `${info.age}`
       info.self_price = `${info.self_price}`
       if (info.image) {

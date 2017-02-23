@@ -3,13 +3,11 @@ import * as login from './login'
 import * as overView from './over-view'
 import * as sd from './sd'
 import * as user from './user'
-import * as test from './test'
 
 export {
 	system,
 	login,
 	overView,
 	sd,
-	user,
-	test
+	user
 }

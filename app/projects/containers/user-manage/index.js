@@ -17,10 +17,8 @@ class UserList extends Component {
     }
 
     this.tabChange = this.tabChange.bind(this)
-    this.getKey1Columns = this.getKey1Columns.bind(this)
-    this.getKey2Columns = this.getKey2Columns.bind(this)
-    this.parseKey1Data = this.parseKey1Data.bind(this)
-    this.parseKey2Data = this.parseKey2Data.bind(this)
+    this.getColumns = this.getColumns.bind(this)
+    this.parseData = this.parseData.bind(this)
     this.toggleShow = this.toggleShow.bind(this)
     this.sendConfirm = this.sendConfirm.bind(this)
     this.search = this.search.bind(this)
@@ -41,39 +39,34 @@ class UserList extends Component {
     })
   }
 
-  resetPassword () {
+  resetPassword (id) {
     const { resetPasswordFunc } = this.props
     const hide = message.loading('', 0)
-    resetPasswordFunc({ password: 666888 }).then(() => {
+    resetPasswordFunc({ id }).then(() => {
       setTimeout(hide, 0)
     }, () => {
       setTimeout(hide, 0)
     })
   }
 
-  getKey1Columns () {
+  getColumns (key) {
     return [{
-      title: '业务员账号',
-      dataIndex: 'clerkAccount'
+      title: `${+key === 1 ? '管理' : '审核'}员账号`,
+      dataIndex: 'account'
     }, {
-      title: '业务员名称',
-      dataIndex: 'clerkName'
+      title: `${+key === 1 ? '管理' : '审核'}员名称`,
+      dataIndex: 'name'
     }, {
-      title: '已分配的合同数',
-      dataIndex: 'assignedContractNumb'
-    }, {
-      title: '签约中',
-      dataIndex: 'contractIn'
+      title: `${+key === 1 ? '管理' : '审核'}员联系方式`,
+      dataIndex: 'mobile'
     }, {
       title: '操作',
       dataIndex: 'handle',
-      render: (id, cord) => {
+      render: (id) => {
         return (<div>
-          <a onClick={() => alert('暂未开放')}>进入后台</a>
-          &nbsp;&nbsp;
           <Popconfirm
             title="确定要重置密码吗？"
-            onConfirm={this.resetPassword}
+            onConfirm={this.resetPassword.bind(this, id)}
             okText="确定"
             cancelText="取消">
               <a>重置密码</a>
@@ -83,50 +76,11 @@ class UserList extends Component {
     }]
   }
 
-  getKey2Columns () {
-    return [{
-      title: '审核员账号',
-      dataIndex: 'verifyAccount'
-    }, {
-      title: '审核员名称',
-      dataIndex: 'verifyName'
-    }, {
-      title: '已录入合同',
-      dataIndex: 'entryContract'
-    }, {
-      title: '操作',
-      dataIndex: 'handle',
-      render: (id, cord) => {
-        return (<div>
-          <a onClick={() => alert('暂未开放')}>进入后台</a>
-          &nbsp;&nbsp;
-          <Popconfirm
-            title="确定要重置密码吗？"
-            onConfirm={this.resetPassword}
-            okText="确定"
-            cancelText="取消">
-              <a>重置密码</a>
-          </Popconfirm>
-        </div>)
-      }
-    }]
-  }
-
-  parseKey1Data (list) {
+  parseData (list) {
     return list.map(item => ({
-      clerkAccount: item.clerkAccount,
-      clerkName: item.clerkName,
-      assignedContractNumb: item.assignedContractNumb,
-      contractIn: item.contractIn,
-      handle: item.id
-    }))
-  }
-
-  parseKey2Data (list) {
-    return list.map(item => ({
-      verifyAccount: item.verifyAccount,
-      verifyName: item.verifyName,
-      entryContract: item.entryContract,
+      account: item.account,
+      name: item.name,
+      mobile: item.mobile,
       handle: item.id
     }))
   }
@@ -138,25 +92,23 @@ class UserList extends Component {
 
   sendConfirm (condition) {
     const { createUser } = this.props
+    const { activeTabKey } = this.state
     const hide = message.loading('', 0)
     createUser(condition).then(() => {
       this.setState({ isShow: false })
+      this.search(activeTabKey)
       setTimeout(hide, 0)
     }, () => setTimeout(hide, 0))
   }
 
   search (key) {
-    const { queryUserList4key1, queryUserList4key2 } = this.props
-    if (+key === 1) {
-      queryUserList4key1(key)
-    } else {
-      queryUserList4key2(key)
-    }
+    const { queryUserList } = this.props
+    queryUserList(+key)
   }
 
   render() {
     const { activeTabKey, isShow } = this.state
-    const { list4key1, list4key2 } = this.props
+    const { list } = this.props
     return (
       <div className="user-list">
         <div className="create-user">
@@ -165,21 +117,21 @@ class UserList extends Component {
         <Tabs
           defaultActiveKey={ activeTabKey }
           onChange={this.tabChange} >
-          <TabPane tab="业务员" key="1">
+          <TabPane tab="管理员" key="1">
             <div className="tabel-box">
               <Table
-                columns={this.getKey1Columns()}
-                loading={list4key1.get('doing')}
-                dataSource={this.parseKey1Data(list4key1.get('dataList').toJS() || [])}
+                columns={this.getColumns(+activeTabKey)}
+                loading={list.get('doing')}
+                dataSource={this.parseData(list.get('dataList').toJS() || [])}
                 pagination={false} />
             </div>
           </TabPane>
           <TabPane tab="审核员" key="2">
             <div className="tabel-box">
               <Table
-                columns={this.getKey2Columns()}
-                loading={list4key2.get('doing')}
-                dataSource={this.parseKey2Data(list4key2.get('dataList').toJS() || [])}
+                columns={this.getColumns(+activeTabKey)}
+                loading={list.get('doing')}
+                dataSource={this.parseData(list.get('dataList').toJS() || [])}
                 pagination={false} />
             </div>
           </TabPane>
@@ -196,14 +148,12 @@ class UserList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  list4key1: state.user.userList4key1,
-  list4key2: state.user.userList4key2
+  list: state.user.userList
 })
 const mapDispatchToProps = (dispatch) => ({
-  queryUserList4key1: (condition) => dispatch(userAction.queryUserList4key1(condition)),
-  queryUserList4key2: (condition) => dispatch(userAction.queryUserList4key2(condition)),
-  createUser: () => dispatch(userAction.createUser()),
-  resetPasswordFunc: (condition) => dispatch(userAction.resetPassword(condition))
+  queryUserList: (key) => dispatch(userAction.queryUserList(key)),
+  createUser: (condition) => dispatch(userAction.createUser(condition)),
+  resetPasswordFunc: (id) => dispatch(userAction.resetPassword(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserList)

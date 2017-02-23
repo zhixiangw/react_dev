@@ -156,7 +156,7 @@ class OverView extends Component {
             <Col span="3" className="title">
               <p>趋势图</p>
             </Col>
-            <Col span="8" className="tablink" offset="2">
+            <Col span="9" className="tablink" offset="2">
               <Row>
                 {
                   tablinkArr.map((item, index) => {
@@ -170,7 +170,7 @@ class OverView extends Component {
                 }
               </Row>
             </Col>
-            <Col span="8" offset="3" className="range-picker">
+            <Col span="8" offset="2" className="range-picker">
               <RangePicker
                 size="large"
                 ranges={

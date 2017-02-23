@@ -1,24 +1,12 @@
 import { FETCH_API } from '../middlewares/fetch'
 
-export const QUERY_USER_LIST_4_KEY_1 = 'QUERY_USER_LIST_4_KEY_1'
-export function queryUserList4key1 (id) {
+export const QUERY_USER_LIST = 'QUERY_USER_LIST'
+export function queryUserList (key) {
   return (dispatch) => {
     return dispatch({
       [FETCH_API]: {
-        constname: QUERY_USER_LIST_4_KEY_1,
-        url: `https://cnodejs.org/api/v1/user/alsotang?${id}`,
-      }
-    })
-  }
-}
-
-export const QUERY_USER_LIST_4_KEY_2 = 'QUERY_USER_LIST_4_KEY_2'
-export function queryUserList4key2 (id) {
-  return (dispatch) => {
-    return dispatch({
-      [FETCH_API]: {
-        constname: QUERY_USER_LIST_4_KEY_2,
-        url: `https://cnodejs.org/api/v1/user/alsotang?${id}`,
+        constname: QUERY_USER_LIST,
+        url: `${__API_BASE__}user_manage/list/${key}`,
       }
     })
   }
@@ -30,7 +18,7 @@ export function createUser (condition) {
     return dispatch({
       [FETCH_API]: {
         constname: CREATE_USER,
-        url: '//jsonplaceholder.typicode.com/posts/',
+        url: `${__API_BASE__}user_manage/create`,
         request: condition,
         msg: '操作成功'
       }
@@ -44,7 +32,7 @@ export function resetPassword (condition) {
     return dispatch({
       [FETCH_API]: {
         constname: RESET_PASSWORD,
-        url: '//jsonplaceholder.typicode.com/posts/',
+        url: `${__API_BASE__}user_manage/edit_password`,
         request: condition,
         msg: '操作成功'
       }
