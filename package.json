@@ -23,6 +23,7 @@
     "koa-router": "^5.4.0",
     "md5": "^2.2.1",
     "mysql": "^2.13.0",
+    "qiniu": "^6.1.13",
     "webpack-dev-server": "^1.15.0"
   },
   "devDependencies": {
