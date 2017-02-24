@@ -121,7 +121,7 @@ class PageContainer extends Component {
         <UserInfo
           isShow={isShow}
           cancel={this.toggleShow}
-          password={password}
+          loginInfo={loginInfo}
           confirm={this.modifyPasswordFunc} />
       </div>
     )

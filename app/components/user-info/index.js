@@ -45,7 +45,7 @@ class UserInfo extends Component {
 
 
   render () {
-    const { isShow, cancel, form: { getFieldDecorator }, password } = this.props
+    const { isShow, cancel, form: { getFieldDecorator }, loginInfo } = this.props
     const { isShowPasswordInput } = this.state
     const formItemLayout = {
       labelCol: { span: 8 },
@@ -61,11 +61,11 @@ class UserInfo extends Component {
           <div className="user-info">
             <Row>
               <Col span="8">登录账号：</Col>
-              <Col span="14">a52659854467876464</Col>
+              <Col span="14">{loginInfo.get('account')}</Col>
             </Row>
             <Row>
               <Col span="8">登录名称：</Col>
-              <Col span="14">David M.</Col>
+              <Col span="14">{loginInfo.get('name')}</Col>
             </Row>
             <Form horizontal>
             {
@@ -75,7 +75,7 @@ class UserInfo extends Component {
                   {...formItemLayout}
                   label="修改前密码"
                   hasFeedback >
-                  {fieldValidate.oldPassword(password, md5)(<Input type="password" />)}
+                  {fieldValidate.oldPassword(loginInfo.get('password'), md5)(<Input type="password" />)}
                 </FormItem>
 
                 <FormItem
