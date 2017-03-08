@@ -7,7 +7,7 @@ var ROOT_PATH = path.resolve(__dirname);
 var APP_PATH = path.resolve(ROOT_PATH, 'app')
 var DIST_PATH = path.resolve(ROOT_PATH, 'dist')
 
-var staticBase = '/car'
+var staticBase = ''
 
 module.exports = {
   context: path.resolve(__dirname, '.'),
