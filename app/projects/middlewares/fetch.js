@@ -10,7 +10,7 @@ function parseToQueryStr(queryObj) {
   return queryString.substr(0, queryString.length - 1)
 }
 
-function packFetch(url, condition) {
+function packFetch(url, condition, contentType) {
   // Fetch 请求默认是不带 cookie 的,如果你想在fetch请求里附带cookies之类的凭证信息,需要设置 fetch(url, {credentials: 'include'})
   // 此处需要注意，携带cookie的话，是不允许跨域请求的，所以本地调试的跨域接口的时候，需要注释掉
   let option = {
@@ -39,9 +39,9 @@ function packFetch(url, condition) {
         // credentials: 'include',
         headers: {
           Accept: 'application/json',
-          'Content-Type': condition.contentType === 'json' ? 'application/json' : 'application/x-www-form-urlencoded',
+          'Content-Type': contentType === 'json' ? 'application/json' : 'application/x-www-form-urlencoded',
         },
-        body: condition.contentType === 'json' ? JSON.stringify(condition) : encodeURI(parseToQueryStr(condition))
+        body: contentType === 'json' ? JSON.stringify(condition) : encodeURI(parseToQueryStr(condition))
       }
     }
   }
@@ -73,7 +73,7 @@ export default () => next => action => {
     return next(action)
   }
 
-  let { url, request, msg, constname } = fethAPI
+  let { url, request, msg, constname, contentType } = fethAPI
 
   function actionWith (result) {
     const finalAction = Object.assign({}, action, result)
@@ -87,7 +87,7 @@ export default () => next => action => {
     request
   }))
 
-  return packFetch(url, request).then(
+  return packFetch(url, request, contentType).then(
     response => {
       next(actionWith({
         type: API_SUCCESS,

@@ -117,7 +117,8 @@ export function saveCarsInfo (condition) {
         constname: SAVE_CARS_INFO,
         url: `${__API_BASE__}car/save?token=${window.localStorage.getItem('token')}`,
         request: condition,
-        msg: '操作成功'
+        msg: '操作成功',
+        contentType: 'json'
       }
     })
   }
