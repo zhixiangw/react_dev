@@ -33,19 +33,6 @@ class CarsInfo extends Component {
     setFieldsValue(info)
   }
 
-  componentDidUpdate (prevProps) {
-    const { info, form: { setFieldsValue } } = this.props
-    if (info !== prevProps.info) {
-      info.loantime = info.loantime && moment(info.loantime) || null
-      info.attachmentPath = this.normalizeObj(info.attachmentPath)
-      info.businessLicencePath = this.normalizeObj(info.businessLicencePath)
-      info.loanMoney = info.loanMoney && info.loanMoney.toString()
-      info.periodicDay = info.periodicDay && info.periodicDay.toString()
-      info.repaymentPeriod = info.repaymentPeriod && info.repaymentPeriod.toString()
-      setFieldsValue(info)
-    }
-  }
-
   getNameFromUrl (url) {
     let query = url && url.split('?')[1] || ''
     let sigleQuery = query && query.split('&')

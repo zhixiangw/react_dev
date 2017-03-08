@@ -33,10 +33,10 @@ class CustomerManage extends Component {
     }
   }
 
-  queryDetail () {
+  queryDetail (cid) {
     const { location: { query: { id } }, queryContractDetail } = this.props
     const hide = message.loading('', 0)
-    queryContractDetail(id).then(() => {
+    queryContractDetail(cid || id).then(() => {
       setTimeout(hide, 0)
     }, () => {
       setTimeout(hide, 0)
@@ -59,7 +59,7 @@ class CustomerManage extends Component {
     saveBasicInfoFunc(values).then((response) => {
       setTimeout(hide, 0)
       this.setState({ contractId: response.id })
-      this.queryDetail()
+      this.queryDetail(response.id)
     }, () => {
       setTimeout(hide, 0)
     })
@@ -119,7 +119,7 @@ class CustomerManage extends Component {
           </TabPane>
           <TabPane tab="车辆信息" key="2">
             <CarsInfo
-              info={handleType !== 'create' && contractDetail.get('insurancePolicyList') && contractDetail.get('insurancePolicyList').toJS() || {}}
+              info={handleType !== 'create' && contractDetail.get('insurancePolicyList') && contractDetail.get('insurancePolicyList').toJS() || [{}]}
               handleType={handleType}
               type={type}
               id={id}
