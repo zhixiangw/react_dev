@@ -115,7 +115,7 @@ export function saveCarsInfo (condition) {
     return dispatch({
       [FETCH_API]: {
         constname: SAVE_CARS_INFO,
-        url: `${__API_BASE__}car/save`,
+        url: `${__API_BASE__}car/save?token=${window.localStorage.getItem('token')}`,
         request: condition,
         msg: '操作成功'
       }

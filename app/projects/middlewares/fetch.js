@@ -39,9 +39,9 @@ function packFetch(url, condition) {
         // credentials: 'include',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': condition.contentType === 'json' ? 'application/json' : 'application/x-www-form-urlencoded',
         },
-        body: encodeURI(parseToQueryStr(condition))
+        body: condition.contentType === 'json' ? JSON.stringify(condition) : encodeURI(parseToQueryStr(condition))
       }
     }
   }

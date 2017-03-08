@@ -80,7 +80,7 @@ class CustomerManage extends Component {
         item.no = this.state.contractNo
       })
     }
-    saveCarsInfoFunc({ insurancePolicy: values }).then(() => {
+    saveCarsInfoFunc({ insurancePolicyList: values, contentType: 'json' }).then(() => {
       setTimeout(hide, 0)
       this.queryDetail()
     }, () => {
