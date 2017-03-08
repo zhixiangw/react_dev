@@ -28,7 +28,11 @@ function packFetch(url, condition) {
       }
     } else {
       if (window.localStorage.getItem('token')) {
-        condition.token = window.localStorage.getItem('token')
+        if (Array.isArray(condition)) {
+          condition.forEach(item => item.token = window.localStorage.getItem('token'))
+        } else {
+          condition.token = window.localStorage.getItem('token')
+        }
       }
       option = {
         method: 'post',

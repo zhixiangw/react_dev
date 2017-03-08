@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Form, Button, Row, Col } from 'antd'
+import { Form, Button } from 'antd'
 const FormItem = Form.Item
 
 import Item from './item'
@@ -68,7 +68,7 @@ class CarsInfo extends Component {
       Object.getOwnPropertyNames(item).forEach(itemKey => {
         if (this.state.pathArr.indexOf(itemKey) !== -1) {
           if (itemKey === 'premium') {
-            result[`[${index}].${itemKey}`] = item[itemKey].toString()
+            result[`[${index}].${itemKey}`] = item[itemKey] && item[itemKey].toString() || item[itemKey]
           } else {
             result[`[${index}].${itemKey}`] = this.normalizeObj(item[itemKey])
           }

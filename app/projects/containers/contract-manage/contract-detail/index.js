@@ -34,7 +34,7 @@ class CustomerManage extends Component {
   }
 
   queryDetail (cid) {
-    const { location: { query: { id } }, queryContractDetail } = this.props
+    const { location: { query: { id = this.state.contractId } }, queryContractDetail } = this.props
     const hide = message.loading('', 0)
     queryContractDetail(cid || id).then(() => {
       setTimeout(hide, 0)
@@ -58,7 +58,7 @@ class CustomerManage extends Component {
     }
     saveBasicInfoFunc(values).then((response) => {
       setTimeout(hide, 0)
-      this.setState({ contractId: response.id })
+      this.setState({ contractId: response.id, contractNo: response.no })
       this.queryDetail(response.id)
     }, () => {
       setTimeout(hide, 0)
@@ -69,12 +69,18 @@ class CustomerManage extends Component {
     const { saveCarsInfoFunc, location: { query: { handleType, id } }, contractDetail } = this.props
     const hide = message.loading('', 0)
     if (handleType === 'edit') {
-      values.contractId = id
-      values.id = contractDetail.getIn(['insurancePolicyList', '0']) && contractDetail.getIn(['insurancePolicyList', '0']).get('id')
+      values.forEach(item => {
+        item.contractId = id
+        item.no = this.state.contractNo || contractDetail.get('no')
+        item.id = contractDetail.getIn(['insurancePolicyList', '0']) && contractDetail.getIn(['insurancePolicyList', '0', 'id'])
+      })
     } else {
-      values.contractId = this.state.contractId
+      values.forEach(item => {
+        item.contractId = this.state.contractId
+        item.no = this.state.contractNo
+      })
     }
-    saveCarsInfoFunc(values).then(() => {
+    saveCarsInfoFunc({ insurancePolicy: values }).then(() => {
       setTimeout(hide, 0)
       this.queryDetail()
     }, () => {
