@@ -23,18 +23,21 @@ class CarsInfo extends Component {
   }
 
   componentWillMount() {
-    const { info, form: { setFieldsValue } } = this.props
-    info.loantime = info.loantime && moment(info.loantime) || null
-    info.attachmentPath = this.normalizeObj(info.attachmentPath)
-    info.businessLicencePath = this.normalizeObj(info.businessLicencePath)
-    info.loanMoney = info.loanMoney && info.loanMoney.toString()
-    info.periodicDay = info.periodicDay && info.periodicDay.toString()
-    info.repaymentPeriod = info.repaymentPeriod && info.repaymentPeriod.toString()
-    setFieldsValue(info)
+    const { info, form: { setFieldsValue }, handleType } = this.props
+    if (handleType !== 'create') {
+      info.loantime = info.loantime && moment(info.loantime) || null
+      info.attachmentPath = this.normalizeObj(info.attachmentPath)
+      info.businessLicencePath = this.normalizeObj(info.businessLicencePath)
+      info.loanMoney = info.loanMoney && info.loanMoney.toString()
+      info.periodicDay = info.periodicDay && info.periodicDay.toString()
+      info.repaymentPeriod = info.repaymentPeriod && info.repaymentPeriod.toString()
+      setFieldsValue(info)
+    }
   }
 
   componentWillUpdate(nextProps) {
-    if (this.props.info !== nextProps.info) {
+    const { handleType } = this.props
+    if (this.props.info !== nextProps.info && handleType !== 'create') {
       const { info, form: { setFieldsValue } } = nextProps
       info.loantime = info.loantime && moment(info.loantime) || null
       info.attachmentPath = this.normalizeObj(info.attachmentPath)
