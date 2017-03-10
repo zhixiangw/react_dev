@@ -71,13 +71,11 @@ class CustomerManage extends Component {
     if (handleType === 'edit') {
       values.forEach(item => {
         item.contractId = id
-        item.no = this.state.contractNo || contractDetail.get('no')
         item.id = contractDetail.getIn(['insurancePolicyList', '0']) && contractDetail.getIn(['insurancePolicyList', '0', 'id'])
       })
     } else {
       values.forEach(item => {
         item.contractId = this.state.contractId
-        item.no = this.state.contractNo
       })
     }
     saveCarsInfoFunc(values).then(() => {
