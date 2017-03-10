@@ -75,7 +75,7 @@ class CarsInfo extends Component {
     return arr.map(item => {
       return {
         name: item.name,
-        url: `${__API_BASE__}file/${item.response && item.response.obj}?filePath=${item.response && item.response.obj}`,
+        url: `${__API_BASE__}file/${item.response && item.response.obj || item.name}?filePath=${item.response && item.response.obj || item.name}`,
         uid: item.uid
       }
     })
