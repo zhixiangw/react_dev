@@ -122,11 +122,15 @@ class CarsInfo extends Component {
 
   render() {
     const { info } = this.state
-    const { form: { setFieldsValue, getFieldDecorator }, type } = this.props
+    const { form: { setFieldsValue, getFieldDecorator }, type, handleType } = this.props
     const readOnly = type === 'salesman'
     return (
       <div className="cars-info-form-box">
-        <div><Button type="primary" disabled={readOnly} onClick={this.addItem}>新增保单</Button></div>
+        {
+          handleType === 'create' ?
+          <div><Button type="primary" disabled={readOnly} onClick={this.addItem}>新增保单</Button></div> :
+          null
+        }
         <Form horizontal>
           {info.map((item, index) => {
             if (!item) return null
@@ -135,6 +139,7 @@ class CarsInfo extends Component {
                 key={index}
                 index={index}
                 readOnly={readOnly}
+                handleType={handleType}
                 data={item}
                 setFieldsValue={setFieldsValue}
                 getFieldDecorator={getFieldDecorator}

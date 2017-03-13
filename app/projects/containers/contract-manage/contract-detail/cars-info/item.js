@@ -34,7 +34,7 @@ class Item extends Component {
   }
 
   render() {
-    const { getFieldDecorator, index, deleteItem, readOnly } = this.props
+    const { getFieldDecorator, index, deleteItem, readOnly, handleType } = this.props
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 10 },
@@ -44,7 +44,11 @@ class Item extends Component {
       <div className="cars-info-form-box">
         <Row className="cars-info-title">
           <Col span="6">保单信息</Col>
-          <Col offset="20"><Button type="primary" disabled={readOnly} onClick={deleteItem.bind(this, index)}>删除</Button></Col>
+          {
+            handleType === 'create' ?
+            <Col offset="20"><Button type="primary" disabled={readOnly} onClick={deleteItem.bind(this, index)}>删除</Button></Col> :
+            null
+          }
         </Row>
           <FormItem
             {...formItemLayout}
