@@ -69,9 +69,9 @@ class CustomerManage extends Component {
     const { saveCarsInfoFunc, location: { query: { handleType, id } }, contractDetail } = this.props
     const hide = message.loading('', 0)
     if (handleType === 'edit') {
-      values.forEach(item => {
+      values.forEach((item, index) => {
         item.contractId = id
-        item.id = contractDetail.getIn(['insurancePolicyList', '0']) && contractDetail.getIn(['insurancePolicyList', '0', 'id'])
+        item.id = contractDetail.getIn(['insurancePolicyList', index]) && contractDetail.getIn(['insurancePolicyList', index, 'id'])
       })
     } else {
       values.forEach(item => {
